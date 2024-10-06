@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "ESNext", // or "NodeNext"
+    "moduleResolution": "Bundler", // or "NodeNext",
+    "target": "es6",
+    "lib": ["es6", "dom"],
+    "inlineSourceMap": true,
+    "strictNullChecks": true,
+    "strict": false,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "*": ["node_modules/*"],
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["src/aero.ts", "**/*.d.ts"]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "aero.js",
+  "version": "0.0.1",
+  "description": "Javascript wrapper for the AeroDB API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-types": "tsx ./tools/updateApiDoc.ts && npx openapi-typescript ./src/types/openapi.json -o ./src/types/api.d.ts",
+    "build": "npm run clean && tsc --project tsconfig.json && npm run copy-files",
+    "clean": "rimraf dist/",
+    "copy-files": "copyfiles -u 1 src/types/api.d.ts dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aero-db/aero.js.git"
+  },
+  "keywords": [
+    "javascript",
+    "aero",
+    "api"
+  ],
+  "author": "AeroDB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aero-db/aero.js/issues"
+  },
+  "homepage": "https://github.com/aero-db/aero.js#readme",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "emittery": "^1.0.3",
+    "store2": "^2.14.3",
+    "typescript": "^5.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "openapi-typescript": "^7.4.1",
+    "tsx": "^4.19.1"
+  }
+}

@@ -1,0 +1,1915 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "examples": {},
+    "headers": {},
+    "parameters": {},
+    "requestBodies": {},
+    "responses": {},
+    "schemas": {
+      "User": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "verificationToken": {
+            "type": "string"
+          },
+          "verificationTokenExpiry": {
+            "type": "string"
+          },
+          "verificationDate": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "permissions": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "ADMIN",
+                "USER"
+              ]
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "firstName",
+          "lastName",
+          "verified",
+          "disabled",
+          "permissions"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "CityCode": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "properties": {
+              "county": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "elevation": {
+                "type": "number",
+                "format": "double"
+              },
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "county",
+              "state",
+              "city",
+              "country",
+              "elevation",
+              "longitude",
+              "latitude"
+            ],
+            "type": "object"
+          },
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "location",
+          "timezone"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Pick_User.email-or-password-or-firstName-or-lastName_": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "firstName",
+          "lastName"
+        ],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "SignupParams": {
+        "$ref": "#/components/schemas/Pick_User.email-or-password-or-firstName-or-lastName_"
+      },
+      "Pick_User.email-or-password_": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "LoginParams": {
+        "$ref": "#/components/schemas/Pick_User.email-or-password_"
+      },
+      "RefreshTokenResponse": {
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "tokenExpires": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "token",
+          "tokenExpires"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ApiKeyScope": {
+        "type": "string",
+        "enum": [
+          "public",
+          "admin"
+        ]
+      },
+      "ApiKey": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "expires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "scopes": {
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyScope"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "key",
+          "userId",
+          "expires",
+          "scopes"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Runway": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the runway."
+          },
+          "length": {
+            "type": "number",
+            "format": "double",
+            "description": "The length of the runway in meters."
+          },
+          "width": {
+            "type": "number",
+            "format": "double",
+            "description": "The width of the runway in meters."
+          },
+          "heading": {
+            "type": "number",
+            "format": "double",
+            "description": "The heading of the runway in degrees."
+          },
+          "surface": {
+            "type": "string",
+            "enum": [
+              "ASP",
+              "BIT",
+              "BRI",
+              "CLA",
+              "COM",
+              "CON",
+              "COP",
+              "COR",
+              "GRE",
+              "GRS",
+              "GVL",
+              "ICE",
+              "LAT",
+              "MAC",
+              "PEM",
+              "PER",
+              "PSP",
+              "SAN",
+              "SMT",
+              "SNO",
+              "U",
+              "WAT"
+            ],
+            "description": "The surface of the runway."
+          }
+        },
+        "required": [
+          "name",
+          "surface"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Frequency": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the frequency."
+          },
+          "frequency": {
+            "type": "number",
+            "format": "double",
+            "description": "The frequency in MHz."
+          }
+        },
+        "required": [
+          "name",
+          "frequency"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AirportInternal": {
+        "properties": {
+          "fsx_runways": {
+            "type": "string"
+          },
+          "fsx_airport": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "fsx_runways",
+          "fsx_airport"
+        ],
+        "type": "object",
+        "description": "Airport raw internal data provided by scrappers"
+      },
+      "Airport": {
+        "description": "Represents an airport.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the airport."
+          },
+          "icao": {
+            "type": "string"
+          },
+          "iata": {
+            "type": "string"
+          },
+          "coordinates": {
+            "properties": {
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "longitude",
+              "latitude"
+            ],
+            "type": "object"
+          },
+          "elevation": {
+            "type": "number",
+            "format": "double"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "The country where the airport is located.\n\nISO 3166-1 alpha-2 code.",
+            "example": "US"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "county": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "The timezone of the airport in the TZ database format.",
+            "example": "America/New_York"
+          },
+          "websiteUrl": {
+            "type": "string"
+          },
+          "runways": {
+            "items": {
+              "$ref": "#/components/schemas/Runway"
+            },
+            "type": "array"
+          },
+          "frequencies": {
+            "items": {
+              "$ref": "#/components/schemas/Frequency"
+            },
+            "type": "array"
+          },
+          "_internal": {
+            "$ref": "#/components/schemas/AirportInternal",
+            "description": "Internal properties"
+          }
+        },
+        "required": [
+          "name",
+          "icao"
+        ],
+        "type": "object",
+        "additionalProperties": false,
+        "example": {
+          "name": "John F. Kennedy International Airport",
+          "icao": "KJFK",
+          "iata": "JFK",
+          "coordinates": {
+            "latitude": 40.6413,
+            "longitude": -73.7781
+          },
+          "elevation": 13,
+          "countryCode": "US",
+          "city": "New York",
+          "state": "New York",
+          "county": "Queens",
+          "timezone": "America/New_York",
+          "websiteUrl": "https://www.jfkairport.com/",
+          "runways": [
+            {
+              "name": "Runway 1",
+              "length": 10000,
+              "surface": "CON"
+            },
+            {
+              "name": "Runway 2",
+              "length": 8000,
+              "surface": "ASP"
+            }
+          ],
+          "frequencies": [
+            {
+              "name": "Tower",
+              "frequency": 118.3
+            },
+            {
+              "name": "Ground",
+              "frequency": 121.9
+            }
+          ]
+        }
+      },
+      "QueryParameters": {
+        "properties": {
+          "filters": {
+            "type": "string",
+            "description": "JSON filters to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
+          },
+          "limit": {
+            "type": "number",
+            "format": "double",
+            "description": "Number of items to return",
+            "example": 50,
+            "default": 50,
+            "maximum": 300
+          },
+          "page": {
+            "type": "number",
+            "format": "double",
+            "description": "Page number",
+            "example": 1,
+            "default": 1
+          }
+        },
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Airline": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the airline."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The ICAO code of the airline."
+          },
+          "iata": {
+            "type": "string",
+            "description": "The IATA code of the airline."
+          },
+          "callSign": {
+            "type": "string",
+            "description": "The call sign of the airline."
+          },
+          "websiteUrl": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "isDefunct": {
+            "type": "boolean",
+            "description": "True if the airline is defunct and no longer operating."
+          }
+        },
+        "required": [
+          "name",
+          "isDefunct"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AircraftType": {
+        "description": "Represents an aircraft type.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the aircraft type."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The ICAO code of the aircraft type."
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the aircraft type."
+          },
+          "categorie": {
+            "type": "string",
+            "enum": [
+              "amphibian",
+              "gyrocopter",
+              "helicopter",
+              "landplane",
+              "seaplane",
+              "tiltrotor"
+            ]
+          },
+          "engineType": {
+            "type": "string",
+            "enum": [
+              "electric",
+              "turboprop",
+              "jet",
+              "piston",
+              "rocket"
+            ]
+          },
+          "engineCount": {
+            "type": "number",
+            "format": "double"
+          },
+          "wakeTurbulenceCategories": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "L",
+                "M",
+                "H",
+                "J"
+              ]
+            },
+            "type": "array",
+            "description": "The wake turbulence categories of the aircraft type.\n\n- `L`: Light\n\n- `M`: Medium\n\n- `H`: Heavy\n\n- `J`: Super"
+          }
+        },
+        "required": [
+          "name",
+          "icao",
+          "manufacturer",
+          "categorie",
+          "engineType",
+          "wakeTurbulenceCategories"
+        ],
+        "type": "object",
+        "additionalProperties": false,
+        "example": {
+          "name": "Airbus A380",
+          "icao": "A388",
+          "manufacturer": "Airbus",
+          "categorie": "landplane",
+          "engineType": "jet",
+          "engineCount": 4,
+          "wakeTurbulenceCategories": [
+            "H",
+            "J"
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "name": "x-api-key",
+        "in": "header"
+      },
+      "bearerToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "scopes": {
+          "admin": "modify things",
+          "user": "read things"
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "aero-db",
+    "version": "1.0.0",
+    "description": "AeroDB API",
+    "license": {
+      "name": "ISC"
+    },
+    "contact": {}
+  },
+  "paths": {
+    "/users/{userId}": {
+      "get": {
+        "operationId": "GetUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get a user by id",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerToken": [
+              "user",
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "description": "Delete a user",
+        "tags": [
+          "Admin",
+          "Users"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update a user",
+        "tags": [
+          "Admin",
+          "Users"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "operationId": "GetUsers",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all users",
+        "tags": [
+          "Admin",
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerToken": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": []
+      }
+    },
+    "/cityCodes/{code}": {
+      "get": {
+        "operationId": "GetCityCode",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityCode"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get one City code information by its ICAO code",
+        "tags": [
+          "City Codes"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "public"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateCityCode",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityCode"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update a city code",
+        "tags": [
+          "Admin",
+          "City Codes"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CityCode"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteCityCode",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CityCode"
+                }
+              }
+            }
+          }
+        },
+        "description": "Delete a city code",
+        "tags": [
+          "Admin",
+          "City Codes"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/cityCodes": {
+      "get": {
+        "operationId": "GetCityCodes",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CityCode"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all city codes",
+        "tags": [
+          "City Codes"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "public"
+            ]
+          }
+        ],
+        "parameters": []
+      },
+      "post": {
+        "operationId": "CreateCityCode",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "description": "Create a new city code",
+        "tags": [
+          "Admin",
+          "City Codes"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CityCode"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "operationId": "Signup",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new account",
+        "tags": [
+          "Auth"
+        ],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupParams"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "tokenRefreshExpires": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "tokenRefresh": {
+                      "type": "string"
+                    },
+                    "tokenExpires": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  },
+                  "required": [
+                    "tokenRefreshExpires",
+                    "tokenRefresh",
+                    "tokenExpires",
+                    "token",
+                    "user"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "description": "Authenticate using email and password",
+        "tags": [
+          "Auth"
+        ],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginParams"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/refreshToken": {
+      "post": {
+        "operationId": "RefreshToken",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Refresh a token",
+        "tags": [
+          "Auth"
+        ],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "refreshToken": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "refreshToken"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "operationId": "Me",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  },
+                  "required": [
+                    "user"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get informations about the current session",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": []
+      }
+    },
+    "/apiKeys/{userId}": {
+      "get": {
+        "operationId": "GetForUser",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ApiKey"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all api keys belonging to a user",
+        "tags": [
+          "API Keys"
+        ],
+        "security": [
+          {
+            "jwt": [
+              "user",
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/apiKeys/{userId}/regenerate": {
+      "post": {
+        "operationId": "RegenerateUserApiKey",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKey"
+                }
+              }
+            }
+          }
+        },
+        "description": "Regenerate a user's api key",
+        "tags": [
+          "API Keys"
+        ],
+        "security": [
+          {
+            "jwt": [
+              "user",
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/apiKeys": {
+      "get": {
+        "operationId": "GetApiKeys",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ApiKey"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all api keys",
+        "tags": [
+          "Admin",
+          "API Keys"
+        ],
+        "security": [
+          {
+            "jwt": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": []
+      }
+    },
+    "/airports/{icao}": {
+      "get": {
+        "operationId": "GetAirport",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get one airport by its ICAO code",
+        "tags": [
+          "Airports"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "public"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "description": "code of the airport",
+            "in": "path",
+            "name": "icao",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateAirport",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update an airport",
+        "tags": [
+          "Admin",
+          "Airports"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "icao",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Airport"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteAirport",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          }
+        },
+        "description": "Delete an airport",
+        "tags": [
+          "Admin",
+          "Airports"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "icao",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/airports/{icao}/internal": {
+      "get": {
+        "operationId": "GetAirportInternalData",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AirportInternal"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get the internal data of one airport by its ICAO code",
+        "tags": [
+          "Admin",
+          "Airports"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "description": "code of the airport",
+            "in": "path",
+            "name": "icao",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/airports": {
+      "get": {
+        "operationId": "GetAirports",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Airport"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all airports",
+        "tags": [
+          "Airports"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "description": "JSON filters to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "in": "query",
+            "name": "filters",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number",
+              "maximum": 300
+            },
+            "example": 50
+          },
+          {
+            "description": "Page number",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 1
+          }
+        ]
+      },
+      "post": {
+        "operationId": "CreateAirport",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new airport",
+        "tags": [
+          "Admin",
+          "Airports"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Airport"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/airlines/{airlineId}": {
+      "get": {
+        "operationId": "GetAirline",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airline"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get one airline by its internal id",
+        "tags": [
+          "Airlines"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "public"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "airlineId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateAirline",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airline"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update an airline",
+        "tags": [
+          "Admin",
+          "Airlines"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "airlineId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Airline"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteAirline",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airline"
+                }
+              }
+            }
+          }
+        },
+        "description": "Delete an airline",
+        "tags": [
+          "Admin",
+          "Airlines"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "airlineId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/airlines": {
+      "get": {
+        "operationId": "GetAirlines",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Airline"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all airlines",
+        "tags": [
+          "Airlines"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "public"
+            ]
+          }
+        ],
+        "parameters": []
+      },
+      "post": {
+        "operationId": "CreateAirline",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airline"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new airline",
+        "tags": [
+          "Admin",
+          "Airlines"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Airline"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/aircraftTypes/{icao}": {
+      "get": {
+        "operationId": "GetAirport",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AircraftType"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get one aircraft type by its ICAO code",
+        "tags": [
+          "Aircraft Types"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "public"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "description": "code of the aircraft type",
+            "in": "path",
+            "name": "icao",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateAircraftType",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AircraftType"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update an aircraft type",
+        "tags": [
+          "Admin",
+          "Aircraft Types"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "icao",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AircraftType"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteAircraftType",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AircraftType"
+                }
+              }
+            }
+          }
+        },
+        "description": "Delete an aircraft type",
+        "tags": [
+          "Admin",
+          "Aircraft Types"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "icao",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/aircraftTypes": {
+      "get": {
+        "operationId": "GetAirports",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AircraftType"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all aircraft types",
+        "tags": [
+          "Aircraft Types"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "public"
+            ]
+          }
+        ],
+        "parameters": []
+      },
+      "post": {
+        "operationId": "CreateAircraftType",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AircraftType"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new aircraft type",
+        "tags": [
+          "Admin",
+          "Aircraft Types"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AircraftType"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/apiKeys/{userId}/generateAdmin": {
+      "delete": {
+        "operationId": "GenerateAdminApiKey",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKey"
+                }
+              }
+            }
+          }
+        },
+        "description": "Generate an admin api key for the given user\n\n**Note** This will revoke the user's existing key",
+        "tags": [
+          "API Keys",
+          "Admin"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ]
+}
