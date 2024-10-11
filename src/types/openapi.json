@@ -118,6 +118,59 @@
         "type": "object",
         "additionalProperties": false
       },
+      "Partial_CityCode_": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "properties": {
+              "county": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "elevation": {
+                "type": "number",
+                "format": "double"
+              },
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "county",
+              "state",
+              "city",
+              "country",
+              "elevation",
+              "longitude",
+              "latitude"
+            ],
+            "type": "object"
+          },
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "description": "Make all properties in T optional"
+      },
       "Pick_User.email-or-password-or-firstName-or-lastName_": {
         "properties": {
           "email": {
@@ -316,10 +369,12 @@
             "description": "The name of the airport."
           },
           "icao": {
-            "type": "string"
+            "type": "string",
+            "description": "The International Civil Aviation Organization (ICAO) code of the airport."
           },
           "iata": {
-            "type": "string"
+            "type": "string",
+            "description": "The International Air Transport Association (IATA) code of the airport."
           },
           "coordinates": {
             "properties": {
@@ -336,11 +391,13 @@
               "longitude",
               "latitude"
             ],
-            "type": "object"
+            "type": "object",
+            "description": "The coordinates of the airport."
           },
           "elevation": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "description": "The elevation of the airport in feets."
           },
           "countryCode": {
             "type": "string",
@@ -451,6 +508,85 @@
         "type": "object",
         "additionalProperties": false
       },
+      "Partial_Airport_": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the airport."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The International Civil Aviation Organization (ICAO) code of the airport."
+          },
+          "iata": {
+            "type": "string",
+            "description": "The International Air Transport Association (IATA) code of the airport."
+          },
+          "coordinates": {
+            "properties": {
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "longitude",
+              "latitude"
+            ],
+            "type": "object",
+            "description": "The coordinates of the airport."
+          },
+          "elevation": {
+            "type": "number",
+            "format": "double",
+            "description": "The elevation of the airport in feets."
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "The country where the airport is located.\n\nISO 3166-1 alpha-2 code.",
+            "example": "US"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "county": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "The timezone of the airport in the TZ database format.",
+            "example": "America/New_York"
+          },
+          "websiteUrl": {
+            "type": "string"
+          },
+          "runways": {
+            "items": {
+              "$ref": "#/components/schemas/Runway"
+            },
+            "type": "array"
+          },
+          "frequencies": {
+            "items": {
+              "$ref": "#/components/schemas/Frequency"
+            },
+            "type": "array"
+          },
+          "_internal": {
+            "$ref": "#/components/schemas/AirportInternal",
+            "description": "Internal properties"
+          }
+        },
+        "type": "object",
+        "description": "Make all properties in T optional"
+      },
       "Airline": {
         "properties": {
           "name": {
@@ -486,6 +622,38 @@
         ],
         "type": "object",
         "additionalProperties": false
+      },
+      "Partial_Airline_": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the airline."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The ICAO code of the airline."
+          },
+          "iata": {
+            "type": "string",
+            "description": "The IATA code of the airline."
+          },
+          "callSign": {
+            "type": "string",
+            "description": "The call sign of the airline."
+          },
+          "websiteUrl": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "isDefunct": {
+            "type": "boolean",
+            "description": "True if the airline is defunct and no longer operating."
+          }
+        },
+        "type": "object",
+        "description": "Make all properties in T optional"
       },
       "AircraftType": {
         "description": "Represents an aircraft type.",
@@ -563,6 +731,62 @@
             "J"
           ]
         }
+      },
+      "Partial_AircraftType_": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the aircraft type."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The ICAO code of the aircraft type."
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the aircraft type."
+          },
+          "categorie": {
+            "type": "string",
+            "enum": [
+              "amphibian",
+              "gyrocopter",
+              "helicopter",
+              "landplane",
+              "seaplane",
+              "tiltrotor"
+            ]
+          },
+          "engineType": {
+            "type": "string",
+            "enum": [
+              "electric",
+              "turboprop",
+              "jet",
+              "piston",
+              "rocket"
+            ]
+          },
+          "engineCount": {
+            "type": "number",
+            "format": "double"
+          },
+          "wakeTurbulenceCategories": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "L",
+                "M",
+                "H",
+                "J"
+              ]
+            },
+            "type": "array",
+            "description": "The wake turbulence categories of the aircraft type.\n\n- `L`: Light\n\n- `M`: Medium\n\n- `H`: Heavy\n\n- `J`: Super"
+          }
+        },
+        "type": "object",
+        "description": "Make all properties in T optional"
       }
     },
     "securitySchemes": {
@@ -826,7 +1050,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CityCode"
+                "$ref": "#/components/schemas/Partial_CityCode_"
               }
             }
           }
@@ -1239,13 +1463,7 @@
         "tags": [
           "Airports"
         ],
-        "security": [
-          {
-            "apiKey": [
-              "public"
-            ]
-          }
-        ],
+        "security": [],
         "parameters": [
           {
             "description": "code of the airport",
@@ -1299,7 +1517,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Airport"
+                "$ref": "#/components/schemas/Partial_Airport_"
               }
             }
           }
@@ -1560,7 +1778,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Airline"
+                "$ref": "#/components/schemas/Partial_Airline_"
               }
             }
           }
@@ -1676,7 +1894,7 @@
     },
     "/aircraftTypes/{icao}": {
       "get": {
-        "operationId": "GetAirport",
+        "operationId": "GetAircraftType",
         "responses": {
           "200": {
             "description": "Ok",
@@ -1753,7 +1971,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AircraftType"
+                "$ref": "#/components/schemas/Partial_AircraftType_"
               }
             }
           }
@@ -1799,7 +2017,7 @@
     },
     "/aircraftTypes": {
       "get": {
-        "operationId": "GetAirports",
+        "operationId": "GetAircraftTypes",
         "responses": {
           "200": {
             "description": "Ok",

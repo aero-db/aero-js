@@ -1,0 +1,11 @@
+name: On Deploy (tag)
+
+on:
+  push:
+    tags: [v*]
+
+jobs:
+  ## WEB
+  build-web:
+    name: Deploy Web Production
+    uses: ./.github/workflows/build.yml

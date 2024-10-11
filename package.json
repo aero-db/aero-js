@@ -4,6 +4,7 @@
   "description": "Javascript wrapper for the AeroDB API",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run generate-types",
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate-types": "tsx ./tools/updateApiDoc.ts && npx openapi-typescript ./src/types/openapi.json -o ./src/types/api.d.ts",
     "build": "npm run clean && tsc --project tsconfig.json && npm run copy-files",
@@ -27,8 +28,10 @@
   "homepage": "https://github.com/aero-db/aero.js#readme",
   "dependencies": {
     "axios": "^1.7.7",
+    "copyfiles": "^2.4.1",
     "dotenv": "^16.4.5",
     "emittery": "^1.0.3",
+    "rimraf": "^6.0.1",
     "store2": "^2.14.3",
     "typescript": "^5.6.2"
   },

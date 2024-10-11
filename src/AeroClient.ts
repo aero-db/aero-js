@@ -2,7 +2,6 @@ import axios, { type AxiosInstance } from 'axios';
 import store from 'store2';
 import { REFRESH_TOKEN_KEY, TOKEN_KEY } from './constants';
 import { eventsManager } from './modules/Event.module';
-import { initializeInterceptors } from './utils/interceptors.utils';
 import { components, paths } from './types/api';
 
 type ClientOptions = {
@@ -37,8 +36,6 @@ export default class AeroClient {
 
   constructor(options: ClientOptions) {
     this.apiInstance = axios.create();
-
-    initializeInterceptors(this);
 
     this.event = eventsManager;
 

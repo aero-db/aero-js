@@ -295,7 +295,7 @@ export interface paths {
             cookie?: never;
         };
         /** @description Get one aircraft type by its ICAO code */
-        get: operations["GetAirport"];
+        get: operations["GetAircraftType"];
         put?: never;
         post?: never;
         /** @description Delete an aircraft type */
@@ -314,7 +314,7 @@ export interface paths {
             cookie?: never;
         };
         /** @description Get all aircraft types */
-        get: operations["GetAirports"];
+        get: operations["GetAircraftTypes"];
         put?: never;
         /** @description Create a new aircraft type */
         post: operations["CreateAircraftType"];
@@ -375,6 +375,24 @@ export interface components {
                 latitude: number;
             };
             timezone: string;
+        };
+        /** @description Make all properties in T optional */
+        Partial_CityCode_: {
+            code?: string;
+            name?: string;
+            location?: {
+                county: string;
+                state: string;
+                city: string;
+                country: string;
+                /** Format: double */
+                elevation: number;
+                /** Format: double */
+                longitude: number;
+                /** Format: double */
+                latitude: number;
+            };
+            timezone?: string;
         };
         /** @description From T, pick a set of properties whose keys are in the union K */
         "Pick_User.email-or-password-or-firstName-or-lastName_": {
@@ -486,15 +504,21 @@ export interface components {
         Airport: {
             /** @description The name of the airport. */
             name: string;
+            /** @description The International Civil Aviation Organization (ICAO) code of the airport. */
             icao: string;
+            /** @description The International Air Transport Association (IATA) code of the airport. */
             iata?: string;
+            /** @description The coordinates of the airport. */
             coordinates?: {
                 /** Format: double */
                 longitude: number;
                 /** Format: double */
                 latitude: number;
             };
-            /** Format: double */
+            /**
+             * Format: double
+             * @description The elevation of the airport in feets.
+             */
             elevation?: number;
             /**
              * @description The country where the airport is located.
@@ -539,6 +563,47 @@ export interface components {
              */
             page: number;
         };
+        /** @description Make all properties in T optional */
+        Partial_Airport_: {
+            /** @description The name of the airport. */
+            name?: string;
+            /** @description The International Civil Aviation Organization (ICAO) code of the airport. */
+            icao?: string;
+            /** @description The International Air Transport Association (IATA) code of the airport. */
+            iata?: string;
+            /** @description The coordinates of the airport. */
+            coordinates?: {
+                /** Format: double */
+                longitude: number;
+                /** Format: double */
+                latitude: number;
+            };
+            /**
+             * Format: double
+             * @description The elevation of the airport in feets.
+             */
+            elevation?: number;
+            /**
+             * @description The country where the airport is located.
+             *
+             *     ISO 3166-1 alpha-2 code.
+             * @example US
+             */
+            countryCode?: string;
+            city?: string;
+            state?: string;
+            county?: string;
+            /**
+             * @description The timezone of the airport in the TZ database format.
+             * @example America/New_York
+             */
+            timezone?: string;
+            websiteUrl?: string;
+            runways?: components["schemas"]["Runway"][];
+            frequencies?: components["schemas"]["Frequency"][];
+            /** @description Internal properties */
+            _internal?: components["schemas"]["AirportInternal"];
+        };
         Airline: {
             /** @description The name of the airline. */
             name: string;
@@ -552,6 +617,21 @@ export interface components {
             location?: string;
             /** @description True if the airline is defunct and no longer operating. */
             isDefunct: boolean;
+        };
+        /** @description Make all properties in T optional */
+        Partial_Airline_: {
+            /** @description The name of the airline. */
+            name?: string;
+            /** @description The ICAO code of the airline. */
+            icao?: string;
+            /** @description The IATA code of the airline. */
+            iata?: string;
+            /** @description The call sign of the airline. */
+            callSign?: string;
+            websiteUrl?: string;
+            location?: string;
+            /** @description True if the airline is defunct and no longer operating. */
+            isDefunct?: boolean;
         };
         /**
          * @description Represents an aircraft type.
@@ -591,6 +671,31 @@ export interface components {
              *
              *     - `J`: Super */
             wakeTurbulenceCategories: ("L" | "M" | "H" | "J")[];
+        };
+        /** @description Make all properties in T optional */
+        Partial_AircraftType_: {
+            /** @description The name of the aircraft type. */
+            name?: string;
+            /** @description The ICAO code of the aircraft type. */
+            icao?: string;
+            /** @description The manufacturer of the aircraft type. */
+            manufacturer?: string;
+            /** @enum {string} */
+            categorie?: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor";
+            /** @enum {string} */
+            engineType?: "electric" | "turboprop" | "jet" | "piston" | "rocket";
+            /** Format: double */
+            engineCount?: number;
+            /** @description The wake turbulence categories of the aircraft type.
+             *
+             *     - `L`: Light
+             *
+             *     - `M`: Medium
+             *
+             *     - `H`: Heavy
+             *
+             *     - `J`: Super */
+            wakeTurbulenceCategories?: ("L" | "M" | "H" | "J")[];
         };
     };
     responses: never;
@@ -746,7 +851,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CityCode"];
+                "application/json": components["schemas"]["Partial_CityCode_"];
             };
         };
         responses: {
@@ -1029,7 +1134,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Airport"];
+                "application/json": components["schemas"]["Partial_Airport_"];
             };
         };
         responses: {
@@ -1183,7 +1288,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Airline"];
+                "application/json": components["schemas"]["Partial_Airline_"];
             };
         };
         responses: {
@@ -1242,7 +1347,7 @@ export interface operations {
             };
         };
     };
-    GetAirport: {
+    GetAircraftType: {
         parameters: {
             query?: never;
             header?: never;
@@ -1298,7 +1403,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AircraftType"];
+                "application/json": components["schemas"]["Partial_AircraftType_"];
             };
         };
         responses: {
@@ -1313,7 +1418,7 @@ export interface operations {
             };
         };
     };
-    GetAirports: {
+    GetAircraftTypes: {
         parameters: {
             query?: never;
             header?: never;

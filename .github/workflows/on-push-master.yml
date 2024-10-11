@@ -1,0 +1,16 @@
+##
+## RUN FOR EVERY PUSH ON MASTER BRANCH (Not TAGS)
+## Master is considered as the "development" branch so this should dispatch a development build
+##
+
+name: On Push
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Deploy Web Development
+    uses: ./.github/workflows/build.yml

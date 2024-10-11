@@ -1,0 +1,12 @@
+##
+## RUN FOR EVERY COMMIT
+##
+
+name: On Push
+
+on:
+  push:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
