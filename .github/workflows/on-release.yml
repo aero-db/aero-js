@@ -1,5 +1,4 @@
-name: On Deploy (tag)
-
+name: On Release
 on:
   release:
     types: [published]
@@ -12,3 +11,4 @@ jobs:
   publish:
     name: Publish Package to npmjs
     uses: ./.github/workflows/publish.yml
+    secrets: inherit
