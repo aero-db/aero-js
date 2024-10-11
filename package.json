@@ -1,8 +1,8 @@
 {
   "name": "@aerodb/js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Javascript wrapper for the AeroDB API",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "postinstall": "npm run generate-types",
     "test": "echo \"Error: no test specified\" && exit 1",
