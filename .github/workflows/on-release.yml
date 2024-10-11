@@ -1,0 +1,14 @@
+name: On Deploy (tag)
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  ## WEB
+  build-web:
+    name: Build
+    uses: ./.github/workflows/build.yml
+  publish:
+    name: Publish Package to npmjs
+    uses: ./.github/workflows/publish.yml
