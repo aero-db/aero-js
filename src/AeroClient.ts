@@ -55,7 +55,7 @@ export default class AeroClient {
      * List all airports
      */
     list: async () => {
-      return await this.apiInstance.get<paths['/airports']['get']['responses']['200']['content']['application/json']>('airports');
+      return (await this.apiInstance.get<paths['/airports']['get']['responses']['200']['content']['application/json']>('airports')).data;
     },
     /**
      * Get airport by ICAO code
@@ -63,7 +63,8 @@ export default class AeroClient {
      * @param icao ICAO code of the airport
      */
     get: async (icao: string) => {
-      return await this.apiInstance.get<paths['/airports/{icao}']['get']['responses']['200']['content']['application/json']>(`airports/${icao}`);
+      return (await this.apiInstance.get<paths['/airports/{icao}']['get']['responses']['200']['content']['application/json']>(`airports/${icao}`))
+        .data;
     },
   };
 
@@ -72,7 +73,7 @@ export default class AeroClient {
      * List all airlines
      */
     list: async () => {
-      return await this.apiInstance.get<paths['/airlines']['get']['responses']['200']['content']['application/json']>('airlines');
+      return (await this.apiInstance.get<paths['/airlines']['get']['responses']['200']['content']['application/json']>('airlines')).data;
     },
     /**
      * Get airline by ICAO code
@@ -80,9 +81,9 @@ export default class AeroClient {
      * @param airlineId Airline id
      */
     get: async (airlineId: string) => {
-      return await this.apiInstance.get<paths['/airlines/{airlineId}']['get']['responses']['200']['content']['application/json']>(
-        `airlines/${airlineId}`
-      );
+      return (
+        await this.apiInstance.get<paths['/airlines/{airlineId}']['get']['responses']['200']['content']['application/json']>(`airlines/${airlineId}`)
+      ).data;
     },
   };
 }
