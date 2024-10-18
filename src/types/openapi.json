@@ -59,216 +59,6 @@
         "type": "object",
         "additionalProperties": false
       },
-      "CityCode": {
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "location": {
-            "properties": {
-              "county": {
-                "type": "string"
-              },
-              "state": {
-                "type": "string"
-              },
-              "city": {
-                "type": "string"
-              },
-              "country": {
-                "type": "string"
-              },
-              "elevation": {
-                "type": "number",
-                "format": "double"
-              },
-              "longitude": {
-                "type": "number",
-                "format": "double"
-              },
-              "latitude": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "county",
-              "state",
-              "city",
-              "country",
-              "elevation",
-              "longitude",
-              "latitude"
-            ],
-            "type": "object"
-          },
-          "timezone": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "code",
-          "name",
-          "location",
-          "timezone"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Partial_CityCode_": {
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "location": {
-            "properties": {
-              "county": {
-                "type": "string"
-              },
-              "state": {
-                "type": "string"
-              },
-              "city": {
-                "type": "string"
-              },
-              "country": {
-                "type": "string"
-              },
-              "elevation": {
-                "type": "number",
-                "format": "double"
-              },
-              "longitude": {
-                "type": "number",
-                "format": "double"
-              },
-              "latitude": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "county",
-              "state",
-              "city",
-              "country",
-              "elevation",
-              "longitude",
-              "latitude"
-            ],
-            "type": "object"
-          },
-          "timezone": {
-            "type": "string"
-          }
-        },
-        "type": "object",
-        "description": "Make all properties in T optional"
-      },
-      "Pick_User.email-or-password-or-firstName-or-lastName_": {
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "password",
-          "firstName",
-          "lastName"
-        ],
-        "type": "object",
-        "description": "From T, pick a set of properties whose keys are in the union K"
-      },
-      "SignupParams": {
-        "$ref": "#/components/schemas/Pick_User.email-or-password-or-firstName-or-lastName_"
-      },
-      "Pick_User.email-or-password_": {
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ],
-        "type": "object",
-        "description": "From T, pick a set of properties whose keys are in the union K"
-      },
-      "LoginParams": {
-        "$ref": "#/components/schemas/Pick_User.email-or-password_"
-      },
-      "RefreshTokenResponse": {
-        "properties": {
-          "token": {
-            "type": "string"
-          },
-          "tokenExpires": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "token",
-          "tokenExpires"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "ApiKeyScope": {
-        "type": "string",
-        "enum": [
-          "public",
-          "admin"
-        ]
-      },
-      "ApiKey": {
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "expires": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "scopes": {
-            "items": {
-              "$ref": "#/components/schemas/ApiKeyScope"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "key",
-          "userId",
-          "expires",
-          "scopes"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
       "Runway": {
         "properties": {
           "name": {
@@ -483,11 +273,373 @@
           ]
         }
       },
+      "Airline": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the airline."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The ICAO code of the airline."
+          },
+          "iata": {
+            "type": "string",
+            "description": "The IATA code of the airline."
+          },
+          "callSign": {
+            "type": "string",
+            "description": "The call sign of the airline."
+          },
+          "websiteUrl": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "isDefunct": {
+            "type": "boolean",
+            "description": "True if the airline is defunct and no longer operating."
+          }
+        },
+        "required": [
+          "name",
+          "isDefunct"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "CityCode": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "properties": {
+              "county": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "elevation": {
+                "type": "number",
+                "format": "double"
+              },
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "county",
+              "state",
+              "city",
+              "country",
+              "elevation",
+              "longitude",
+              "latitude"
+            ],
+            "type": "object"
+          },
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "location",
+          "timezone"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AircraftType": {
+        "description": "Represents an aircraft type.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the aircraft type."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The ICAO code of the aircraft type."
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the aircraft type."
+          },
+          "categorie": {
+            "type": "string",
+            "enum": [
+              "amphibian",
+              "gyrocopter",
+              "helicopter",
+              "landplane",
+              "seaplane",
+              "tiltrotor",
+              "other"
+            ],
+            "description": "The category of the aircraft type.\n\n- `amphibian`: An aircraft that can operate on land and water.\n\n- `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.\n\n- `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.\n\n- `landplane`: An aircraft that operates on land.\n\n- `seaplane`: An aircraft that can operate on water.\n\n- `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.\n\n- `other`: An aircraft that does not fit into any of the other categories."
+          },
+          "engineType": {
+            "type": "string",
+            "enum": [
+              "electric",
+              "turboprop",
+              "jet",
+              "piston",
+              "rocket",
+              "other"
+            ]
+          },
+          "engineCount": {
+            "type": "number",
+            "format": "double",
+            "description": "The number of engines of the aircraft type."
+          },
+          "wakeTurbulenceCategories": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "L",
+                "M",
+                "H",
+                "J"
+              ]
+            },
+            "type": "array",
+            "description": "The wake turbulence categories of the aircraft type.\n\n- `L`: Light\n\n- `M`: Medium\n\n- `H`: Heavy\n\n- `J`: Super"
+          }
+        },
+        "required": [
+          "name",
+          "icao",
+          "manufacturer",
+          "categorie",
+          "engineType",
+          "wakeTurbulenceCategories"
+        ],
+        "type": "object",
+        "additionalProperties": false,
+        "example": {
+          "name": "Airbus A380",
+          "icao": "A388",
+          "manufacturer": "Airbus",
+          "categorie": "landplane",
+          "engineType": "jet",
+          "engineCount": 4,
+          "wakeTurbulenceCategories": [
+            "H",
+            "J"
+          ]
+        }
+      },
+      "SearchResult": {
+        "properties": {
+          "aircraftTypes": {
+            "items": {
+              "$ref": "#/components/schemas/AircraftType"
+            },
+            "type": "array"
+          },
+          "cityCodes": {
+            "items": {
+              "$ref": "#/components/schemas/CityCode"
+            },
+            "type": "array"
+          },
+          "airlines": {
+            "items": {
+              "$ref": "#/components/schemas/Airline"
+            },
+            "type": "array"
+          },
+          "airports": {
+            "items": {
+              "$ref": "#/components/schemas/Airport"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "aircraftTypes",
+          "cityCodes",
+          "airlines",
+          "airports"
+        ],
+        "type": "object"
+      },
+      "Partial_CityCode_": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "properties": {
+              "county": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "elevation": {
+                "type": "number",
+                "format": "double"
+              },
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "county",
+              "state",
+              "city",
+              "country",
+              "elevation",
+              "longitude",
+              "latitude"
+            ],
+            "type": "object"
+          },
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "description": "Make all properties in T optional"
+      },
+      "Pick_User.email-or-password-or-firstName-or-lastName_": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "firstName",
+          "lastName"
+        ],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "SignupParams": {
+        "$ref": "#/components/schemas/Pick_User.email-or-password-or-firstName-or-lastName_"
+      },
+      "Pick_User.email-or-password_": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "LoginParams": {
+        "$ref": "#/components/schemas/Pick_User.email-or-password_"
+      },
+      "RefreshTokenResponse": {
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "tokenExpires": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "token",
+          "tokenExpires"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "ApiKeyScope": {
+        "type": "string",
+        "enum": [
+          "public",
+          "admin"
+        ]
+      },
+      "ApiKey": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "expires": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "scopes": {
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyScope"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "key",
+          "userId",
+          "expires",
+          "scopes"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
       "QueryParameters": {
         "properties": {
-          "filters": {
+          "filter": {
             "type": "string",
-            "description": "JSON filters to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
           },
           "limit": {
             "type": "number",
@@ -587,42 +739,6 @@
         "type": "object",
         "description": "Make all properties in T optional"
       },
-      "Airline": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the airline."
-          },
-          "icao": {
-            "type": "string",
-            "description": "The ICAO code of the airline."
-          },
-          "iata": {
-            "type": "string",
-            "description": "The IATA code of the airline."
-          },
-          "callSign": {
-            "type": "string",
-            "description": "The call sign of the airline."
-          },
-          "websiteUrl": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "isDefunct": {
-            "type": "boolean",
-            "description": "True if the airline is defunct and no longer operating."
-          }
-        },
-        "required": [
-          "name",
-          "isDefunct"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
       "Partial_Airline_": {
         "properties": {
           "name": {
@@ -655,83 +771,6 @@
         "type": "object",
         "description": "Make all properties in T optional"
       },
-      "AircraftType": {
-        "description": "Represents an aircraft type.",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the aircraft type."
-          },
-          "icao": {
-            "type": "string",
-            "description": "The ICAO code of the aircraft type."
-          },
-          "manufacturer": {
-            "type": "string",
-            "description": "The manufacturer of the aircraft type."
-          },
-          "categorie": {
-            "type": "string",
-            "enum": [
-              "amphibian",
-              "gyrocopter",
-              "helicopter",
-              "landplane",
-              "seaplane",
-              "tiltrotor"
-            ]
-          },
-          "engineType": {
-            "type": "string",
-            "enum": [
-              "electric",
-              "turboprop",
-              "jet",
-              "piston",
-              "rocket"
-            ]
-          },
-          "engineCount": {
-            "type": "number",
-            "format": "double"
-          },
-          "wakeTurbulenceCategories": {
-            "items": {
-              "type": "string",
-              "enum": [
-                "L",
-                "M",
-                "H",
-                "J"
-              ]
-            },
-            "type": "array",
-            "description": "The wake turbulence categories of the aircraft type.\n\n- `L`: Light\n\n- `M`: Medium\n\n- `H`: Heavy\n\n- `J`: Super"
-          }
-        },
-        "required": [
-          "name",
-          "icao",
-          "manufacturer",
-          "categorie",
-          "engineType",
-          "wakeTurbulenceCategories"
-        ],
-        "type": "object",
-        "additionalProperties": false,
-        "example": {
-          "name": "Airbus A380",
-          "icao": "A388",
-          "manufacturer": "Airbus",
-          "categorie": "landplane",
-          "engineType": "jet",
-          "engineCount": 4,
-          "wakeTurbulenceCategories": [
-            "H",
-            "J"
-          ]
-        }
-      },
       "Partial_AircraftType_": {
         "properties": {
           "name": {
@@ -754,12 +793,15 @@
               "helicopter",
               "landplane",
               "seaplane",
-              "tiltrotor"
-            ]
+              "tiltrotor",
+              "other"
+            ],
+            "description": "The category of the aircraft type.\n\n- `amphibian`: An aircraft that can operate on land and water.\n\n- `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.\n\n- `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.\n\n- `landplane`: An aircraft that operates on land.\n\n- `seaplane`: An aircraft that can operate on water.\n\n- `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.\n\n- `other`: An aircraft that does not fit into any of the other categories."
           },
           "engineType": {
             "type": "string",
             "enum": [
+              "other",
               "electric",
               "turboprop",
               "jet",
@@ -769,7 +811,8 @@
           },
           "engineCount": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "description": "The number of engines of the aircraft type."
           },
           "wakeTurbulenceCategories": {
             "items": {
@@ -970,6 +1013,38 @@
           }
         ],
         "parameters": []
+      }
+    },
+    "/search": {
+      "get": {
+        "operationId": "Search",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResult"
+                }
+              }
+            }
+          }
+        },
+        "description": "Search for resources in the database",
+        "tags": [
+          "Search"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
       }
     },
     "/cityCodes/{code}": {
@@ -1626,9 +1701,9 @@
         "security": [],
         "parameters": [
           {
-            "description": "JSON filters to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
-            "name": "filters",
+            "name": "filter",
             "required": false,
             "schema": {
               "type": "string"

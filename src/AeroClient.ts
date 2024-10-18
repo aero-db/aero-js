@@ -89,4 +89,13 @@ export default class AeroClient {
       ).data;
     },
   };
+
+  /**
+   * Perform a search query on the database
+   * @param query
+   * @returns
+   */
+  search = async (query: string) => {
+    return await this.apiInstance.get<paths['/search']['get']['responses']['200']['content']['application/json']>(`search?query=${query}`);
+  };
 }

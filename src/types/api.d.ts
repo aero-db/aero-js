@@ -40,6 +40,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Search for resources in the database */
+        get: operations["Search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/cityCodes/{code}": {
         parameters: {
             query?: never;
@@ -359,69 +376,6 @@ export interface components {
             disabled: boolean;
             permissions: ("ADMIN" | "USER")[];
         };
-        CityCode: {
-            code: string;
-            name: string;
-            location: {
-                county: string;
-                state: string;
-                city: string;
-                country: string;
-                /** Format: double */
-                elevation: number;
-                /** Format: double */
-                longitude: number;
-                /** Format: double */
-                latitude: number;
-            };
-            timezone: string;
-        };
-        /** @description Make all properties in T optional */
-        Partial_CityCode_: {
-            code?: string;
-            name?: string;
-            location?: {
-                county: string;
-                state: string;
-                city: string;
-                country: string;
-                /** Format: double */
-                elevation: number;
-                /** Format: double */
-                longitude: number;
-                /** Format: double */
-                latitude: number;
-            };
-            timezone?: string;
-        };
-        /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_User.email-or-password-or-firstName-or-lastName_": {
-            email: string;
-            password: string;
-            firstName: string;
-            lastName: string;
-        };
-        SignupParams: components["schemas"]["Pick_User.email-or-password-or-firstName-or-lastName_"];
-        /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_User.email-or-password_": {
-            email: string;
-            password: string;
-        };
-        LoginParams: components["schemas"]["Pick_User.email-or-password_"];
-        RefreshTokenResponse: {
-            token: string;
-            /** Format: date-time */
-            tokenExpires: string;
-        };
-        /** @enum {string} */
-        ApiKeyScope: "public" | "admin";
-        ApiKey: {
-            key: string;
-            userId: string;
-            /** Format: date-time */
-            expires: string;
-            scopes: components["schemas"]["ApiKeyScope"][];
-        };
         Runway: {
             /** @description The name of the runway. */
             name: string;
@@ -541,13 +495,155 @@ export interface components {
             /** @description Internal properties */
             _internal?: components["schemas"]["AirportInternal"];
         };
+        Airline: {
+            /** @description The name of the airline. */
+            name: string;
+            /** @description The ICAO code of the airline. */
+            icao?: string;
+            /** @description The IATA code of the airline. */
+            iata?: string;
+            /** @description The call sign of the airline. */
+            callSign?: string;
+            websiteUrl?: string;
+            location?: string;
+            /** @description True if the airline is defunct and no longer operating. */
+            isDefunct: boolean;
+        };
+        CityCode: {
+            code: string;
+            name: string;
+            location: {
+                county: string;
+                state: string;
+                city: string;
+                country: string;
+                /** Format: double */
+                elevation: number;
+                /** Format: double */
+                longitude: number;
+                /** Format: double */
+                latitude: number;
+            };
+            timezone: string;
+        };
+        /**
+         * @description Represents an aircraft type.
+         * @example {
+         *       "name": "Airbus A380",
+         *       "icao": "A388",
+         *       "manufacturer": "Airbus",
+         *       "categorie": "landplane",
+         *       "engineType": "jet",
+         *       "engineCount": 4,
+         *       "wakeTurbulenceCategories": [
+         *         "H",
+         *         "J"
+         *       ]
+         *     }
+         */
+        AircraftType: {
+            /** @description The name of the aircraft type. */
+            name: string;
+            /** @description The ICAO code of the aircraft type. */
+            icao: string;
+            /** @description The manufacturer of the aircraft type. */
+            manufacturer: string;
+            /**
+             * @description The category of the aircraft type.
+             *
+             *     - `amphibian`: An aircraft that can operate on land and water.
+             *
+             *     - `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.
+             *
+             *     - `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.
+             *
+             *     - `landplane`: An aircraft that operates on land.
+             *
+             *     - `seaplane`: An aircraft that can operate on water.
+             *
+             *     - `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.
+             *
+             *     - `other`: An aircraft that does not fit into any of the other categories.
+             * @enum {string}
+             */
+            categorie: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor" | "other";
+            /** @enum {string} */
+            engineType: "electric" | "turboprop" | "jet" | "piston" | "rocket" | "other";
+            /**
+             * Format: double
+             * @description The number of engines of the aircraft type.
+             */
+            engineCount?: number;
+            /** @description The wake turbulence categories of the aircraft type.
+             *
+             *     - `L`: Light
+             *
+             *     - `M`: Medium
+             *
+             *     - `H`: Heavy
+             *
+             *     - `J`: Super */
+            wakeTurbulenceCategories: ("L" | "M" | "H" | "J")[];
+        };
+        SearchResult: {
+            aircraftTypes: components["schemas"]["AircraftType"][];
+            cityCodes: components["schemas"]["CityCode"][];
+            airlines: components["schemas"]["Airline"][];
+            airports: components["schemas"]["Airport"][];
+        };
+        /** @description Make all properties in T optional */
+        Partial_CityCode_: {
+            code?: string;
+            name?: string;
+            location?: {
+                county: string;
+                state: string;
+                city: string;
+                country: string;
+                /** Format: double */
+                elevation: number;
+                /** Format: double */
+                longitude: number;
+                /** Format: double */
+                latitude: number;
+            };
+            timezone?: string;
+        };
+        /** @description From T, pick a set of properties whose keys are in the union K */
+        "Pick_User.email-or-password-or-firstName-or-lastName_": {
+            email: string;
+            password: string;
+            firstName: string;
+            lastName: string;
+        };
+        SignupParams: components["schemas"]["Pick_User.email-or-password-or-firstName-or-lastName_"];
+        /** @description From T, pick a set of properties whose keys are in the union K */
+        "Pick_User.email-or-password_": {
+            email: string;
+            password: string;
+        };
+        LoginParams: components["schemas"]["Pick_User.email-or-password_"];
+        RefreshTokenResponse: {
+            token: string;
+            /** Format: date-time */
+            tokenExpires: string;
+        };
+        /** @enum {string} */
+        ApiKeyScope: "public" | "admin";
+        ApiKey: {
+            key: string;
+            userId: string;
+            /** Format: date-time */
+            expires: string;
+            scopes: components["schemas"]["ApiKeyScope"][];
+        };
         QueryParameters: {
-            /** @description JSON filters to apply to the query
+            /** @description filter to apply to the query
              *
              *     Example: `{ "icao": "KJFK" }`
              *
              *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-            filters?: string;
+            filter?: string;
             /**
              * Format: double
              * @description Number of items to return
@@ -604,20 +700,6 @@ export interface components {
             /** @description Internal properties */
             _internal?: components["schemas"]["AirportInternal"];
         };
-        Airline: {
-            /** @description The name of the airline. */
-            name: string;
-            /** @description The ICAO code of the airline. */
-            icao?: string;
-            /** @description The IATA code of the airline. */
-            iata?: string;
-            /** @description The call sign of the airline. */
-            callSign?: string;
-            websiteUrl?: string;
-            location?: string;
-            /** @description True if the airline is defunct and no longer operating. */
-            isDefunct: boolean;
-        };
         /** @description Make all properties in T optional */
         Partial_Airline_: {
             /** @description The name of the airline. */
@@ -633,45 +715,6 @@ export interface components {
             /** @description True if the airline is defunct and no longer operating. */
             isDefunct?: boolean;
         };
-        /**
-         * @description Represents an aircraft type.
-         * @example {
-         *       "name": "Airbus A380",
-         *       "icao": "A388",
-         *       "manufacturer": "Airbus",
-         *       "categorie": "landplane",
-         *       "engineType": "jet",
-         *       "engineCount": 4,
-         *       "wakeTurbulenceCategories": [
-         *         "H",
-         *         "J"
-         *       ]
-         *     }
-         */
-        AircraftType: {
-            /** @description The name of the aircraft type. */
-            name: string;
-            /** @description The ICAO code of the aircraft type. */
-            icao: string;
-            /** @description The manufacturer of the aircraft type. */
-            manufacturer: string;
-            /** @enum {string} */
-            categorie: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor";
-            /** @enum {string} */
-            engineType: "electric" | "turboprop" | "jet" | "piston" | "rocket";
-            /** Format: double */
-            engineCount?: number;
-            /** @description The wake turbulence categories of the aircraft type.
-             *
-             *     - `L`: Light
-             *
-             *     - `M`: Medium
-             *
-             *     - `H`: Heavy
-             *
-             *     - `J`: Super */
-            wakeTurbulenceCategories: ("L" | "M" | "H" | "J")[];
-        };
         /** @description Make all properties in T optional */
         Partial_AircraftType_: {
             /** @description The name of the aircraft type. */
@@ -680,11 +723,31 @@ export interface components {
             icao?: string;
             /** @description The manufacturer of the aircraft type. */
             manufacturer?: string;
+            /**
+             * @description The category of the aircraft type.
+             *
+             *     - `amphibian`: An aircraft that can operate on land and water.
+             *
+             *     - `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.
+             *
+             *     - `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.
+             *
+             *     - `landplane`: An aircraft that operates on land.
+             *
+             *     - `seaplane`: An aircraft that can operate on water.
+             *
+             *     - `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.
+             *
+             *     - `other`: An aircraft that does not fit into any of the other categories.
+             * @enum {string}
+             */
+            categorie?: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor" | "other";
             /** @enum {string} */
-            categorie?: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor";
-            /** @enum {string} */
-            engineType?: "electric" | "turboprop" | "jet" | "piston" | "rocket";
-            /** Format: double */
+            engineType?: "other" | "electric" | "turboprop" | "jet" | "piston" | "rocket";
+            /**
+             * Format: double
+             * @description The number of engines of the aircraft type.
+             */
             engineCount?: number;
             /** @description The wake turbulence categories of the aircraft type.
              *
@@ -792,6 +855,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["User"][];
+                };
+            };
+        };
+    };
+    Search: {
+        parameters: {
+            query: {
+                query: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchResult"];
                 };
             };
         };
@@ -1175,12 +1260,12 @@ export interface operations {
     GetAirports: {
         parameters: {
             query?: {
-                /** @description JSON filters to apply to the query
+                /** @description filter to apply to the query
                  *
                  *     Example: `{ "icao": "KJFK" }`
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filters?: string;
+                filter?: string;
                 /**
                  * @description Number of items to return
                  * @example 50
