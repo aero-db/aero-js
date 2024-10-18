@@ -1,8 +1,11 @@
 import axios, { type AxiosInstance } from 'axios';
 import store from 'store2';
-import { REFRESH_TOKEN_KEY, TOKEN_KEY } from './constants';
+import { TOKEN_KEY } from './constants';
 import { eventsManager } from './modules/Event.module';
 import { components, paths } from './types/api';
+import { APIQueryParameters } from './types/Api.type';
+import { Airline, Airport } from '.';
+import { handleApiRequest } from './controllers/api.controller';
 
 type ClientOptions = {
   apiKey: string;
@@ -54,8 +57,8 @@ export default class AeroClient {
     /**
      * List all airports
      */
-    list: async () => {
-      return (await this.apiInstance.get<paths['/airports']['get']['responses']['200']['content']['application/json']>('airports')).data;
+    list: async (parameters: APIQueryParameters<Airport>): Promise<Airport[]> => {
+      return await handleApiRequest<Airport>('GET', 'airports', parameters, this.apiInstance);
     },
     /**
      * Get airport by ICAO code
@@ -72,8 +75,8 @@ export default class AeroClient {
     /**
      * List all airlines
      */
-    list: async () => {
-      return (await this.apiInstance.get<paths['/airlines']['get']['responses']['200']['content']['application/json']>('airlines')).data;
+    list: async (parameters: APIQueryParameters<Airline>): Promise<Airline[]> => {
+      return await handleApiRequest('GET', 'airlines', parameters, this.apiInstance);
     },
     /**
      * Get airline by ICAO code
