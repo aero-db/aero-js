@@ -15,7 +15,7 @@ import { APIQueryParameters, ApiResource } from '../types/Api.type';
 export async function handleApiRequest<T extends ApiResource>(
   method: 'POST' | 'GET' | 'PATCH' | 'DELETE',
   url: string,
-  parameters: APIQueryParameters<T>,
+  parameters: APIQueryParameters<T> = {},
   instance: AxiosInstance
 ) {
   const parsedParameters: any = {

@@ -1,6 +1,6 @@
 import { Airport, Airline, ApiKey, CityCode, Runway, User, AircraftType } from '../index';
 
-import { SortOrder, SortValues, RootFilterQuery } from 'mongoose';
+import mongoose from 'mongoose';
 
 export type ApiResource = Airport | Airline | ApiKey | CityCode | Runway | User | AircraftType;
 
@@ -19,9 +19,9 @@ export type APIQueryParameters<T extends ApiResource> = {
   /**
    * Sort the results
    */
-  sort?: Partial<Record<keyof T, SortValues>>;
+  sort?: Partial<Record<keyof T, mongoose.SortValues>>;
   /**
    * Filter the results
    */
-  filter?: RootFilterQuery<T>;
+  filter?: mongoose.RootFilterQuery<T>;
 };
