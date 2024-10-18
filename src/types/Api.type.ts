@@ -23,5 +23,5 @@ export type APIQueryParameters<T extends ApiResource> = {
   /**
    * Filter the results
    */
-  filter?: mongoose.RootFilterQuery<T>;
+  filter?: mongoose.FilterQuery<T>;
 };

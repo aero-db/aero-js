@@ -57,7 +57,7 @@ export default class AeroClient {
     /**
      * List all airports
      */
-    list: async (parameters: APIQueryParameters<Airport>): Promise<Airport[]> => {
+    list: async (parameters?: APIQueryParameters<Airport>): Promise<Airport[]> => {
       return await handleApiRequest<Airport>('GET', 'airports', parameters, this.apiInstance);
     },
     /**
@@ -75,7 +75,7 @@ export default class AeroClient {
     /**
      * List all airlines
      */
-    list: async (parameters: APIQueryParameters<Airline>): Promise<Airline[]> => {
+    list: async (parameters?: APIQueryParameters<Airline>): Promise<Airline[]> => {
       return await handleApiRequest('GET', 'airlines', parameters, this.apiInstance);
     },
     /**
