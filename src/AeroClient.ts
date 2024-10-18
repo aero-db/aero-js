@@ -96,6 +96,6 @@ export default class AeroClient {
    * @returns
    */
   search = async (query: string) => {
-    return await this.apiInstance.get<paths['/search']['get']['responses']['200']['content']['application/json']>(`search?query=${query}`);
+    return (await this.apiInstance.get<paths['/search']['get']['responses']['200']['content']['application/json']>(`search?query=${query}`)).data;
   };
 }
