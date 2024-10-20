@@ -4,7 +4,7 @@ import { TOKEN_KEY } from './constants';
 import { eventsManager } from './modules/Event.module';
 import { components, paths } from './types/api';
 import { APIQueryParameters } from './types/Api.type';
-import { Airline, Airport } from '.';
+import { Airline, Airport, Notam } from '.';
 import { handleApiRequest } from './controllers/api.controller';
 
 type ClientOptions = {
@@ -87,6 +87,16 @@ export default class AeroClient {
       return (
         await this.apiInstance.get<paths['/airlines/{airlineId}']['get']['responses']['200']['content']['application/json']>(`airlines/${airlineId}`)
       ).data;
+    },
+  };
+
+  notam = {
+    list: async (parameters?: APIQueryParameters<Notam>): Promise<Notam[]> => {
+      return await handleApiRequest<Notam>('GET', 'notams', parameters, this.apiInstance);
+    },
+    get: async (notamId: string) => {
+      return (await this.apiInstance.get<paths['/notams/{notamId}']['get']['responses']['200']['content']['application/json']>(`notams/${notamId}`))
+        .data;
     },
   };
 

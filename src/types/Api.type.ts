@@ -1,8 +1,8 @@
-import { Airport, Airline, ApiKey, CityCode, Runway, User, AircraftType } from '../index';
+import { Airport, Airline, ApiKey, CityCode, Runway, User, AircraftType, Notam } from '../index';
 
 import mongoose from 'mongoose';
 
-export type ApiResource = Airport | Airline | ApiKey | CityCode | Runway | User | AircraftType;
+export type ApiResource = Airport | Airline | ApiKey | CityCode | Runway | User | AircraftType | Notam;
 
 /**
  * Query parameters for the API request
