@@ -579,6 +579,10 @@
             "type": "string",
             "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
           },
+          "sort": {
+            "type": "string",
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)"
+          },
           "limit": {
             "type": "number",
             "format": "double",
@@ -1342,6 +1346,15 @@
             }
           },
           {
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "description": "Number of items to return",
             "in": "query",
             "name": "limit",
@@ -2064,6 +2077,15 @@
             "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "in": "query",
+            "name": "sort",
             "required": false,
             "schema": {
               "type": "string"

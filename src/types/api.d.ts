@@ -662,6 +662,12 @@ export interface components {
              *
              *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
             filter?: string;
+            /** @description Sort order of the results
+             *
+             *     Example `{ "createdAt": "desc" }`
+             *
+             *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+            sort?: string;
             /**
              * Format: double
              * @description Number of items to return
@@ -1053,6 +1059,12 @@ export interface operations {
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
+                /** @description Sort order of the results
+                 *
+                 *     Example `{ "createdAt": "desc" }`
+                 *
+                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+                sort?: string;
                 /**
                  * @description Number of items to return
                  * @example 50
@@ -1490,6 +1502,12 @@ export interface operations {
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
+                /** @description Sort order of the results
+                 *
+                 *     Example `{ "createdAt": "desc" }`
+                 *
+                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+                sort?: string;
                 /**
                  * @description Number of items to return
                  * @example 50
