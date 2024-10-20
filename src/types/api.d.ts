@@ -57,6 +57,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/notams/{notamId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get one notam by its ICAO code */
+        get: operations["GetNotam"];
+        put?: never;
+        post?: never;
+        /** @description Delete an notam */
+        delete: operations["DeleteNotam"];
+        options?: never;
+        head?: never;
+        /** @description Update an notam */
+        patch: operations["UpdateNotam"];
+        trace?: never;
+    };
+    "/notams": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get all notams */
+        get: operations["GetNotams"];
+        put?: never;
+        /** @description Create a new notam */
+        post: operations["CreateNotam"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/cityCodes/{code}": {
         parameters: {
             query?: never;
@@ -398,7 +435,7 @@ export interface components {
              * @description The surface of the runway.
              * @enum {string}
              */
-            surface: "ASP" | "BIT" | "BRI" | "CLA" | "COM" | "CON" | "COP" | "COR" | "GRE" | "GRS" | "GVL" | "ICE" | "LAT" | "MAC" | "PEM" | "PER" | "PSP" | "SAN" | "SMT" | "SNO" | "U" | "WAT";
+            surface?: "ASPH-G" | "GRVL" | "TURF" | "GVL" | "GRASS" | "GRAVEL" | "ASPH" | "TURF-G" | "TURF-F" | "MATS" | "CONC" | "CON" | "TURF-P" | "CONC-G" | "GRAVEL-F" | "ASPH-TRTD" | "TURF-GRVL" | "WATER" | "ASPH-TURF" | "DIRT" | "GRVL-DIRT" | "DIRT-P" | "DIRT-TURF-G" | "PSP" | "CONC-TURF" | "DIRT-G" | "GRS" | "TURF-DIRT" | "ASP" | "DIRT-F" | "GRVL-G" | "ASPH-CONC-G" | "ASPH-P" | "WATER-E" | "CONC-E" | "TURF-GRVL-F" | "ROOF-TOP" | "DECK" | "ASPH-F" | "ASPH-E" | "CONCRETE/TURF" | "GRVL-F" | "ASPH-DIRT" | "ASPH-TRTD-P" | "TREATED" | "SAND" | "WOOD" | "ALUM" | "ASPH-TURF-P" | "GRAVEL-G" | "TRTD" | "BRICK";
         };
         Frequency: {
             /** @description The name of the frequency. */
@@ -591,6 +628,83 @@ export interface components {
             airlines: components["schemas"]["Airline"][];
             airports: components["schemas"]["Airport"][];
         };
+        Notam: {
+            /** @description Unique identifier for the NOTAM. */
+            notamId: string;
+            /** @description The message of the NOTAM. */
+            message: string;
+            /**
+             * Format: double
+             * @description The transaction ID of the NOTAM.
+             */
+            transactionId: number;
+            /** @description The ICAO code of the location the NOTAM is related to. */
+            icao?: string;
+            /** Format: date-time */
+            issueDate?: string;
+            /** Format: date-time */
+            startDate?: string;
+            /** Format: date-time */
+            endDate?: string;
+            source?: string;
+            sourceType?: string;
+            /** @description Indicates if the NOTAM is a SNOWTAM. */
+            isSnowtam?: boolean;
+            /** @description Indicates if the NOTAM is a procedure. */
+            isProcedure?: boolean;
+            mapPointer?: string;
+            geometry?: string;
+        };
+        QueryParameters: {
+            /** @description filter to apply to the query
+             *
+             *     Example: `{ "icao": "KJFK" }`
+             *
+             *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
+            filter?: string;
+            /**
+             * Format: double
+             * @description Number of items to return
+             * @default 50
+             * @example 50
+             */
+            limit: number;
+            /**
+             * Format: double
+             * @description Page number
+             * @default 1
+             * @example 1
+             */
+            page: number;
+        };
+        /** @description Make all properties in T optional */
+        Partial_Notam_: {
+            /** @description Unique identifier for the NOTAM. */
+            notamId?: string;
+            /** @description The message of the NOTAM. */
+            message?: string;
+            /**
+             * Format: double
+             * @description The transaction ID of the NOTAM.
+             */
+            transactionId?: number;
+            /** @description The ICAO code of the location the NOTAM is related to. */
+            icao?: string;
+            /** Format: date-time */
+            issueDate?: string;
+            /** Format: date-time */
+            startDate?: string;
+            /** Format: date-time */
+            endDate?: string;
+            source?: string;
+            sourceType?: string;
+            /** @description Indicates if the NOTAM is a SNOWTAM. */
+            isSnowtam?: boolean;
+            /** @description Indicates if the NOTAM is a procedure. */
+            isProcedure?: boolean;
+            mapPointer?: string;
+            geometry?: string;
+        };
         /** @description Make all properties in T optional */
         Partial_CityCode_: {
             code?: string;
@@ -636,28 +750,6 @@ export interface components {
             /** Format: date-time */
             expires: string;
             scopes: components["schemas"]["ApiKeyScope"][];
-        };
-        QueryParameters: {
-            /** @description filter to apply to the query
-             *
-             *     Example: `{ "icao": "KJFK" }`
-             *
-             *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-            filter?: string;
-            /**
-             * Format: double
-             * @description Number of items to return
-             * @default 50
-             * @example 50
-             */
-            limit: number;
-            /**
-             * Format: double
-             * @description Page number
-             * @default 1
-             * @example 1
-             */
-            page: number;
         };
         /** @description Make all properties in T optional */
         Partial_Airport_: {
@@ -877,6 +969,138 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SearchResult"];
+                };
+            };
+        };
+    };
+    GetNotam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                notamId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"];
+                };
+            };
+        };
+    };
+    DeleteNotam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description code of the notam */
+                notamId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"];
+                };
+            };
+        };
+    };
+    UpdateNotam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                notamId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Partial_Notam_"];
+            };
+        };
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"];
+                };
+            };
+        };
+    };
+    GetNotams: {
+        parameters: {
+            query?: {
+                /** @description filter to apply to the query
+                 *
+                 *     Example: `{ "icao": "KJFK" }`
+                 *
+                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
+                filter?: string;
+                /**
+                 * @description Number of items to return
+                 * @example 50
+                 */
+                limit?: number;
+                /**
+                 * @description Page number
+                 * @example 1
+                 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"][];
+                };
+            };
+        };
+    };
+    CreateNotam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Notam"];
+            };
+        };
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"];
                 };
             };
         };

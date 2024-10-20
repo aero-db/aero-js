@@ -83,35 +83,64 @@
           "surface": {
             "type": "string",
             "enum": [
-              "ASP",
-              "BIT",
-              "BRI",
-              "CLA",
-              "COM",
-              "CON",
-              "COP",
-              "COR",
-              "GRE",
-              "GRS",
+              "ASPH-G",
+              "GRVL",
+              "TURF",
               "GVL",
-              "ICE",
-              "LAT",
-              "MAC",
-              "PEM",
-              "PER",
+              "GRASS",
+              "GRAVEL",
+              "ASPH",
+              "TURF-G",
+              "TURF-F",
+              "MATS",
+              "CONC",
+              "CON",
+              "TURF-P",
+              "CONC-G",
+              "GRAVEL-F",
+              "ASPH-TRTD",
+              "TURF-GRVL",
+              "WATER",
+              "ASPH-TURF",
+              "DIRT",
+              "GRVL-DIRT",
+              "DIRT-P",
+              "DIRT-TURF-G",
               "PSP",
-              "SAN",
-              "SMT",
-              "SNO",
-              "U",
-              "WAT"
+              "CONC-TURF",
+              "DIRT-G",
+              "GRS",
+              "TURF-DIRT",
+              "ASP",
+              "DIRT-F",
+              "GRVL-G",
+              "ASPH-CONC-G",
+              "ASPH-P",
+              "WATER-E",
+              "CONC-E",
+              "TURF-GRVL-F",
+              "ROOF-TOP",
+              "DECK",
+              "ASPH-F",
+              "ASPH-E",
+              "CONCRETE/TURF",
+              "GRVL-F",
+              "ASPH-DIRT",
+              "ASPH-TRTD-P",
+              "TREATED",
+              "SAND",
+              "WOOD",
+              "ALUM",
+              "ASPH-TURF-P",
+              "GRAVEL-G",
+              "TRTD",
+              "BRICK"
             ],
             "description": "The surface of the runway."
           }
         },
         "required": [
-          "name",
-          "surface"
+          "name"
         ],
         "type": "object",
         "additionalProperties": false
@@ -484,6 +513,146 @@
         ],
         "type": "object"
       },
+      "Notam": {
+        "properties": {
+          "notamId": {
+            "type": "string",
+            "description": "Unique identifier for the NOTAM."
+          },
+          "message": {
+            "type": "string",
+            "description": "The message of the NOTAM."
+          },
+          "transactionId": {
+            "type": "number",
+            "format": "double",
+            "description": "The transaction ID of the NOTAM."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The ICAO code of the location the NOTAM is related to."
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "type": "string"
+          },
+          "sourceType": {
+            "type": "string"
+          },
+          "isSnowtam": {
+            "type": "boolean",
+            "description": "Indicates if the NOTAM is a SNOWTAM."
+          },
+          "isProcedure": {
+            "type": "boolean",
+            "description": "Indicates if the NOTAM is a procedure."
+          },
+          "mapPointer": {
+            "type": "string"
+          },
+          "geometry": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "notamId",
+          "message",
+          "transactionId"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "QueryParameters": {
+        "properties": {
+          "filter": {
+            "type": "string",
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
+          },
+          "limit": {
+            "type": "number",
+            "format": "double",
+            "description": "Number of items to return",
+            "example": 50,
+            "default": 50,
+            "maximum": 300
+          },
+          "page": {
+            "type": "number",
+            "format": "double",
+            "description": "Page number",
+            "example": 1,
+            "default": 1
+          }
+        },
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Partial_Notam_": {
+        "properties": {
+          "notamId": {
+            "type": "string",
+            "description": "Unique identifier for the NOTAM."
+          },
+          "message": {
+            "type": "string",
+            "description": "The message of the NOTAM."
+          },
+          "transactionId": {
+            "type": "number",
+            "format": "double",
+            "description": "The transaction ID of the NOTAM."
+          },
+          "icao": {
+            "type": "string",
+            "description": "The ICAO code of the location the NOTAM is related to."
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "type": "string"
+          },
+          "sourceType": {
+            "type": "string"
+          },
+          "isSnowtam": {
+            "type": "boolean",
+            "description": "Indicates if the NOTAM is a SNOWTAM."
+          },
+          "isProcedure": {
+            "type": "boolean",
+            "description": "Indicates if the NOTAM is a procedure."
+          },
+          "mapPointer": {
+            "type": "string"
+          },
+          "geometry": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "description": "Make all properties in T optional"
+      },
       "Partial_CityCode_": {
         "properties": {
           "code": {
@@ -632,31 +801,6 @@
           "expires",
           "scopes"
         ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "QueryParameters": {
-        "properties": {
-          "filter": {
-            "type": "string",
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
-          },
-          "limit": {
-            "type": "number",
-            "format": "double",
-            "description": "Number of items to return",
-            "example": 50,
-            "default": 50,
-            "maximum": 300
-          },
-          "page": {
-            "type": "number",
-            "format": "double",
-            "description": "Page number",
-            "example": 1,
-            "default": 1
-          }
-        },
         "type": "object",
         "additionalProperties": false
       },
@@ -1045,6 +1189,222 @@
             }
           }
         ]
+      }
+    },
+    "/notams/{notamId}": {
+      "get": {
+        "operationId": "GetNotam",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notam"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get one notam by its ICAO code",
+        "tags": [
+          "Notams"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "notamId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateNotam",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notam"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update an notam",
+        "tags": [
+          "Admin",
+          "Notams"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "notamId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Partial_Notam_"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteNotam",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notam"
+                }
+              }
+            }
+          }
+        },
+        "description": "Delete an notam",
+        "tags": [
+          "Admin",
+          "Notams"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "description": "code of the notam",
+            "in": "path",
+            "name": "notamId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/notams": {
+      "get": {
+        "operationId": "GetNotams",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Notam"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all notams",
+        "tags": [
+          "Notams"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number",
+              "maximum": 300
+            },
+            "example": 50
+          },
+          {
+            "description": "Page number",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 1
+          }
+        ]
+      },
+      "post": {
+        "operationId": "CreateNotam",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notam"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new notam",
+        "tags": [
+          "Admin",
+          "Notams"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notam"
+              }
+            }
+          }
+        }
       }
     },
     "/cityCodes/{code}": {

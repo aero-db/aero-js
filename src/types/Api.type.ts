@@ -19,7 +19,7 @@ export type APIQueryParameters<T extends ApiResource> = {
   /**
    * Sort the results
    */
-  sort?: Partial<Record<keyof T, mongoose.SortValues>>;
+  sort?: Partial<Record<keyof T, 1 | -1>>;
   /**
    * Filter the results
    */
