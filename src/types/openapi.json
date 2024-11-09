@@ -68,17 +68,22 @@
           "length": {
             "type": "number",
             "format": "double",
-            "description": "The length of the runway in meters."
+            "description": "The length of the runway in feets."
           },
           "width": {
             "type": "number",
             "format": "double",
-            "description": "The width of the runway in meters."
+            "description": "The width of the runway in feets."
           },
           "heading": {
             "type": "number",
             "format": "double",
             "description": "The heading of the runway in degrees."
+          },
+          "displacedThreshold": {
+            "type": "number",
+            "format": "double",
+            "description": "The displaced threshold of the runway in feets."
           },
           "surface": {
             "type": "string",
@@ -137,6 +142,37 @@
               "BRICK"
             ],
             "description": "The surface of the runway."
+          },
+          "coordinates": {
+            "properties": {
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "longitude",
+              "latitude"
+            ],
+            "type": "object",
+            "description": "The coordinates of the runway."
+          },
+          "elevation": {
+            "type": "number",
+            "format": "double",
+            "description": "The elevation of the runway in feets."
+          },
+          "isClosed": {
+            "type": "boolean",
+            "description": "True if the runway is closed."
+          },
+          "isLighted": {
+            "type": "boolean",
+            "description": "True if the runway is lighted."
           }
         },
         "required": [
@@ -147,6 +183,10 @@
       },
       "Frequency": {
         "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of frequency."
+          },
           "name": {
             "type": "string",
             "description": "The name of the frequency."
@@ -158,6 +198,7 @@
           }
         },
         "required": [
+          "type",
           "name",
           "frequency"
         ],
