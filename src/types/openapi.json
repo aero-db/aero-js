@@ -59,6 +59,52 @@
         "type": "object",
         "additionalProperties": false
       },
+      "RunwayEnd": {
+        "properties": {
+          "ident": {
+            "type": "string",
+            "description": "The name of the runway end."
+          },
+          "elevation": {
+            "type": "number",
+            "format": "double",
+            "description": "The elevation of the runway end in feets."
+          },
+          "heading": {
+            "type": "number",
+            "format": "double",
+            "description": "The heading of the runway end in degrees."
+          },
+          "displacedThreshold": {
+            "type": "number",
+            "format": "double",
+            "description": "The displaced threshold of the runway end in feets."
+          },
+          "coordinates": {
+            "properties": {
+              "longitude": {
+                "type": "number",
+                "format": "double"
+              },
+              "latitude": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "required": [
+              "longitude",
+              "latitude"
+            ],
+            "type": "object",
+            "description": "The coordinates of the runway end."
+          }
+        },
+        "required": [
+          "ident"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
       "Runway": {
         "properties": {
           "name": {
@@ -75,15 +121,11 @@
             "format": "double",
             "description": "The width of the runway in feets."
           },
-          "heading": {
-            "type": "number",
-            "format": "double",
-            "description": "The heading of the runway in degrees."
+          "lowEnd": {
+            "$ref": "#/components/schemas/RunwayEnd"
           },
-          "displacedThreshold": {
-            "type": "number",
-            "format": "double",
-            "description": "The displaced threshold of the runway in feets."
+          "highEnd": {
+            "$ref": "#/components/schemas/RunwayEnd"
           },
           "surface": {
             "type": "string",
@@ -142,29 +184,6 @@
               "BRICK"
             ],
             "description": "The surface of the runway."
-          },
-          "coordinates": {
-            "properties": {
-              "longitude": {
-                "type": "number",
-                "format": "double"
-              },
-              "latitude": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "longitude",
-              "latitude"
-            ],
-            "type": "object",
-            "description": "The coordinates of the runway."
-          },
-          "elevation": {
-            "type": "number",
-            "format": "double",
-            "description": "The elevation of the runway in feets."
           },
           "isClosed": {
             "type": "boolean",

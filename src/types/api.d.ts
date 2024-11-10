@@ -413,6 +413,32 @@ export interface components {
             disabled: boolean;
             permissions: ("ADMIN" | "USER")[];
         };
+        RunwayEnd: {
+            /** @description The name of the runway end. */
+            ident: string;
+            /**
+             * Format: double
+             * @description The elevation of the runway end in feets.
+             */
+            elevation?: number;
+            /**
+             * Format: double
+             * @description The heading of the runway end in degrees.
+             */
+            heading?: number;
+            /**
+             * Format: double
+             * @description The displaced threshold of the runway end in feets.
+             */
+            displacedThreshold?: number;
+            /** @description The coordinates of the runway end. */
+            coordinates?: {
+                /** Format: double */
+                longitude: number;
+                /** Format: double */
+                latitude: number;
+            };
+        };
         Runway: {
             /** @description The name of the runway. */
             name: string;
@@ -426,33 +452,13 @@ export interface components {
              * @description The width of the runway in feets.
              */
             width?: number;
-            /**
-             * Format: double
-             * @description The heading of the runway in degrees.
-             */
-            heading?: number;
-            /**
-             * Format: double
-             * @description The displaced threshold of the runway in feets.
-             */
-            displacedThreshold?: number;
+            lowEnd?: components["schemas"]["RunwayEnd"];
+            highEnd?: components["schemas"]["RunwayEnd"];
             /**
              * @description The surface of the runway.
              * @enum {string}
              */
             surface?: "ASPH-G" | "GRVL" | "TURF" | "GVL" | "GRASS" | "GRAVEL" | "ASPH" | "TURF-G" | "TURF-F" | "MATS" | "CONC" | "CON" | "TURF-P" | "CONC-G" | "GRAVEL-F" | "ASPH-TRTD" | "TURF-GRVL" | "WATER" | "ASPH-TURF" | "DIRT" | "GRVL-DIRT" | "DIRT-P" | "DIRT-TURF-G" | "PSP" | "CONC-TURF" | "DIRT-G" | "GRS" | "TURF-DIRT" | "ASP" | "DIRT-F" | "GRVL-G" | "ASPH-CONC-G" | "ASPH-P" | "WATER-E" | "CONC-E" | "TURF-GRVL-F" | "ROOF-TOP" | "DECK" | "ASPH-F" | "ASPH-E" | "CONCRETE/TURF" | "GRVL-F" | "ASPH-DIRT" | "ASPH-TRTD-P" | "TREATED" | "SAND" | "WOOD" | "ALUM" | "ASPH-TURF-P" | "GRAVEL-G" | "TRTD" | "BRICK";
-            /** @description The coordinates of the runway. */
-            coordinates?: {
-                /** Format: double */
-                longitude: number;
-                /** Format: double */
-                latitude: number;
-            };
-            /**
-             * Format: double
-             * @description The elevation of the runway in feets.
-             */
-            elevation?: number;
             /** @description True if the runway is closed. */
             isClosed?: boolean;
             /** @description True if the runway is lighted. */
