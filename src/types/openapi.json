@@ -315,11 +315,25 @@
           "_internal": {
             "$ref": "#/components/schemas/AirportInternal",
             "description": "Internal properties"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "smallAirport",
+              "mediumAirport",
+              "largeAirport",
+              "heliport",
+              "seaplaneBase",
+              "baloonPort",
+              "closed"
+            ],
+            "description": "The type of airport."
           }
         },
         "required": [
           "name",
-          "icao"
+          "icao",
+          "type"
         ],
         "type": "object",
         "additionalProperties": false,
@@ -942,6 +956,19 @@
           "_internal": {
             "$ref": "#/components/schemas/AirportInternal",
             "description": "Internal properties"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "smallAirport",
+              "mediumAirport",
+              "largeAirport",
+              "heliport",
+              "seaplaneBase",
+              "baloonPort",
+              "closed"
+            ],
+            "description": "The type of airport."
           }
         },
         "type": "object",

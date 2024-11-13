@@ -560,6 +560,11 @@ export interface components {
             frequencies?: components["schemas"]["Frequency"][];
             /** @description Internal properties */
             _internal?: components["schemas"]["AirportInternal"];
+            /**
+             * @description The type of airport.
+             * @enum {string}
+             */
+            type: "smallAirport" | "mediumAirport" | "largeAirport" | "heliport" | "seaplaneBase" | "baloonPort" | "closed";
         };
         Airline: {
             /** @description The name of the airline. */
@@ -826,6 +831,11 @@ export interface components {
             frequencies?: components["schemas"]["Frequency"][];
             /** @description Internal properties */
             _internal?: components["schemas"]["AirportInternal"];
+            /**
+             * @description The type of airport.
+             * @enum {string}
+             */
+            type?: "smallAirport" | "mediumAirport" | "largeAirport" | "heliport" | "seaplaneBase" | "baloonPort" | "closed";
         };
         /** @description Make all properties in T optional */
         Partial_Airline_: {
