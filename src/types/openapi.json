@@ -599,7 +599,11 @@
         "properties": {
           "notamId": {
             "type": "string",
-            "description": "Unique identifier for the NOTAM."
+            "description": "Unique identifier for the NOTAM.\n\nIt is expected to be the same as the NOTAM number but with slashes replaced by dashes.\n\nExample: A0611/24 -> A0611-24"
+          },
+          "notamNumber": {
+            "type": "string",
+            "description": "The NOTAM number."
           },
           "message": {
             "type": "string",
@@ -645,16 +649,13 @@
           },
           "geometry": {
             "type": "string"
-          },
-          "internalId": {
-            "type": "string"
           }
         },
         "required": [
           "notamId",
+          "notamNumber",
           "message",
-          "transactionId",
-          "internalId"
+          "transactionId"
         ],
         "type": "object",
         "additionalProperties": false
@@ -692,7 +693,11 @@
         "properties": {
           "notamId": {
             "type": "string",
-            "description": "Unique identifier for the NOTAM."
+            "description": "Unique identifier for the NOTAM.\n\nIt is expected to be the same as the NOTAM number but with slashes replaced by dashes.\n\nExample: A0611/24 -> A0611-24"
+          },
+          "notamNumber": {
+            "type": "string",
+            "description": "The NOTAM number."
           },
           "message": {
             "type": "string",
@@ -737,9 +742,6 @@
             "type": "string"
           },
           "geometry": {
-            "type": "string"
-          },
-          "internalId": {
             "type": "string"
           }
         },

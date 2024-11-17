@@ -580,8 +580,14 @@ export interface components {
             airports: components["schemas"]["Airport"][];
         };
         Notam: {
-            /** @description Unique identifier for the NOTAM. */
+            /** @description Unique identifier for the NOTAM.
+             *
+             *     It is expected to be the same as the NOTAM number but with slashes replaced by dashes.
+             *
+             *     Example: A0611/24 -> A0611-24 */
             notamId: string;
+            /** @description The NOTAM number. */
+            notamNumber: string;
             /** @description The message of the NOTAM. */
             message: string;
             /**
@@ -605,7 +611,6 @@ export interface components {
             isProcedure?: boolean;
             mapPointer?: string;
             geometry?: string;
-            internalId: string;
         };
         QueryParameters: {
             /** @description filter to apply to the query
@@ -637,8 +642,14 @@ export interface components {
         };
         /** @description Make all properties in T optional */
         Partial_Notam_: {
-            /** @description Unique identifier for the NOTAM. */
+            /** @description Unique identifier for the NOTAM.
+             *
+             *     It is expected to be the same as the NOTAM number but with slashes replaced by dashes.
+             *
+             *     Example: A0611/24 -> A0611-24 */
             notamId?: string;
+            /** @description The NOTAM number. */
+            notamNumber?: string;
             /** @description The message of the NOTAM. */
             message?: string;
             /**
@@ -662,7 +673,6 @@ export interface components {
             isProcedure?: boolean;
             mapPointer?: string;
             geometry?: string;
-            internalId?: string;
         };
         /** @description Make all properties in T optional */
         Partial_CityCode_: {
