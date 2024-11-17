@@ -243,15 +243,23 @@
       "Airport": {
         "description": "Represents an airport.",
         "properties": {
+          "airportId": {
+            "type": "string",
+            "description": "Unique internal identifier of the airport."
+          },
           "name": {
             "type": "string",
             "description": "The name of the airport."
           },
-          "icao": {
+          "localCode": {
+            "type": "string",
+            "description": "A code used to identify the airport locally."
+          },
+          "icaoCode": {
             "type": "string",
             "description": "The International Civil Aviation Organization (ICAO) code of the airport."
           },
-          "iata": {
+          "iataCode": {
             "type": "string",
             "description": "The International Air Transport Association (IATA) code of the airport."
           },
@@ -331,8 +339,8 @@
           }
         },
         "required": [
+          "airportId",
           "name",
-          "icao",
           "type"
         ],
         "type": "object",
@@ -637,12 +645,16 @@
           },
           "geometry": {
             "type": "string"
+          },
+          "internalId": {
+            "type": "string"
           }
         },
         "required": [
           "notamId",
           "message",
-          "transactionId"
+          "transactionId",
+          "internalId"
         ],
         "type": "object",
         "additionalProperties": false
@@ -725,6 +737,9 @@
             "type": "string"
           },
           "geometry": {
+            "type": "string"
+          },
+          "internalId": {
             "type": "string"
           }
         },
@@ -884,15 +899,23 @@
       },
       "Partial_Airport_": {
         "properties": {
+          "airportId": {
+            "type": "string",
+            "description": "Unique internal identifier of the airport."
+          },
           "name": {
             "type": "string",
             "description": "The name of the airport."
           },
-          "icao": {
+          "localCode": {
+            "type": "string",
+            "description": "A code used to identify the airport locally."
+          },
+          "icaoCode": {
             "type": "string",
             "description": "The International Civil Aviation Organization (ICAO) code of the airport."
           },
-          "iata": {
+          "iataCode": {
             "type": "string",
             "description": "The International Air Transport Association (IATA) code of the airport."
           },
@@ -1131,123 +1154,6 @@
             }
           }
         ]
-      },
-      "delete": {
-        "operationId": "DeleteUser",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        },
-        "description": "Delete a user",
-        "tags": [
-          "Admin",
-          "Users"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "UpdateUser",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        },
-        "description": "Update a user",
-        "tags": [
-          "Admin",
-          "Users"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users": {
-      "get": {
-        "operationId": "GetUsers",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get all users",
-        "tags": [
-          "Admin",
-          "Users"
-        ],
-        "security": [
-          {
-            "bearerToken": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": []
       }
     },
     "/search": {
@@ -1304,91 +1210,6 @@
         "security": [],
         "parameters": [
           {
-            "in": "path",
-            "name": "notamId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "UpdateNotam",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Notam"
-                }
-              }
-            }
-          }
-        },
-        "description": "Update an notam",
-        "tags": [
-          "Admin",
-          "Notams"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "notamId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Partial_Notam_"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "operationId": "DeleteNotam",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Notam"
-                }
-              }
-            }
-          }
-        },
-        "description": "Delete an notam",
-        "tags": [
-          "Admin",
-          "Notams"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "description": "code of the notam",
             "in": "path",
             "name": "notamId",
             "required": true,
@@ -1467,44 +1288,6 @@
             "example": 1
           }
         ]
-      },
-      "post": {
-        "operationId": "CreateNotam",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Notam"
-                }
-              }
-            }
-          }
-        },
-        "description": "Create a new notam",
-        "tags": [
-          "Admin",
-          "Notams"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Notam"
-              }
-            }
-          }
-        }
       }
     },
     "/cityCodes/{code}": {
@@ -1530,90 +1313,6 @@
           {
             "apiKey": [
               "public"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "UpdateCityCode",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CityCode"
-                }
-              }
-            }
-          }
-        },
-        "description": "Update a city code",
-        "tags": [
-          "Admin",
-          "City Codes"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Partial_CityCode_"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "operationId": "DeleteCityCode",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CityCode"
-                }
-              }
-            }
-          }
-        },
-        "description": "Delete a city code",
-        "tags": [
-          "Admin",
-          "City Codes"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
             ]
           }
         ],
@@ -1659,42 +1358,6 @@
           }
         ],
         "parameters": []
-      },
-      "post": {
-        "operationId": "CreateCityCode",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        },
-        "description": "Create a new city code",
-        "tags": [
-          "Admin",
-          "City Codes"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CityCode"
-              }
-            }
-          }
-        }
       }
     },
     "/signup": {
@@ -1714,7 +1377,7 @@
         },
         "description": "Create a new account",
         "tags": [
-          "Auth"
+          "Authentication"
         ],
         "security": [],
         "parameters": [],
@@ -1773,7 +1436,7 @@
         },
         "description": "Authenticate using email and password",
         "tags": [
-          "Auth"
+          "Authentication"
         ],
         "security": [],
         "parameters": [],
@@ -1806,7 +1469,7 @@
         },
         "description": "Refresh a token",
         "tags": [
-          "Auth"
+          "Authentication"
         ],
         "security": [],
         "parameters": [],
@@ -1855,7 +1518,7 @@
         },
         "description": "Get informations about the current session",
         "tags": [
-          "Auth"
+          "Authentication"
         ],
         "security": [
           {
@@ -1946,40 +1609,7 @@
         ]
       }
     },
-    "/apiKeys": {
-      "get": {
-        "operationId": "GetApiKeys",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ApiKey"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get all api keys",
-        "tags": [
-          "Admin",
-          "API Keys"
-        ],
-        "security": [
-          {
-            "jwt": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": []
-      }
-    },
-    "/airports/{icao}": {
+    "/airports/{airportId}": {
       "get": {
         "operationId": "GetAirport",
         "responses": {
@@ -1994,140 +1624,16 @@
             }
           }
         },
-        "description": "Get one airport by its ICAO code",
+        "description": "Get one airport",
         "tags": [
           "Airports"
         ],
         "security": [],
         "parameters": [
           {
-            "description": "code of the airport",
+            "description": "Unique identifier of the airport",
             "in": "path",
-            "name": "icao",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "UpdateAirport",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airport"
-                }
-              }
-            }
-          }
-        },
-        "description": "Update an airport",
-        "tags": [
-          "Admin",
-          "Airports"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "icao",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Partial_Airport_"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "operationId": "DeleteAirport",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airport"
-                }
-              }
-            }
-          }
-        },
-        "description": "Delete an airport",
-        "tags": [
-          "Admin",
-          "Airports"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "icao",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/airports/{icao}/internal": {
-      "get": {
-        "operationId": "GetAirportInternalData",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AirportInternal"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get the internal data of one airport by its ICAO code",
-        "tags": [
-          "Admin",
-          "Airports"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "description": "code of the airport",
-            "in": "path",
-            "name": "icao",
+            "name": "airportId",
             "required": true,
             "schema": {
               "type": "string"
@@ -2204,44 +1710,6 @@
             "example": 1
           }
         ]
-      },
-      "post": {
-        "operationId": "CreateAirport",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airport"
-                }
-              }
-            }
-          }
-        },
-        "description": "Create a new airport",
-        "tags": [
-          "Admin",
-          "Airports"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Airport"
-              }
-            }
-          }
-        }
       }
     },
     "/airlines/{airlineId}": {
@@ -2267,90 +1735,6 @@
           {
             "apiKey": [
               "public"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "airlineId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "UpdateAirline",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airline"
-                }
-              }
-            }
-          }
-        },
-        "description": "Update an airline",
-        "tags": [
-          "Admin",
-          "Airlines"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "airlineId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Partial_Airline_"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "operationId": "DeleteAirline",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airline"
-                }
-              }
-            }
-          }
-        },
-        "description": "Delete an airline",
-        "tags": [
-          "Admin",
-          "Airlines"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
             ]
           }
         ],
@@ -2396,44 +1780,6 @@
           }
         ],
         "parameters": []
-      },
-      "post": {
-        "operationId": "CreateAirline",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airline"
-                }
-              }
-            }
-          }
-        },
-        "description": "Create a new airline",
-        "tags": [
-          "Admin",
-          "Airlines"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Airline"
-              }
-            }
-          }
-        }
       }
     },
     "/aircraftTypes/{icao}": {
@@ -2465,90 +1811,6 @@
         "parameters": [
           {
             "description": "code of the aircraft type",
-            "in": "path",
-            "name": "icao",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "UpdateAircraftType",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AircraftType"
-                }
-              }
-            }
-          }
-        },
-        "description": "Update an aircraft type",
-        "tags": [
-          "Admin",
-          "Aircraft Types"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "icao",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Partial_AircraftType_"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "operationId": "DeleteAircraftType",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AircraftType"
-                }
-              }
-            }
-          }
-        },
-        "description": "Delete an aircraft type",
-        "tags": [
-          "Admin",
-          "Aircraft Types"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
             "in": "path",
             "name": "icao",
             "required": true,
@@ -2589,83 +1851,6 @@
           }
         ],
         "parameters": []
-      },
-      "post": {
-        "operationId": "CreateAircraftType",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AircraftType"
-                }
-              }
-            }
-          }
-        },
-        "description": "Create a new aircraft type",
-        "tags": [
-          "Admin",
-          "Aircraft Types"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AircraftType"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/apiKeys/{userId}/generateAdmin": {
-      "delete": {
-        "operationId": "GenerateAdminApiKey",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiKey"
-                }
-              }
-            }
-          }
-        },
-        "description": "Generate an admin api key for the given user\n\n**Note** This will revoke the user's existing key",
-        "tags": [
-          "API Keys",
-          "Admin"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
       }
     }
   },

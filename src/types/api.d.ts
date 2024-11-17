@@ -15,25 +15,6 @@ export interface paths {
         get: operations["GetUser"];
         put?: never;
         post?: never;
-        /** @description Delete a user */
-        delete: operations["DeleteUser"];
-        options?: never;
-        head?: never;
-        /** @description Update a user */
-        patch: operations["UpdateUser"];
-        trace?: never;
-    };
-    "/users": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get all users */
-        get: operations["GetUsers"];
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -68,12 +49,10 @@ export interface paths {
         get: operations["GetNotam"];
         put?: never;
         post?: never;
-        /** @description Delete an notam */
-        delete: operations["DeleteNotam"];
+        delete?: never;
         options?: never;
         head?: never;
-        /** @description Update an notam */
-        patch: operations["UpdateNotam"];
+        patch?: never;
         trace?: never;
     };
     "/notams": {
@@ -86,8 +65,7 @@ export interface paths {
         /** @description Get all notams */
         get: operations["GetNotams"];
         put?: never;
-        /** @description Create a new notam */
-        post: operations["CreateNotam"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -105,12 +83,10 @@ export interface paths {
         get: operations["GetCityCode"];
         put?: never;
         post?: never;
-        /** @description Delete a city code */
-        delete: operations["DeleteCityCode"];
+        delete?: never;
         options?: never;
         head?: never;
-        /** @description Update a city code */
-        patch: operations["UpdateCityCode"];
+        patch?: never;
         trace?: never;
     };
     "/cityCodes": {
@@ -123,8 +99,7 @@ export interface paths {
         /** @description Get all city codes */
         get: operations["GetCityCodes"];
         put?: never;
-        /** @description Create a new city code */
-        post: operations["CreateCityCode"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -233,51 +208,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/apiKeys": {
+    "/airports/{airportId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Get all api keys */
-        get: operations["GetApiKeys"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/airports/{icao}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get one airport by its ICAO code */
+        /** @description Get one airport */
         get: operations["GetAirport"];
-        put?: never;
-        post?: never;
-        /** @description Delete an airport */
-        delete: operations["DeleteAirport"];
-        options?: never;
-        head?: never;
-        /** @description Update an airport */
-        patch: operations["UpdateAirport"];
-        trace?: never;
-    };
-    "/airports/{icao}/internal": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get the internal data of one airport by its ICAO code */
-        get: operations["GetAirportInternalData"];
         put?: never;
         post?: never;
         delete?: never;
@@ -296,8 +235,7 @@ export interface paths {
         /** @description Get all airports */
         get: operations["GetAirports"];
         put?: never;
-        /** @description Create a new airport */
-        post: operations["CreateAirport"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -315,12 +253,10 @@ export interface paths {
         get: operations["GetAirline"];
         put?: never;
         post?: never;
-        /** @description Delete an airline */
-        delete: operations["DeleteAirline"];
+        delete?: never;
         options?: never;
         head?: never;
-        /** @description Update an airline */
-        patch: operations["UpdateAirline"];
+        patch?: never;
         trace?: never;
     };
     "/airlines": {
@@ -333,8 +269,7 @@ export interface paths {
         /** @description Get all airlines */
         get: operations["GetAirlines"];
         put?: never;
-        /** @description Create a new airline */
-        post: operations["CreateAirline"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -352,12 +287,10 @@ export interface paths {
         get: operations["GetAircraftType"];
         put?: never;
         post?: never;
-        /** @description Delete an aircraft type */
-        delete: operations["DeleteAircraftType"];
+        delete?: never;
         options?: never;
         head?: never;
-        /** @description Update an aircraft type */
-        patch: operations["UpdateAircraftType"];
+        patch?: never;
         trace?: never;
     };
     "/aircraftTypes": {
@@ -370,28 +303,8 @@ export interface paths {
         /** @description Get all aircraft types */
         get: operations["GetAircraftTypes"];
         put?: never;
-        /** @description Create a new aircraft type */
-        post: operations["CreateAircraftType"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/apiKeys/{userId}/generateAdmin": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
         post?: never;
-        /** @description Generate an admin api key for the given user
-         *
-         *     **Note** This will revoke the user's existing key */
-        delete: operations["GenerateAdminApiKey"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -522,12 +435,16 @@ export interface components {
          *     }
          */
         Airport: {
+            /** @description Unique internal identifier of the airport. */
+            airportId: string;
             /** @description The name of the airport. */
             name: string;
+            /** @description A code used to identify the airport locally. */
+            localCode?: string;
             /** @description The International Civil Aviation Organization (ICAO) code of the airport. */
-            icao: string;
+            icaoCode?: string;
             /** @description The International Air Transport Association (IATA) code of the airport. */
-            iata?: string;
+            iataCode?: string;
             /** @description The coordinates of the airport. */
             coordinates?: {
                 /** Format: double */
@@ -688,6 +605,7 @@ export interface components {
             isProcedure?: boolean;
             mapPointer?: string;
             geometry?: string;
+            internalId: string;
         };
         QueryParameters: {
             /** @description filter to apply to the query
@@ -744,6 +662,7 @@ export interface components {
             isProcedure?: boolean;
             mapPointer?: string;
             geometry?: string;
+            internalId?: string;
         };
         /** @description Make all properties in T optional */
         Partial_CityCode_: {
@@ -793,12 +712,16 @@ export interface components {
         };
         /** @description Make all properties in T optional */
         Partial_Airport_: {
+            /** @description Unique internal identifier of the airport. */
+            airportId?: string;
             /** @description The name of the airport. */
             name?: string;
+            /** @description A code used to identify the airport locally. */
+            localCode?: string;
             /** @description The International Civil Aviation Organization (ICAO) code of the airport. */
-            icao?: string;
+            icaoCode?: string;
             /** @description The International Air Transport Association (IATA) code of the airport. */
-            iata?: string;
+            iataCode?: string;
             /** @description The coordinates of the airport. */
             coordinates?: {
                 /** Format: double */
@@ -928,74 +851,6 @@ export interface operations {
             };
         };
     };
-    DeleteUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["User"];
-                };
-            };
-        };
-    };
-    UpdateUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["User"];
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["User"];
-                };
-            };
-        };
-    };
-    GetUsers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["User"][];
-                };
-            };
-        };
-    };
     Search: {
         parameters: {
             query: {
@@ -1028,55 +883,6 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Notam"];
-                };
-            };
-        };
-    };
-    DeleteNotam: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description code of the notam */
-                notamId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Notam"];
-                };
-            };
-        };
-    };
-    UpdateNotam: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                notamId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Partial_Notam_"];
-            };
-        };
         responses: {
             /** @description Ok */
             200: {
@@ -1132,30 +938,6 @@ export interface operations {
             };
         };
     };
-    CreateNotam: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Notam"];
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Notam"];
-                };
-            };
-        };
-    };
     GetCityCode: {
         parameters: {
             query?: never;
@@ -1166,54 +948,6 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CityCode"];
-                };
-            };
-        };
-    };
-    DeleteCityCode: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                code: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CityCode"];
-                };
-            };
-        };
-    };
-    UpdateCityCode: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                code: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Partial_CityCode_"];
-            };
-        };
         responses: {
             /** @description Ok */
             200: {
@@ -1242,30 +976,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CityCode"][];
-                };
-            };
-        };
-    };
-    CreateCityCode: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CityCode"];
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
                 };
             };
         };
@@ -1418,33 +1128,13 @@ export interface operations {
             };
         };
     };
-    GetApiKeys: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiKey"][];
-                };
-            };
-        };
-    };
     GetAirport: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description code of the airport */
-                icao: string;
+                /** @description Unique identifier of the airport */
+                airportId: string;
             };
             cookie?: never;
         };
@@ -1457,77 +1147,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Airport"];
-                };
-            };
-        };
-    };
-    DeleteAirport: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                icao: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Airport"];
-                };
-            };
-        };
-    };
-    UpdateAirport: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                icao: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Partial_Airport_"];
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Airport"];
-                };
-            };
-        };
-    };
-    GetAirportInternalData: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description code of the airport */
-                icao: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AirportInternal"];
                 };
             };
         };
@@ -1575,30 +1194,6 @@ export interface operations {
             };
         };
     };
-    CreateAirport: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Airport"];
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Airport"];
-                };
-            };
-        };
-    };
     GetAirline: {
         parameters: {
             query?: never;
@@ -1609,54 +1204,6 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Airline"];
-                };
-            };
-        };
-    };
-    DeleteAirline: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                airlineId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Airline"];
-                };
-            };
-        };
-    };
-    UpdateAirline: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                airlineId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Partial_Airline_"];
-            };
-        };
         responses: {
             /** @description Ok */
             200: {
@@ -1689,30 +1236,6 @@ export interface operations {
             };
         };
     };
-    CreateAirline: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Airline"];
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Airline"];
-                };
-            };
-        };
-    };
     GetAircraftType: {
         parameters: {
             query?: never;
@@ -1724,54 +1247,6 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AircraftType"];
-                };
-            };
-        };
-    };
-    DeleteAircraftType: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                icao: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AircraftType"];
-                };
-            };
-        };
-    };
-    UpdateAircraftType: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                icao: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["Partial_AircraftType_"];
-            };
-        };
         responses: {
             /** @description Ok */
             200: {
@@ -1800,52 +1275,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AircraftType"][];
-                };
-            };
-        };
-    };
-    CreateAircraftType: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AircraftType"];
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AircraftType"];
-                };
-            };
-        };
-    };
-    GenerateAdminApiKey: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiKey"];
                 };
             };
         };
