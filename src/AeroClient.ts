@@ -61,13 +61,14 @@ export default class AeroClient {
       return await handleApiRequest<Airport>('GET', 'airports', parameters, this.apiInstance);
     },
     /**
-     * Get airport by ICAO code
+     * Get an airport using its id
      *
-     * @param icao ICAO code of the airport
+     * @param airportId Airport id
      */
-    get: async (icao: string) => {
-      return (await this.apiInstance.get<paths['/airports/{icao}']['get']['responses']['200']['content']['application/json']>(`airports/${icao}`))
-        .data;
+    get: async (airportId: string) => {
+      return (
+        await this.apiInstance.get<paths['/airports/{airportId}']['get']['responses']['200']['content']['application/json']>(`airports/${airportId}`)
+      ).data;
     },
   };
 
