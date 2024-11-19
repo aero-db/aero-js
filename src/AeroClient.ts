@@ -70,6 +70,19 @@ export default class AeroClient {
         await this.apiInstance.get<paths['/airports/{airportId}']['get']['responses']['200']['content']['application/json']>(`airports/${airportId}`)
       ).data;
     },
+
+    /**
+     * Get the latest METARs for an airport
+     * @param airportId Airport id
+     * @returns METAR data from the last 24 hours
+     */
+    metar: async (airportId: string) => {
+      return (
+        await this.apiInstance.get<paths['/airports/{airportId}/metar']['get']['responses']['200']['content']['application/json']>(
+          `airports/${airportId}/metar`
+        )
+      ).data;
+    },
   };
 
   airline = {
