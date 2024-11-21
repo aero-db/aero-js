@@ -170,6 +170,26 @@
         "type": "object",
         "additionalProperties": false
       },
+      "AirportUrl": {
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "website",
+              "wikipedia"
+            ]
+          }
+        },
+        "required": [
+          "url",
+          "type"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
       "AirportInternal": {
         "properties": {
           "fsx_runways": {
@@ -205,6 +225,10 @@
             "type": "string",
             "description": "The International Civil Aviation Organization (ICAO) code of the airport."
           },
+          "gpsCode": {
+            "type": "string",
+            "description": "The Global Positioning System (GPS) code of the airport."
+          },
           "iataCode": {
             "type": "string",
             "description": "The International Air Transport Association (IATA) code of the airport."
@@ -238,21 +262,26 @@
             "example": "US"
           },
           "city": {
-            "type": "string"
+            "type": "string",
+            "description": "The city where the airport is located."
           },
           "state": {
-            "type": "string"
+            "type": "string",
+            "description": "The state where the airport is located."
           },
           "county": {
-            "type": "string"
+            "type": "string",
+            "description": "The county where the airport is located."
+          },
+          "continent": {
+            "type": "string",
+            "description": "The continent where the airport is located (2 letters code).",
+            "example": "EU"
           },
           "timezone": {
             "type": "string",
             "description": "The timezone of the airport in the TZ database format.",
             "example": "America/New_York"
-          },
-          "websiteUrl": {
-            "type": "string"
           },
           "runways": {
             "items": {
@@ -265,6 +294,13 @@
               "$ref": "#/components/schemas/Frequency"
             },
             "type": "array"
+          },
+          "urls": {
+            "items": {
+              "$ref": "#/components/schemas/AirportUrl"
+            },
+            "type": "array",
+            "description": "Various URLs related to the airport."
           },
           "_internal": {
             "$ref": "#/components/schemas/AirportInternal",
@@ -305,7 +341,6 @@
           "state": "New York",
           "county": "Queens",
           "timezone": "America/New_York",
-          "websiteUrl": "https://www.jfkairport.com/",
           "runways": [
             {
               "name": "Runway 1",
@@ -694,6 +729,92 @@
         "type": "object",
         "description": "Make all properties in T optional"
       },
+      "SubDivision": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "code"
+        ],
+        "type": "object"
+      },
+      "Country": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "alpha2": {
+            "type": "string"
+          },
+          "alpha3": {
+            "type": "string"
+          },
+          "isoId": {
+            "type": "number",
+            "format": "double"
+          },
+          "subdivisions": {
+            "items": {
+              "$ref": "#/components/schemas/SubDivision"
+            },
+            "type": "array"
+          },
+          "continent": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "alpha2",
+          "alpha3",
+          "isoId",
+          "subdivisions",
+          "continent",
+          "timezone"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Partial_Country_": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "alpha2": {
+            "type": "string"
+          },
+          "alpha3": {
+            "type": "string"
+          },
+          "isoId": {
+            "type": "number",
+            "format": "double"
+          },
+          "subdivisions": {
+            "items": {
+              "$ref": "#/components/schemas/SubDivision"
+            },
+            "type": "array"
+          },
+          "continent": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "description": "Make all properties in T optional"
+      },
       "Partial_CityCode_": {
         "properties": {
           "code": {
@@ -919,6 +1040,10 @@
             "type": "string",
             "description": "The International Civil Aviation Organization (ICAO) code of the airport."
           },
+          "gpsCode": {
+            "type": "string",
+            "description": "The Global Positioning System (GPS) code of the airport."
+          },
           "iataCode": {
             "type": "string",
             "description": "The International Air Transport Association (IATA) code of the airport."
@@ -952,21 +1077,26 @@
             "example": "US"
           },
           "city": {
-            "type": "string"
+            "type": "string",
+            "description": "The city where the airport is located."
           },
           "state": {
-            "type": "string"
+            "type": "string",
+            "description": "The state where the airport is located."
           },
           "county": {
-            "type": "string"
+            "type": "string",
+            "description": "The county where the airport is located."
+          },
+          "continent": {
+            "type": "string",
+            "description": "The continent where the airport is located (2 letters code).",
+            "example": "EU"
           },
           "timezone": {
             "type": "string",
             "description": "The timezone of the airport in the TZ database format.",
             "example": "America/New_York"
-          },
-          "websiteUrl": {
-            "type": "string"
           },
           "runways": {
             "items": {
@@ -979,6 +1109,13 @@
               "$ref": "#/components/schemas/Frequency"
             },
             "type": "array"
+          },
+          "urls": {
+            "items": {
+              "$ref": "#/components/schemas/AirportUrl"
+            },
+            "type": "array",
+            "description": "Various URLs related to the airport."
           },
           "_internal": {
             "$ref": "#/components/schemas/AirportInternal",
@@ -1245,6 +1382,108 @@
         "description": "Get all notams",
         "tags": [
           "Notams"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number",
+              "maximum": 300
+            },
+            "example": 50
+          },
+          {
+            "description": "Page number",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 1
+          }
+        ]
+      }
+    },
+    "/countries/{countryCode}": {
+      "get": {
+        "operationId": "GetCountry",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Country"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get one country by its ICAO code",
+        "tags": [
+          "Countries"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "countryCode",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/countries": {
+      "get": {
+        "operationId": "GetCountries",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Country"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all countries",
+        "tags": [
+          "Countries"
         ],
         "security": [],
         "parameters": [

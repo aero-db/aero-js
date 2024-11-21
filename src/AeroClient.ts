@@ -6,6 +6,7 @@ import { components, paths } from './types/api';
 import { APIQueryParameters } from './types/Api.type';
 import { Airline, Airport, Notam } from '.';
 import { handleApiRequest } from './controllers/api.controller';
+import { get } from 'axios/index.cjs';
 
 type ClientOptions = {
   apiKey: string;
@@ -104,13 +105,43 @@ export default class AeroClient {
     },
   };
 
+  /**
+   * NOTAMs (Notice to Airmen) are notices containing information concerning the establishment, condition or change in any aeronautical facility, service, procedure or hazard, the timely knowledge of which is essential to personnel concerned with flight operations.
+   */
   notam = {
+    /**
+     * List all NOTAMs
+     * @param parameters  Query parameters
+     * @returns List of NOTAMs
+     */
     list: async (parameters?: APIQueryParameters<Notam>): Promise<Notam[]> => {
       return await handleApiRequest<Notam>('GET', 'notams', parameters, this.apiInstance);
     },
     get: async (notamId: string) => {
       return (await this.apiInstance.get<paths['/notams/{notamId}']['get']['responses']['200']['content']['application/json']>(`notams/${notamId}`))
         .data;
+    },
+  };
+
+  countries = {
+    /**
+     * List all countries
+     * @returns List of countries
+     */
+    list: async () => {
+      return (await this.apiInstance.get<paths['/countries']['get']['responses']['200']['content']['application/json']>('countries')).data;
+    },
+    /**
+     * Get a country by its code
+     * @param countryCode Country code (ISO 3166-1 alpha-2)
+     * @returns Country data
+     */
+    get: async (countryCode: string) => {
+      return (
+        await this.apiInstance.get<paths['/countries/{countryCode}']['get']['responses']['200']['content']['application/json']>(
+          `countries/${countryCode}`
+        )
+      ).data;
     },
   };
 

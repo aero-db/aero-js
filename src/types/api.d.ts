@@ -72,6 +72,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/countries/{countryCode}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get one country by its ICAO code */
+        get: operations["GetCountry"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/countries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get all countries */
+        get: operations["GetCountries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/cityCodes/{code}": {
         parameters: {
             query?: never;
@@ -419,6 +453,11 @@ export interface components {
              */
             frequency: number;
         };
+        AirportUrl: {
+            url: string;
+            /** @enum {string} */
+            type: "website" | "wikipedia";
+        };
         /** @description Airport raw internal data provided by scrappers */
         AirportInternal: {
             fsx_runways: string;
@@ -440,7 +479,6 @@ export interface components {
          *       "state": "New York",
          *       "county": "Queens",
          *       "timezone": "America/New_York",
-         *       "websiteUrl": "https://www.jfkairport.com/",
          *       "runways": [
          *         {
          *           "name": "Runway 1",
@@ -474,6 +512,8 @@ export interface components {
             localCode?: string;
             /** @description The International Civil Aviation Organization (ICAO) code of the airport. */
             icaoCode?: string;
+            /** @description The Global Positioning System (GPS) code of the airport. */
+            gpsCode?: string;
             /** @description The International Air Transport Association (IATA) code of the airport. */
             iataCode?: string;
             /** @description The coordinates of the airport. */
@@ -495,17 +535,26 @@ export interface components {
              * @example US
              */
             countryCode?: string;
+            /** @description The city where the airport is located. */
             city?: string;
+            /** @description The state where the airport is located. */
             state?: string;
+            /** @description The county where the airport is located. */
             county?: string;
+            /**
+             * @description The continent where the airport is located (2 letters code).
+             * @example EU
+             */
+            continent?: string;
             /**
              * @description The timezone of the airport in the TZ database format.
              * @example America/New_York
              */
             timezone?: string;
-            websiteUrl?: string;
             runways?: components["schemas"]["Runway"][];
             frequencies?: components["schemas"]["Frequency"][];
+            /** @description Various URLs related to the airport. */
+            urls?: components["schemas"]["AirportUrl"][];
             /** @description Internal properties */
             _internal?: components["schemas"]["AirportInternal"];
             /**
@@ -705,6 +754,31 @@ export interface components {
             mapPointer?: string;
             geometry?: string;
         };
+        SubDivision: {
+            name: string;
+            code: string;
+        };
+        Country: {
+            name: string;
+            alpha2: string;
+            alpha3: string;
+            /** Format: double */
+            isoId: number;
+            subdivisions: components["schemas"]["SubDivision"][];
+            continent: string;
+            timezone: string;
+        };
+        /** @description Make all properties in T optional */
+        Partial_Country_: {
+            name?: string;
+            alpha2?: string;
+            alpha3?: string;
+            /** Format: double */
+            isoId?: number;
+            subdivisions?: components["schemas"]["SubDivision"][];
+            continent?: string;
+            timezone?: string;
+        };
         /** @description Make all properties in T optional */
         Partial_CityCode_: {
             code?: string;
@@ -799,6 +873,8 @@ export interface components {
             localCode?: string;
             /** @description The International Civil Aviation Organization (ICAO) code of the airport. */
             icaoCode?: string;
+            /** @description The Global Positioning System (GPS) code of the airport. */
+            gpsCode?: string;
             /** @description The International Air Transport Association (IATA) code of the airport. */
             iataCode?: string;
             /** @description The coordinates of the airport. */
@@ -820,17 +896,26 @@ export interface components {
              * @example US
              */
             countryCode?: string;
+            /** @description The city where the airport is located. */
             city?: string;
+            /** @description The state where the airport is located. */
             state?: string;
+            /** @description The county where the airport is located. */
             county?: string;
+            /**
+             * @description The continent where the airport is located (2 letters code).
+             * @example EU
+             */
+            continent?: string;
             /**
              * @description The timezone of the airport in the TZ database format.
              * @example America/New_York
              */
             timezone?: string;
-            websiteUrl?: string;
             runways?: components["schemas"]["Runway"][];
             frequencies?: components["schemas"]["Frequency"][];
+            /** @description Various URLs related to the airport. */
+            urls?: components["schemas"]["AirportUrl"][];
             /** @description Internal properties */
             _internal?: components["schemas"]["AirportInternal"];
             /**
@@ -1013,6 +1098,71 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Notam"][];
+                };
+            };
+        };
+    };
+    GetCountry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                countryCode: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Country"];
+                };
+            };
+        };
+    };
+    GetCountries: {
+        parameters: {
+            query?: {
+                /** @description filter to apply to the query
+                 *
+                 *     Example: `{ "icao": "KJFK" }`
+                 *
+                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
+                filter?: string;
+                /** @description Sort order of the results
+                 *
+                 *     Example `{ "createdAt": "desc" }`
+                 *
+                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+                sort?: string;
+                /**
+                 * @description Number of items to return
+                 * @example 50
+                 */
+                limit?: number;
+                /**
+                 * @description Page number
+                 * @example 1
+                 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Country"][];
                 };
             };
         };
