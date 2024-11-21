@@ -4,7 +4,7 @@ import { TOKEN_KEY } from './constants';
 import { eventsManager } from './modules/Event.module';
 import { components, paths } from './types/api';
 import { APIQueryParameters } from './types/Api.type';
-import { Airline, Airport, Notam } from '.';
+import { Airline, Airport, Country, Notam } from '.';
 import { handleApiRequest } from './controllers/api.controller';
 import { get } from 'axios/index.cjs';
 
@@ -128,8 +128,8 @@ export default class AeroClient {
      * List all countries
      * @returns List of countries
      */
-    list: async () => {
-      return (await this.apiInstance.get<paths['/countries']['get']['responses']['200']['content']['application/json']>('countries')).data;
+    list: async (parameters?: APIQueryParameters<Country>) => {
+      return await handleApiRequest<Country>('GET', 'countries', parameters, this.apiInstance);
     },
     /**
      * Get a country by its code

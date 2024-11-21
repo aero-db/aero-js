@@ -1,6 +1,6 @@
 {
   "name": "@aerodb/js",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "Javascript wrapper for the AeroDB API",
   "main": "dist/index.js",
   "scripts": {
