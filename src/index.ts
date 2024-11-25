@@ -68,9 +68,9 @@ export type APIQueryParameters<T extends APIResource> = {
    */
   limit?: number;
   /**
-   * Offset the results
+   * Page number
    */
-  offset?: number;
+  page?: number;
   /**
    * Sort the results
    */

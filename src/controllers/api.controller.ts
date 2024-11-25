@@ -31,6 +31,14 @@ export async function handleApiRequest<T extends APIResource>(
     }
   }
 
+  if (parameters.sort) {
+    try {
+      parsedParameters.sort = JSON.stringify(parameters.sort);
+    } catch (error) {
+      throw new Error('Failed to parse sort');
+    }
+  }
+
   return (
     await instance.request({
       method,
