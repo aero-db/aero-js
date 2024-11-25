@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
-import { APIQueryParameters, ApiResource } from '../types/Api.type';
+
+import { APIQueryParameters, APIResource } from '..';
 
 /**
  * Handle an API request
@@ -12,7 +13,7 @@ import { APIQueryParameters, ApiResource } from '../types/Api.type';
  * @param instance Axios instance
  * @returns API response
  */
-export async function handleApiRequest<T extends ApiResource>(
+export async function handleApiRequest<T extends APIResource>(
   method: 'POST' | 'GET' | 'PATCH' | 'DELETE',
   url: string,
   parameters: APIQueryParameters<T> = {},

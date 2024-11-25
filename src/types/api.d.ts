@@ -140,6 +140,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/changeLogs/{changeLogId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get one changeLog entry by its internal id */
+        get: operations["GetChange"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/changeLogs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get all changeLog entries */
+        get: operations["GetChangeLogsList"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/signup": {
         parameters: {
             query?: never;
@@ -310,6 +344,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/airlines/all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get an overview list of all airports */
+        get: operations["GetAllAirlinesList"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/airlines/{airlineId}": {
         parameters: {
             query?: never;
@@ -335,7 +386,7 @@ export interface paths {
             cookie?: never;
         };
         /** @description Get all airlines */
-        get: operations["GetAirlines"];
+        get: operations["GetAirlinesList"];
         put?: never;
         post?: never;
         delete?: never;
@@ -344,15 +395,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/aircraftTypes/{icao}": {
+    "/aircraftTypes/all": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Get one aircraft type by its ICAO code */
-        get: operations["GetAircraftType"];
+        /** @description Get an overview list of all aircraftTypes */
+        get: operations["GetAllAircraftTypesList"];
         put?: never;
         post?: never;
         delete?: never;
@@ -368,8 +419,25 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all aircraft types */
-        get: operations["GetAircraftTypes"];
+        /** @description Get all aircraftTypes */
+        get: operations["GetAircraftTypesList"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/aircraftTypes/{aircraftTypeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get one aircraftType */
+        get: operations["GetAircraftType"];
         put?: never;
         post?: never;
         delete?: never;
@@ -566,6 +634,8 @@ export interface components {
         Airline: {
             /** @description The name of the airline. */
             name: string;
+            /** @description Unique identifier of the airline. */
+            airlineId: string;
             /** @description The ICAO code of the airline. */
             icao?: string;
             /** @description The IATA code of the airline. */
@@ -595,63 +665,121 @@ export interface components {
             timezone: string;
         };
         /**
+         * @description The category of the aircraft type.
+         *
+         *     - `amphibian`: An aircraft that can operate on land and water.
+         *
+         *     - `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.
+         *
+         *     - `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.
+         *
+         *     - `landplane`: An aircraft that operates on land.
+         *
+         *     - `seaplane`: An aircraft that can operate on water.
+         *
+         *     - `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.
+         *
+         *     - `other`: An aircraft that does not fit into any of the other categories.
+         * @enum {string}
+         */
+        AircraftCategory: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor" | "other";
+        /**
+         * @description Represent a wake turbulence category of an aircraft type.
+         *
+         *     - `L`: Light
+         *
+         *     - `M`: Medium
+         *
+         *     - `H`: Heavy
+         *
+         *     - `J`: Super
+         * @enum {string}
+         */
+        WakeTurbulenceCategory: "L" | "M" | "H" | "J";
+        /**
+         * @description The wake turbulence group of the aircraft type, based on weight and wingspan criteria.
+         *
+         *     - `A`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 80 m but greater than 74.68 m (equivalent to SUPER wake turbulence category).
+         *     - `B`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 74.68 m but greater than 53.34 m (equivalent to HEAVY wake turbulence category).
+         *     - `C`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 53.34 m but greater than 38.1 m (equivalent to HEAVY wake turbulence category).
+         *     - `D`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan greater than 32 m.
+         *     - `E`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan less than or equal to 32 m but greater than 27.43 m.
+         *     - `F`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan less than or equal to 27.43 m.
+         *     - `G`: Aircraft types of 18,600 kg or less (without a wingspan criterion).
+         * @enum {string}
+         */
+        WakeTurbulenceGroup: "A" | "B" | "C" | "D" | "E" | "F" | "G";
+        /**
          * @description Represents an aircraft type.
          * @example {
+         *       "aircraftTypeId": "AIRBUS_A388",
          *       "name": "Airbus A380",
-         *       "icao": "A388",
-         *       "manufacturer": "Airbus",
-         *       "categorie": "landplane",
+         *       "icaoCode": "A388",
+         *       "designator": "A380",
+         *       "manufacturerCode": "AIRBUS",
+         *       "category": "landplane",
+         *       "aircraftDescription": "L4J",
          *       "engineType": "jet",
          *       "engineCount": 4,
          *       "wakeTurbulenceCategories": [
-         *         "H",
-         *         "J"
-         *       ]
+         *         "H"
+         *       ],
+         *       "wakeTurbulenceGroup": "C"
          *     }
          */
         AircraftType: {
+            /** @description The unique identifier of the aircraft type.
+             *
+             *     Note: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator. */
+            aircraftTypeId: string;
             /** @description The name of the aircraft type. */
             name: string;
             /** @description The ICAO code of the aircraft type. */
-            icao: string;
-            /** @description The manufacturer of the aircraft type. */
-            manufacturer: string;
+            icaoCode: string;
             /**
-             * @description The category of the aircraft type.
+             * @description A 3-letter description code of the aircraft, as defined in ICAO Doc 8643.
              *
-             *     - `amphibian`: An aircraft that can operate on land and water.
+             *     The code provides basic details about the aircraft:
              *
-             *     - `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.
+             *     - **First Symbol**: Describes the aircraft type:
+             *       - `L`: Landplane (e.g., A320).
+             *       - `S`: Seaplane (e.g., HARBIN SH-5).
+             *       - `A`: Amphibian (e.g., LA4).
+             *       - `G`: Gyrocopter (e.g., A002).
+             *       - `H`: Helicopter (e.g., A109).
+             *       - `T`: Tiltrotor (e.g., V22).
              *
-             *     - `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.
+             *     - **Second Symbol**: Specifies the number of engines:
+             *       - `1`, `2`, `3`, `4`, `6`, `8`: The number of engines.
+             *       - `C`: Two engines coupled to drive a single propeller system (for fixed-wing aircraft, e.g., C08T).
              *
-             *     - `landplane`: An aircraft that operates on land.
+             *     - **Third Symbol**: Specifies the engine type:
+             *       - `J`: Jet engine.
+             *       - `T`: Turboprop/turboshaft.
+             *       - `P`: Piston engine.
+             *       - `E`: Electric engine.
+             *       - `R`: Rocket engine.
              *
-             *     - `seaplane`: An aircraft that can operate on water.
-             *
-             *     - `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.
-             *
-             *     - `other`: An aircraft that does not fit into any of the other categories.
-             * @enum {string}
+             *     **Examples**:
+             *     - `L2J`: A landplane with two jet engines.
+             *     - `H2T`: A helicopter with two turboprop/turboshaft engines.
+             *     - `S1P`: A seaplane with one piston engine.
+             * @example L2J
              */
-            categorie: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor" | "other";
-            /** @enum {string} */
-            engineType: "electric" | "turboprop" | "jet" | "piston" | "rocket" | "other";
+            aircraftDescription: string;
+            /** @description The ICAO designator code of the aircraft type. */
+            designator: string;
+            /** @description The ICAO manufacturer code of the aircraft type. */
+            manufacturerCode: string;
+            category: components["schemas"]["AircraftCategory"];
+            engineType?: string;
             /**
              * Format: double
              * @description The number of engines of the aircraft type.
              */
             engineCount?: number;
-            /** @description The wake turbulence categories of the aircraft type.
-             *
-             *     - `L`: Light
-             *
-             *     - `M`: Medium
-             *
-             *     - `H`: Heavy
-             *
-             *     - `J`: Super */
-            wakeTurbulenceCategories: ("L" | "M" | "H" | "J")[];
+            wakeTurbulenceCategories: components["schemas"]["WakeTurbulenceCategory"][];
+            wakeTurbulenceGroup?: components["schemas"]["WakeTurbulenceGroup"];
         };
         SearchResult: {
             aircraftTypes: components["schemas"]["AircraftType"][];
@@ -797,6 +925,39 @@ export interface components {
             };
             timezone?: string;
         };
+        ChangeLog: {
+            /**
+             * Format: date-time
+             * @description The date of the change.
+             */
+            date: string;
+            /**
+             * @description The type of the resource that was changed.
+             * @example airline
+             */
+            resourceType: string;
+            /** @description The unique identifier of the resource that was changed. */
+            resourceId: string;
+            /** @description The changes that were made. (JSON diff) */
+            changes: string;
+        };
+        /** @description Make all properties in T optional */
+        Partial_ChangeLog_: {
+            /**
+             * Format: date-time
+             * @description The date of the change.
+             */
+            date?: string;
+            /**
+             * @description The type of the resource that was changed.
+             * @example airline
+             */
+            resourceType?: string;
+            /** @description The unique identifier of the resource that was changed. */
+            resourceId?: string;
+            /** @description The changes that were made. (JSON diff) */
+            changes?: string;
+        };
         /** @description From T, pick a set of properties whose keys are in the union K */
         "Pick_User.email-or-password-or-firstName-or-lastName_": {
             email: string;
@@ -924,10 +1085,20 @@ export interface components {
              */
             type?: "smallAirport" | "mediumAirport" | "largeAirport" | "heliport" | "seaplaneBase" | "baloonPort" | "closed";
         };
+        /** @description From T, pick a set of properties whose keys are in the union K */
+        "Pick_Airline.airlineId-or-name_": {
+            /** @description The name of the airline. */
+            name: string;
+            /** @description Unique identifier of the airline. */
+            airlineId: string;
+        };
+        AirlineOverview: components["schemas"]["Pick_Airline.airlineId-or-name_"];
         /** @description Make all properties in T optional */
         Partial_Airline_: {
             /** @description The name of the airline. */
             name?: string;
+            /** @description Unique identifier of the airline. */
+            airlineId?: string;
             /** @description The ICAO code of the airline. */
             icao?: string;
             /** @description The IATA code of the airline. */
@@ -939,50 +1110,74 @@ export interface components {
             /** @description True if the airline is defunct and no longer operating. */
             isDefunct?: boolean;
         };
+        /** @description From T, pick a set of properties whose keys are in the union K */
+        "Pick_AircraftType.aircraftTypeId-or-manufacturerCode-or-icaoCode-or-name_": {
+            /** @description The name of the aircraft type. */
+            name: string;
+            /** @description The ICAO code of the aircraft type. */
+            icaoCode: string;
+            /** @description The unique identifier of the aircraft type.
+             *
+             *     Note: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator. */
+            aircraftTypeId: string;
+            /** @description The ICAO manufacturer code of the aircraft type. */
+            manufacturerCode: string;
+        };
+        AircraftTypeOverview: components["schemas"]["Pick_AircraftType.aircraftTypeId-or-manufacturerCode-or-icaoCode-or-name_"];
         /** @description Make all properties in T optional */
         Partial_AircraftType_: {
+            /** @description The unique identifier of the aircraft type.
+             *
+             *     Note: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator. */
+            aircraftTypeId?: string;
             /** @description The name of the aircraft type. */
             name?: string;
             /** @description The ICAO code of the aircraft type. */
-            icao?: string;
-            /** @description The manufacturer of the aircraft type. */
-            manufacturer?: string;
+            icaoCode?: string;
             /**
-             * @description The category of the aircraft type.
+             * @description A 3-letter description code of the aircraft, as defined in ICAO Doc 8643.
              *
-             *     - `amphibian`: An aircraft that can operate on land and water.
+             *     The code provides basic details about the aircraft:
              *
-             *     - `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.
+             *     - **First Symbol**: Describes the aircraft type:
+             *       - `L`: Landplane (e.g., A320).
+             *       - `S`: Seaplane (e.g., HARBIN SH-5).
+             *       - `A`: Amphibian (e.g., LA4).
+             *       - `G`: Gyrocopter (e.g., A002).
+             *       - `H`: Helicopter (e.g., A109).
+             *       - `T`: Tiltrotor (e.g., V22).
              *
-             *     - `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.
+             *     - **Second Symbol**: Specifies the number of engines:
+             *       - `1`, `2`, `3`, `4`, `6`, `8`: The number of engines.
+             *       - `C`: Two engines coupled to drive a single propeller system (for fixed-wing aircraft, e.g., C08T).
              *
-             *     - `landplane`: An aircraft that operates on land.
+             *     - **Third Symbol**: Specifies the engine type:
+             *       - `J`: Jet engine.
+             *       - `T`: Turboprop/turboshaft.
+             *       - `P`: Piston engine.
+             *       - `E`: Electric engine.
+             *       - `R`: Rocket engine.
              *
-             *     - `seaplane`: An aircraft that can operate on water.
-             *
-             *     - `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.
-             *
-             *     - `other`: An aircraft that does not fit into any of the other categories.
-             * @enum {string}
+             *     **Examples**:
+             *     - `L2J`: A landplane with two jet engines.
+             *     - `H2T`: A helicopter with two turboprop/turboshaft engines.
+             *     - `S1P`: A seaplane with one piston engine.
+             * @example L2J
              */
-            categorie?: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor" | "other";
-            /** @enum {string} */
-            engineType?: "other" | "electric" | "turboprop" | "jet" | "piston" | "rocket";
+            aircraftDescription?: string;
+            /** @description The ICAO designator code of the aircraft type. */
+            designator?: string;
+            /** @description The ICAO manufacturer code of the aircraft type. */
+            manufacturerCode?: string;
+            category?: components["schemas"]["AircraftCategory"];
+            engineType?: string;
             /**
              * Format: double
              * @description The number of engines of the aircraft type.
              */
             engineCount?: number;
-            /** @description The wake turbulence categories of the aircraft type.
-             *
-             *     - `L`: Light
-             *
-             *     - `M`: Medium
-             *
-             *     - `H`: Heavy
-             *
-             *     - `J`: Super */
-            wakeTurbulenceCategories?: ("L" | "M" | "H" | "J")[];
+            wakeTurbulenceCategories?: components["schemas"]["WakeTurbulenceCategory"][];
+            wakeTurbulenceGroup?: components["schemas"]["WakeTurbulenceGroup"];
         };
     };
     responses: never;
@@ -1205,6 +1400,71 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CityCode"][];
+                };
+            };
+        };
+    };
+    GetChange: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                changeLogId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChangeLog"];
+                };
+            };
+        };
+    };
+    GetChangeLogsList: {
+        parameters: {
+            query?: {
+                /** @description filter to apply to the query
+                 *
+                 *     Example: `{ "icao": "KJFK" }`
+                 *
+                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
+                filter?: string;
+                /** @description Sort order of the results
+                 *
+                 *     Example `{ "createdAt": "desc" }`
+                 *
+                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+                sort?: string;
+                /**
+                 * @description Number of items to return
+                 * @example 50
+                 */
+                limit?: number;
+                /**
+                 * @description Page number
+                 * @example 1
+                 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChangeLog"][];
                 };
             };
         };
@@ -1489,6 +1749,49 @@ export interface operations {
             };
         };
     };
+    GetAllAirlinesList: {
+        parameters: {
+            query?: {
+                /** @description filter to apply to the query
+                 *
+                 *     Example: `{ "icao": "KJFK" }`
+                 *
+                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
+                filter?: string;
+                /** @description Sort order of the results
+                 *
+                 *     Example `{ "createdAt": "desc" }`
+                 *
+                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+                sort?: string;
+                /**
+                 * @description Number of items to return
+                 * @example 50
+                 */
+                limit?: number;
+                /**
+                 * @description Page number
+                 * @example 1
+                 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AirlineOverview"][];
+                };
+            };
+        };
+    };
     GetAirline: {
         parameters: {
             query?: never;
@@ -1511,9 +1814,32 @@ export interface operations {
             };
         };
     };
-    GetAirlines: {
+    GetAirlinesList: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description filter to apply to the query
+                 *
+                 *     Example: `{ "icao": "KJFK" }`
+                 *
+                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
+                filter?: string;
+                /** @description Sort order of the results
+                 *
+                 *     Example `{ "createdAt": "desc" }`
+                 *
+                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+                sort?: string;
+                /**
+                 * @description Number of items to return
+                 * @example 50
+                 */
+                limit?: number;
+                /**
+                 * @description Page number
+                 * @example 1
+                 */
+                page?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -1531,14 +1857,34 @@ export interface operations {
             };
         };
     };
-    GetAircraftType: {
+    GetAllAircraftTypesList: {
         parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description code of the aircraft type */
-                icao: string;
+            query?: {
+                /** @description filter to apply to the query
+                 *
+                 *     Example: `{ "icao": "KJFK" }`
+                 *
+                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
+                filter?: string;
+                /** @description Sort order of the results
+                 *
+                 *     Example `{ "createdAt": "desc" }`
+                 *
+                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+                sort?: string;
+                /**
+                 * @description Number of items to return
+                 * @example 50
+                 */
+                limit?: number;
+                /**
+                 * @description Page number
+                 * @example 1
+                 */
+                page?: number;
             };
+            header?: never;
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -1549,14 +1895,37 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AircraftType"];
+                    "application/json": components["schemas"]["AircraftTypeOverview"][];
                 };
             };
         };
     };
-    GetAircraftTypes: {
+    GetAircraftTypesList: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description filter to apply to the query
+                 *
+                 *     Example: `{ "icao": "KJFK" }`
+                 *
+                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
+                filter?: string;
+                /** @description Sort order of the results
+                 *
+                 *     Example `{ "createdAt": "desc" }`
+                 *
+                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
+                sort?: string;
+                /**
+                 * @description Number of items to return
+                 * @example 50
+                 */
+                limit?: number;
+                /**
+                 * @description Page number
+                 * @example 1
+                 */
+                page?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -1570,6 +1939,29 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AircraftType"][];
+                };
+            };
+        };
+    };
+    GetAircraftType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Unique identifier of the aircraftType */
+                aircraftTypeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AircraftType"];
                 };
             };
         };

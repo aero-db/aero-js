@@ -3,8 +3,7 @@ import store from 'store2';
 import { TOKEN_KEY } from './constants';
 import { eventsManager } from './modules/Event.module';
 import { components, paths } from './types/api';
-import { APIQueryParameters } from './types/Api.type';
-import { Airline, Airport, Country, Notam } from '.';
+import { Airline, Airport, APIQueryParameters, Country, Notam } from '.';
 import { handleApiRequest } from './controllers/api.controller';
 import { get } from 'axios/index.cjs';
 

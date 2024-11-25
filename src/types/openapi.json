@@ -371,6 +371,10 @@
             "type": "string",
             "description": "The name of the airline."
           },
+          "airlineId": {
+            "type": "string",
+            "description": "Unique identifier of the airline."
+          },
           "icao": {
             "type": "string",
             "description": "The ICAO code of the airline."
@@ -396,6 +400,7 @@
         },
         "required": [
           "name",
+          "airlineId",
           "isDefunct"
         ],
         "type": "object",
@@ -460,44 +465,75 @@
         "type": "object",
         "additionalProperties": false
       },
+      "AircraftCategory": {
+        "type": "string",
+        "enum": [
+          "amphibian",
+          "gyrocopter",
+          "helicopter",
+          "landplane",
+          "seaplane",
+          "tiltrotor",
+          "other"
+        ],
+        "description": "The category of the aircraft type.\n\n- `amphibian`: An aircraft that can operate on land and water.\n\n- `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.\n\n- `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.\n\n- `landplane`: An aircraft that operates on land.\n\n- `seaplane`: An aircraft that can operate on water.\n\n- `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.\n\n- `other`: An aircraft that does not fit into any of the other categories."
+      },
+      "WakeTurbulenceCategory": {
+        "type": "string",
+        "enum": [
+          "L",
+          "M",
+          "H",
+          "J"
+        ],
+        "description": "Represent a wake turbulence category of an aircraft type.\n\n- `L`: Light\n\n- `M`: Medium\n\n- `H`: Heavy\n\n- `J`: Super"
+      },
+      "WakeTurbulenceGroup": {
+        "type": "string",
+        "enum": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G"
+        ],
+        "description": "The wake turbulence group of the aircraft type, based on weight and wingspan criteria.\n\n- `A`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 80 m but greater than 74.68 m (equivalent to SUPER wake turbulence category).\n- `B`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 74.68 m but greater than 53.34 m (equivalent to HEAVY wake turbulence category).\n- `C`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 53.34 m but greater than 38.1 m (equivalent to HEAVY wake turbulence category).\n- `D`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan greater than 32 m.\n- `E`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan less than or equal to 32 m but greater than 27.43 m.\n- `F`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan less than or equal to 27.43 m.\n- `G`: Aircraft types of 18,600 kg or less (without a wingspan criterion)."
+      },
       "AircraftType": {
         "description": "Represents an aircraft type.",
         "properties": {
+          "aircraftTypeId": {
+            "type": "string",
+            "description": "The unique identifier of the aircraft type.\n\nNote: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator."
+          },
           "name": {
             "type": "string",
             "description": "The name of the aircraft type."
           },
-          "icao": {
+          "icaoCode": {
             "type": "string",
             "description": "The ICAO code of the aircraft type."
           },
-          "manufacturer": {
+          "aircraftDescription": {
             "type": "string",
-            "description": "The manufacturer of the aircraft type."
+            "description": "A 3-letter description code of the aircraft, as defined in ICAO Doc 8643.\n\nThe code provides basic details about the aircraft:\n\n- **First Symbol**: Describes the aircraft type:\n  - `L`: Landplane (e.g., A320).\n  - `S`: Seaplane (e.g., HARBIN SH-5).\n  - `A`: Amphibian (e.g., LA4).\n  - `G`: Gyrocopter (e.g., A002).\n  - `H`: Helicopter (e.g., A109).\n  - `T`: Tiltrotor (e.g., V22).\n\n- **Second Symbol**: Specifies the number of engines:\n  - `1`, `2`, `3`, `4`, `6`, `8`: The number of engines.\n  - `C`: Two engines coupled to drive a single propeller system (for fixed-wing aircraft, e.g., C08T).\n\n- **Third Symbol**: Specifies the engine type:\n  - `J`: Jet engine.\n  - `T`: Turboprop/turboshaft.\n  - `P`: Piston engine.\n  - `E`: Electric engine.\n  - `R`: Rocket engine.\n\n**Examples**:\n- `L2J`: A landplane with two jet engines.\n- `H2T`: A helicopter with two turboprop/turboshaft engines.\n- `S1P`: A seaplane with one piston engine.",
+            "example": "L2J"
           },
-          "categorie": {
+          "designator": {
             "type": "string",
-            "enum": [
-              "amphibian",
-              "gyrocopter",
-              "helicopter",
-              "landplane",
-              "seaplane",
-              "tiltrotor",
-              "other"
-            ],
-            "description": "The category of the aircraft type.\n\n- `amphibian`: An aircraft that can operate on land and water.\n\n- `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.\n\n- `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.\n\n- `landplane`: An aircraft that operates on land.\n\n- `seaplane`: An aircraft that can operate on water.\n\n- `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.\n\n- `other`: An aircraft that does not fit into any of the other categories."
+            "description": "The ICAO designator code of the aircraft type."
+          },
+          "manufacturerCode": {
+            "type": "string",
+            "description": "The ICAO manufacturer code of the aircraft type."
+          },
+          "category": {
+            "$ref": "#/components/schemas/AircraftCategory"
           },
           "engineType": {
-            "type": "string",
-            "enum": [
-              "electric",
-              "turboprop",
-              "jet",
-              "piston",
-              "rocket",
-              "other"
-            ]
+            "type": "string"
           },
           "engineCount": {
             "type": "number",
@@ -506,39 +542,40 @@
           },
           "wakeTurbulenceCategories": {
             "items": {
-              "type": "string",
-              "enum": [
-                "L",
-                "M",
-                "H",
-                "J"
-              ]
+              "$ref": "#/components/schemas/WakeTurbulenceCategory"
             },
-            "type": "array",
-            "description": "The wake turbulence categories of the aircraft type.\n\n- `L`: Light\n\n- `M`: Medium\n\n- `H`: Heavy\n\n- `J`: Super"
+            "type": "array"
+          },
+          "wakeTurbulenceGroup": {
+            "$ref": "#/components/schemas/WakeTurbulenceGroup"
           }
         },
         "required": [
+          "aircraftTypeId",
           "name",
-          "icao",
-          "manufacturer",
-          "categorie",
-          "engineType",
+          "icaoCode",
+          "aircraftDescription",
+          "designator",
+          "manufacturerCode",
+          "category",
           "wakeTurbulenceCategories"
         ],
         "type": "object",
         "additionalProperties": false,
         "example": {
+          "aircraftTypeId": "AIRBUS_A388",
           "name": "Airbus A380",
-          "icao": "A388",
-          "manufacturer": "Airbus",
-          "categorie": "landplane",
+          "icaoCode": "A388",
+          "designator": "A380",
+          "manufacturerCode": "AIRBUS",
+          "category": "landplane",
+          "aircraftDescription": "L4J",
           "engineType": "jet",
           "engineCount": 4,
           "wakeTurbulenceCategories": [
-            "H",
-            "J"
-          ]
+            "H"
+          ],
+          "wakeTurbulenceGroup": "C"
         }
       },
       "SearchResult": {
@@ -868,6 +905,60 @@
         "type": "object",
         "description": "Make all properties in T optional"
       },
+      "ChangeLog": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date of the change."
+          },
+          "resourceType": {
+            "type": "string",
+            "description": "The type of the resource that was changed.",
+            "example": "airline"
+          },
+          "resourceId": {
+            "type": "string",
+            "description": "The unique identifier of the resource that was changed."
+          },
+          "changes": {
+            "type": "string",
+            "description": "The changes that were made. (JSON diff)"
+          }
+        },
+        "required": [
+          "date",
+          "resourceType",
+          "resourceId",
+          "changes"
+        ],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Partial_ChangeLog_": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date of the change."
+          },
+          "resourceType": {
+            "type": "string",
+            "description": "The type of the resource that was changed.",
+            "example": "airline"
+          },
+          "resourceId": {
+            "type": "string",
+            "description": "The unique identifier of the resource that was changed."
+          },
+          "changes": {
+            "type": "string",
+            "description": "The changes that were made. (JSON diff)"
+          }
+        },
+        "type": "object",
+        "description": "Make all properties in T optional"
+      },
       "Pick_User.email-or-password-or-firstName-or-lastName_": {
         "properties": {
           "email": {
@@ -1138,11 +1229,36 @@
         "type": "object",
         "description": "Make all properties in T optional"
       },
+      "Pick_Airline.airlineId-or-name_": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the airline."
+          },
+          "airlineId": {
+            "type": "string",
+            "description": "Unique identifier of the airline."
+          }
+        },
+        "required": [
+          "name",
+          "airlineId"
+        ],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "AirlineOverview": {
+        "$ref": "#/components/schemas/Pick_Airline.airlineId-or-name_"
+      },
       "Partial_Airline_": {
         "properties": {
           "name": {
             "type": "string",
             "description": "The name of the airline."
+          },
+          "airlineId": {
+            "type": "string",
+            "description": "Unique identifier of the airline."
           },
           "icao": {
             "type": "string",
@@ -1170,43 +1286,69 @@
         "type": "object",
         "description": "Make all properties in T optional"
       },
-      "Partial_AircraftType_": {
+      "Pick_AircraftType.aircraftTypeId-or-manufacturerCode-or-icaoCode-or-name_": {
         "properties": {
           "name": {
             "type": "string",
             "description": "The name of the aircraft type."
           },
-          "icao": {
+          "icaoCode": {
             "type": "string",
             "description": "The ICAO code of the aircraft type."
           },
-          "manufacturer": {
+          "aircraftTypeId": {
             "type": "string",
-            "description": "The manufacturer of the aircraft type."
+            "description": "The unique identifier of the aircraft type.\n\nNote: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator."
           },
-          "categorie": {
+          "manufacturerCode": {
             "type": "string",
-            "enum": [
-              "amphibian",
-              "gyrocopter",
-              "helicopter",
-              "landplane",
-              "seaplane",
-              "tiltrotor",
-              "other"
-            ],
-            "description": "The category of the aircraft type.\n\n- `amphibian`: An aircraft that can operate on land and water.\n\n- `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.\n\n- `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.\n\n- `landplane`: An aircraft that operates on land.\n\n- `seaplane`: An aircraft that can operate on water.\n\n- `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.\n\n- `other`: An aircraft that does not fit into any of the other categories."
+            "description": "The ICAO manufacturer code of the aircraft type."
+          }
+        },
+        "required": [
+          "name",
+          "icaoCode",
+          "aircraftTypeId",
+          "manufacturerCode"
+        ],
+        "type": "object",
+        "description": "From T, pick a set of properties whose keys are in the union K"
+      },
+      "AircraftTypeOverview": {
+        "$ref": "#/components/schemas/Pick_AircraftType.aircraftTypeId-or-manufacturerCode-or-icaoCode-or-name_"
+      },
+      "Partial_AircraftType_": {
+        "properties": {
+          "aircraftTypeId": {
+            "type": "string",
+            "description": "The unique identifier of the aircraft type.\n\nNote: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the aircraft type."
+          },
+          "icaoCode": {
+            "type": "string",
+            "description": "The ICAO code of the aircraft type."
+          },
+          "aircraftDescription": {
+            "type": "string",
+            "description": "A 3-letter description code of the aircraft, as defined in ICAO Doc 8643.\n\nThe code provides basic details about the aircraft:\n\n- **First Symbol**: Describes the aircraft type:\n  - `L`: Landplane (e.g., A320).\n  - `S`: Seaplane (e.g., HARBIN SH-5).\n  - `A`: Amphibian (e.g., LA4).\n  - `G`: Gyrocopter (e.g., A002).\n  - `H`: Helicopter (e.g., A109).\n  - `T`: Tiltrotor (e.g., V22).\n\n- **Second Symbol**: Specifies the number of engines:\n  - `1`, `2`, `3`, `4`, `6`, `8`: The number of engines.\n  - `C`: Two engines coupled to drive a single propeller system (for fixed-wing aircraft, e.g., C08T).\n\n- **Third Symbol**: Specifies the engine type:\n  - `J`: Jet engine.\n  - `T`: Turboprop/turboshaft.\n  - `P`: Piston engine.\n  - `E`: Electric engine.\n  - `R`: Rocket engine.\n\n**Examples**:\n- `L2J`: A landplane with two jet engines.\n- `H2T`: A helicopter with two turboprop/turboshaft engines.\n- `S1P`: A seaplane with one piston engine.",
+            "example": "L2J"
+          },
+          "designator": {
+            "type": "string",
+            "description": "The ICAO designator code of the aircraft type."
+          },
+          "manufacturerCode": {
+            "type": "string",
+            "description": "The ICAO manufacturer code of the aircraft type."
+          },
+          "category": {
+            "$ref": "#/components/schemas/AircraftCategory"
           },
           "engineType": {
-            "type": "string",
-            "enum": [
-              "other",
-              "electric",
-              "turboprop",
-              "jet",
-              "piston",
-              "rocket"
-            ]
+            "type": "string"
           },
           "engineCount": {
             "type": "number",
@@ -1215,16 +1357,12 @@
           },
           "wakeTurbulenceCategories": {
             "items": {
-              "type": "string",
-              "enum": [
-                "L",
-                "M",
-                "H",
-                "J"
-              ]
+              "$ref": "#/components/schemas/WakeTurbulenceCategory"
             },
-            "type": "array",
-            "description": "The wake turbulence categories of the aircraft type.\n\n- `L`: Light\n\n- `M`: Medium\n\n- `H`: Heavy\n\n- `J`: Super"
+            "type": "array"
+          },
+          "wakeTurbulenceGroup": {
+            "$ref": "#/components/schemas/WakeTurbulenceGroup"
           }
         },
         "type": "object",
@@ -1601,6 +1739,114 @@
           }
         ],
         "parameters": []
+      }
+    },
+    "/changeLogs/{changeLogId}": {
+      "get": {
+        "operationId": "GetChange",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangeLog"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get one changeLog entry by its internal id",
+        "tags": [
+          "Change Logs"
+        ],
+        "security": [
+          {
+            "apiKey": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "changeLogId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/changeLogs": {
+      "get": {
+        "operationId": "GetChangeLogsList",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ChangeLog"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all changeLog entries",
+        "tags": [
+          "Change Logs"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number",
+              "maximum": 300
+            },
+            "example": 50
+          },
+          {
+            "description": "Page number",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 1
+          }
+        ]
       }
     },
     "/signup": {
@@ -2070,6 +2316,88 @@
         ]
       }
     },
+    "/airlines/all": {
+      "get": {
+        "operationId": "GetAllAirlinesList",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AirlineOverview"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get an overview list of all airports",
+        "tags": [
+          "Airlines"
+        ],
+        "security": [],
+        "parameters": [
+          {
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number",
+              "maximum": 300
+            },
+            "example": 50
+          },
+          {
+            "description": "Page number",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 1
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 50
+          }
+        ]
+      }
+    },
     "/airlines/{airlineId}": {
       "get": {
         "operationId": "GetAirline",
@@ -2110,7 +2438,7 @@
     },
     "/airlines": {
       "get": {
-        "operationId": "GetAirlines",
+        "operationId": "GetAirlinesList",
         "responses": {
           "200": {
             "description": "Ok",
@@ -2130,58 +2458,139 @@
         "tags": [
           "Airlines"
         ],
-        "security": [
+        "security": [],
+        "parameters": [
           {
-            "apiKey": [
-              "public"
-            ]
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number",
+              "maximum": 300
+            },
+            "example": 50
+          },
+          {
+            "description": "Page number",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 1
           }
-        ],
-        "parameters": []
+        ]
       }
     },
-    "/aircraftTypes/{icao}": {
+    "/aircraftTypes/all": {
       "get": {
-        "operationId": "GetAircraftType",
+        "operationId": "GetAllAircraftTypesList",
         "responses": {
           "200": {
             "description": "Ok",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AircraftType"
+                  "items": {
+                    "$ref": "#/components/schemas/AircraftTypeOverview"
+                  },
+                  "type": "array"
                 }
               }
             }
           }
         },
-        "description": "Get one aircraft type by its ICAO code",
+        "description": "Get an overview list of all aircraftTypes",
         "tags": [
           "Aircraft Types"
         ],
-        "security": [
-          {
-            "apiKey": [
-              "public"
-            ]
-          }
-        ],
+        "security": [],
         "parameters": [
           {
-            "description": "code of the aircraft type",
-            "in": "path",
-            "name": "icao",
-            "required": true,
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "in": "query",
+            "name": "filter",
+            "required": false,
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number",
+              "maximum": 300
+            },
+            "example": 50
+          },
+          {
+            "description": "Page number",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 1
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 50
           }
         ]
       }
     },
     "/aircraftTypes": {
       "get": {
-        "operationId": "GetAircraftTypes",
+        "operationId": "GetAircraftTypesList",
         "responses": {
           "200": {
             "description": "Ok",
@@ -2197,18 +2606,89 @@
             }
           }
         },
-        "description": "Get all aircraft types",
+        "description": "Get all aircraftTypes",
         "tags": [
           "Aircraft Types"
         ],
-        "security": [
+        "security": [],
+        "parameters": [
           {
-            "apiKey": [
-              "public"
-            ]
+            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "in": "query",
+            "name": "filter",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of items to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "format": "double",
+              "type": "number",
+              "maximum": 300
+            },
+            "example": 50
+          },
+          {
+            "description": "Page number",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "format": "double",
+              "type": "number"
+            },
+            "example": 1
           }
+        ]
+      }
+    },
+    "/aircraftTypes/{aircraftTypeId}": {
+      "get": {
+        "operationId": "GetAircraftType",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AircraftType"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get one aircraftType",
+        "tags": [
+          "Aircraft Types"
         ],
-        "parameters": []
+        "security": [],
+        "parameters": [
+          {
+            "description": "Unique identifier of the aircraftType",
+            "in": "path",
+            "name": "aircraftTypeId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
       }
     }
   },

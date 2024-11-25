@@ -11,6 +11,7 @@
 //
 //
 
+import mongoose from 'mongoose';
 import AeroClient from './AeroClient';
 import { components } from './types/api';
 
@@ -45,3 +46,37 @@ export type SubDivision = components['schemas']['SubDivision'];
 export type ApiKey = components['schemas']['ApiKey'];
 export type User = components['schemas']['User'];
 export type Runway = components['schemas']['Runway'];
+
+/**
+ * A callable API resource
+ *
+ * Use this as a generic type to specify the resource type
+ */
+export type APIResource = Airport | Airline | ApiKey | CityCode | Runway | User | AircraftType | Notam;
+
+/**
+ * Generic type to filter an API resource
+ */
+export type ResourceFilter<T extends APIResource> = mongoose.FilterQuery<T>;
+
+/**
+ * Query parameters for the API request
+ */
+export type APIQueryParameters<T extends APIResource> = {
+  /**
+   * Limit the results
+   */
+  limit?: number;
+  /**
+   * Offset the results
+   */
+  offset?: number;
+  /**
+   * Sort the results
+   */
+  sort?: Partial<Record<keyof T, 1 | -1>>;
+  /**
+   * Filter the results
+   */
+  filter?: ResourceFilter<T>;
+};
