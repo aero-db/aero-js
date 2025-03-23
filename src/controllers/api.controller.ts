@@ -25,7 +25,7 @@ export async function handleApiRequest<T extends APIResource>(
 
   if (parameters.filter) {
     try {
-      parsedParameters.filter = JSON.stringify(parameters.filter);
+      parsedParameters.filter = btoa(JSON.stringify(parameters.filter));
     } catch (error) {
       throw new Error('Failed to parse filter');
     }
@@ -33,7 +33,7 @@ export async function handleApiRequest<T extends APIResource>(
 
   if (parameters.sort) {
     try {
-      parsedParameters.sort = JSON.stringify(parameters.sort);
+      parsedParameters.sort = btoa(JSON.stringify(parameters.sort));
     } catch (error) {
       throw new Error('Failed to parse sort');
     }

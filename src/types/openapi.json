@@ -682,11 +682,11 @@
         "properties": {
           "filter": {
             "type": "string",
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
           },
           "sort": {
             "type": "string",
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)"
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)"
           },
           "limit": {
             "type": "number",
@@ -1082,11 +1082,11 @@
         "properties": {
           "filter": {
             "type": "string",
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
           },
           "sort": {
             "type": "string",
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)"
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)"
           },
           "limit": {
             "type": "number",
@@ -1504,7 +1504,7 @@
         "operationId": "GetNotams",
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "list of all notams",
             "content": {
               "application/json": {
                 "schema": {
@@ -1524,7 +1524,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -1533,7 +1533,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,
@@ -1606,7 +1606,7 @@
         "operationId": "GetCountries",
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "list of all countries",
             "content": {
               "application/json": {
                 "schema": {
@@ -1626,7 +1626,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -1635,7 +1635,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,
@@ -1676,7 +1676,7 @@
         "operationId": "GetCityCode",
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "City code information",
             "content": {
               "application/json": {
                 "schema": {
@@ -1714,7 +1714,7 @@
         "operationId": "GetCityCodes",
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "list of all city codes",
             "content": {
               "application/json": {
                 "schema": {
@@ -1804,7 +1804,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -1813,7 +1813,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,
@@ -2123,7 +2123,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -2132,7 +2132,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,
@@ -2205,7 +2205,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -2214,7 +2214,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,
@@ -2341,7 +2341,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -2350,7 +2350,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,
@@ -2461,7 +2461,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -2470,7 +2470,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,
@@ -2531,7 +2531,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -2540,7 +2540,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,
@@ -2613,7 +2613,7 @@
         "security": [],
         "parameters": [
           {
-            "description": "filter to apply to the query\n\nExample: `{ \"icao\": \"KJFK\" }`\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
+            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
             "in": "query",
             "name": "filter",
             "required": false,
@@ -2622,7 +2622,7 @@
             }
           },
           {
-            "description": "Sort order of the results\n\nExample `{ \"createdAt\": \"desc\" }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
+            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
             "in": "query",
             "name": "sort",
             "required": false,

@@ -821,15 +821,15 @@ export interface components {
             geometry?: string;
         };
         QueryParameters: {
-            /** @description filter to apply to the query
+            /** @description Base64 encoded filter to apply to the query
              *
-             *     Example: `{ "icao": "KJFK" }`
+             *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
              *
              *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
             filter?: string;
-            /** @description Sort order of the results
+            /** @description Base64 encoded sort order of the results
              *
-             *     Example `{ "createdAt": "desc" }`
+             *     Example `{ "createdAt": -1 }`
              *
              *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
             sort?: string;
@@ -995,15 +995,15 @@ export interface components {
         };
         AirportOverview: components["schemas"]["Pick_Airport.airportId-or-name_"];
         QueryParametersWithoutLimit: {
-            /** @description filter to apply to the query
+            /** @description Base64 encoded filter to apply to the query
              *
-             *     Example: `{ "icao": "KJFK" }`
+             *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
              *
              *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
             filter?: string;
-            /** @description Sort order of the results
+            /** @description Base64 encoded sort order of the results
              *
-             *     Example `{ "createdAt": "desc" }`
+             *     Example `{ "createdAt": -1 }`
              *
              *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
             sort?: string;
@@ -1257,15 +1257,15 @@ export interface operations {
     GetNotams: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
@@ -1286,7 +1286,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description list of all notams */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1322,15 +1322,15 @@ export interface operations {
     GetCountries: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
@@ -1351,7 +1351,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description list of all countries */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1373,7 +1373,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description City code information */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1393,7 +1393,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description list of all city codes */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1429,15 +1429,15 @@ export interface operations {
     GetChangeLogsList: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
@@ -1620,15 +1620,15 @@ export interface operations {
     GetAllAirportsList: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
@@ -1663,15 +1663,15 @@ export interface operations {
     GetAirportsList: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
@@ -1752,15 +1752,15 @@ export interface operations {
     GetAllAirlinesList: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
@@ -1817,15 +1817,15 @@ export interface operations {
     GetAirlinesList: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
@@ -1860,15 +1860,15 @@ export interface operations {
     GetAllAircraftTypesList: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
@@ -1903,15 +1903,15 @@ export interface operations {
     GetAircraftTypesList: {
         parameters: {
             query?: {
-                /** @description filter to apply to the query
+                /** @description Base64 encoded filter to apply to the query
                  *
-                 *     Example: `{ "icao": "KJFK" }`
+                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
                  *
                  *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
                 filter?: string;
-                /** @description Sort order of the results
+                /** @description Base64 encoded sort order of the results
                  *
-                 *     Example `{ "createdAt": "desc" }`
+                 *     Example `{ "createdAt": -1 }`
                  *
                  *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
                 sort?: string;
