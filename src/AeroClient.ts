@@ -3,7 +3,7 @@ import store from 'store2';
 import { TOKEN_KEY } from './constants';
 import { eventsManager } from './modules/Event.module';
 import { paths } from './types/api';
-import { Airline, Airport, APIQueryParameters, Country, Notam } from '.';
+import { Airport, APIQueryParameters, Country, Notam } from '.';
 import { handleApiRequest } from './controllers/api.controller';
 
 type ClientOptions = {
@@ -70,38 +70,38 @@ export default class AeroClient {
       ).data;
     },
 
-    /**
-     * Get the latest METARs for an airport
-     * @param airportId Airport id
-     * @returns METAR data from the last 24 hours
-     */
-    metar: async (airportId: string): Promise<paths['/airports/{airportId}/metar']['get']['responses']['200']['content']['application/json']> => {
-      return (
-        await this.apiInstance.get(
-          `airports/${airportId}/metar`
-        )
-      ).data;
-    },
+    // /**
+    //  * Get the latest METARs for an airport
+    //  * @param airportId Airport id
+    //  * @returns METAR data from the last 24 hours
+    //  */
+    // metar: async (airportId: string): Promise<paths['/airports/{airportId}']['get']['responses']['200']['content']['application/json']> => {
+    //   return (
+    //     await this.apiInstance.get(
+    //       `airports/${airportId}/metar`
+    //     )
+    //   ).data;
+    // },
   };
 
-  airline = {
-    /**
-     * List all airlines
-     */
-    list: async (parameters?: APIQueryParameters<Airline>): Promise<Airline[]> => {
-      return await handleApiRequest('GET', 'airlines', parameters, this.apiInstance);
-    },
-    /**
-     * Get airline by ICAO code
-     *
-     * @param airlineId Airline id
-     */
-    get: async (airlineId: string): Promise<Airline> => {
-      return (
-        await this.apiInstance.get<paths['/airlines/{airlineId}']['get']['responses']['200']['content']['application/json']>(`airlines/${airlineId}`)
-      ).data;
-    },
-  };
+  // airline = {
+  //   /**
+  //    * List all airlines
+  //    */
+  //   list: async (parameters?: APIQueryParameters<Airline>): Promise<Airline[]> => {
+  //     return await handleApiRequest('GET', 'airlines', parameters, this.apiInstance);
+  //   },
+  //   /**
+  //    * Get airline by ICAO code
+  //    *
+  //    * @param airlineId Airline id
+  //    */
+  //   get: async (airlineId: string): Promise<Airline> => {
+  //     return (
+  //       await this.apiInstance.get<paths['/airlines/{airlineId}']['get']['responses']['200']['content']['application/json']>(`airlines/${airlineId}`)
+  //     ).data;
+  //   },
+  // };
 
   /**
    * NOTAMs (Notice to Airmen) are notices containing information concerning the establishment, condition or change in any aeronautical facility, service, procedure or hazard, the timely knowledge of which is essential to personnel concerned with flight operations.
@@ -136,7 +136,7 @@ export default class AeroClient {
      */
     get: async (countryCode: string): Promise<Country> => {
       return (
-        await this.apiInstance.get<paths['/countries/{countryCode}']['get']['responses']['200']['content']['application/json']>(
+        await this.apiInstance.get<paths['/countries/{countryId}']['get']['responses']['200']['content']['application/json']>(
           `countries/${countryCode}`
         )
       ).data;
