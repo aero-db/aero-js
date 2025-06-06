@@ -2,10 +2,9 @@ import axios, { type AxiosInstance } from 'axios';
 import store from 'store2';
 import { TOKEN_KEY } from './constants';
 import { eventsManager } from './modules/Event.module';
-import { components, paths } from './types/api';
+import { paths } from './types/api';
 import { Airline, Airport, APIQueryParameters, Country, Notam } from '.';
 import { handleApiRequest } from './controllers/api.controller';
-import { get } from 'axios/index.cjs';
 
 type ClientOptions = {
   apiKey: string;
@@ -76,9 +75,9 @@ export default class AeroClient {
      * @param airportId Airport id
      * @returns METAR data from the last 24 hours
      */
-    metar: async (airportId: string) => {
+    metar: async (airportId: string): Promise<paths['/airports/{airportId}/metar']['get']['responses']['200']['content']['application/json']> => {
       return (
-        await this.apiInstance.get<paths['/airports/{airportId}/metar']['get']['responses']['200']['content']['application/json']>(
+        await this.apiInstance.get(
           `airports/${airportId}/metar`
         )
       ).data;
@@ -97,7 +96,7 @@ export default class AeroClient {
      *
      * @param airlineId Airline id
      */
-    get: async (airlineId: string) => {
+    get: async (airlineId: string): Promise<Airline> => {
       return (
         await this.apiInstance.get<paths['/airlines/{airlineId}']['get']['responses']['200']['content']['application/json']>(`airlines/${airlineId}`)
       ).data;
@@ -116,7 +115,7 @@ export default class AeroClient {
     list: async (parameters?: APIQueryParameters<Notam>): Promise<Notam[]> => {
       return await handleApiRequest<Notam>('GET', 'notams', parameters, this.apiInstance);
     },
-    get: async (notamId: string) => {
+    get: async (notamId: string): Promise<Notam> => {
       return (await this.apiInstance.get<paths['/notams/{notamId}']['get']['responses']['200']['content']['application/json']>(`notams/${notamId}`))
         .data;
     },
@@ -127,7 +126,7 @@ export default class AeroClient {
      * List all countries
      * @returns List of countries
      */
-    list: async (parameters?: APIQueryParameters<Country>) => {
+    list: async (parameters?: APIQueryParameters<Country>): Promise<Country[]> => {
       return await handleApiRequest<Country>('GET', 'countries', parameters, this.apiInstance);
     },
     /**
@@ -135,7 +134,7 @@ export default class AeroClient {
      * @param countryCode Country code (ISO 3166-1 alpha-2)
      * @returns Country data
      */
-    get: async (countryCode: string) => {
+    get: async (countryCode: string): Promise<Country> => {
       return (
         await this.apiInstance.get<paths['/countries/{countryCode}']['get']['responses']['200']['content']['application/json']>(
           `countries/${countryCode}`
@@ -149,7 +148,7 @@ export default class AeroClient {
    * @param query
    * @returns
    */
-  search = async (query: string) => {
-    return (await this.apiInstance.get<paths['/search']['get']['responses']['200']['content']['application/json']>(`search?query=${query}`)).data;
+  search = async (query: string): Promise<paths['/search']['get']['responses']['200']['content']['application/json']> => {
+    return (await this.apiInstance.get(`search?query=${query}`)).data;
   };
 }
