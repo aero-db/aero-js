@@ -1,1580 +1,285 @@
 {
   "openapi": "3.0.0",
-  "components": {
-    "examples": {},
-    "headers": {},
-    "parameters": {},
-    "requestBodies": {},
-    "responses": {},
-    "schemas": {
-      "User": {
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "verified": {
-            "type": "boolean"
-          },
-          "verificationToken": {
-            "type": "string"
-          },
-          "verificationTokenExpiry": {
-            "type": "string"
-          },
-          "verificationDate": {
-            "type": "string"
-          },
-          "disabled": {
-            "type": "boolean"
-          },
-          "permissions": {
-            "items": {
-              "type": "string",
-              "enum": [
-                "ADMIN",
-                "USER"
-              ]
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "email",
-          "password",
-          "firstName",
-          "lastName",
-          "verified",
-          "disabled",
-          "permissions"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "RunwayEnd": {
-        "properties": {
-          "ident": {
-            "type": "string",
-            "description": "The name of the runway end."
-          },
-          "elevation": {
-            "type": "number",
-            "format": "double",
-            "description": "The elevation of the runway end in feets."
-          },
-          "heading": {
-            "type": "number",
-            "format": "double",
-            "description": "The heading of the runway end in degrees."
-          },
-          "displacedThreshold": {
-            "type": "number",
-            "format": "double",
-            "description": "The displaced threshold of the runway end in feets."
-          },
-          "coordinates": {
-            "properties": {
-              "longitude": {
-                "type": "number",
-                "format": "double"
-              },
-              "latitude": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "longitude",
-              "latitude"
-            ],
-            "type": "object",
-            "description": "The coordinates of the runway end."
-          }
-        },
-        "required": [
-          "ident"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Runway": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the runway."
-          },
-          "length": {
-            "type": "number",
-            "format": "double",
-            "description": "The length of the runway in feets."
-          },
-          "width": {
-            "type": "number",
-            "format": "double",
-            "description": "The width of the runway in feets."
-          },
-          "lowEnd": {
-            "$ref": "#/components/schemas/RunwayEnd"
-          },
-          "highEnd": {
-            "$ref": "#/components/schemas/RunwayEnd"
-          },
-          "surface": {
-            "type": "string",
-            "description": "The surface of the runway."
-          },
-          "isClosed": {
-            "type": "boolean",
-            "description": "True if the runway is closed."
-          },
-          "isLighted": {
-            "type": "boolean",
-            "description": "True if the runway is lighted."
-          }
-        },
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Frequency": {
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "The type of frequency."
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the frequency."
-          },
-          "frequency": {
-            "type": "number",
-            "format": "double",
-            "description": "The frequency in MHz."
-          }
-        },
-        "required": [
-          "type",
-          "name",
-          "frequency"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "AirportUrl": {
-        "properties": {
-          "url": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "website",
-              "wikipedia"
-            ]
-          }
-        },
-        "required": [
-          "url",
-          "type"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "AirportInternal": {
-        "properties": {
-          "fsx_runways": {
-            "type": "string"
-          },
-          "fsx_airport": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "fsx_runways",
-          "fsx_airport"
-        ],
-        "type": "object",
-        "description": "Airport raw internal data provided by scrappers"
-      },
-      "Airport": {
-        "description": "Represents an airport.",
-        "properties": {
-          "airportId": {
-            "type": "string",
-            "description": "Unique internal identifier of the airport."
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the airport."
-          },
-          "localCode": {
-            "type": "string",
-            "description": "A code used to identify the airport locally."
-          },
-          "icaoCode": {
-            "type": "string",
-            "description": "The International Civil Aviation Organization (ICAO) code of the airport."
-          },
-          "gpsCode": {
-            "type": "string",
-            "description": "The Global Positioning System (GPS) code of the airport."
-          },
-          "iataCode": {
-            "type": "string",
-            "description": "The International Air Transport Association (IATA) code of the airport."
-          },
-          "coordinates": {
-            "properties": {
-              "longitude": {
-                "type": "number",
-                "format": "double"
-              },
-              "latitude": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "longitude",
-              "latitude"
-            ],
-            "type": "object",
-            "description": "The coordinates of the airport."
-          },
-          "elevation": {
-            "type": "number",
-            "format": "double",
-            "description": "The elevation of the airport in feets."
-          },
-          "countryCode": {
-            "type": "string",
-            "description": "The country where the airport is located.\n\nISO 3166-1 alpha-2 code.",
-            "example": "US"
-          },
-          "city": {
-            "type": "string",
-            "description": "The city where the airport is located."
-          },
-          "state": {
-            "type": "string",
-            "description": "The state where the airport is located."
-          },
-          "county": {
-            "type": "string",
-            "description": "The county where the airport is located."
-          },
-          "continent": {
-            "type": "string",
-            "description": "The continent where the airport is located (2 letters code).",
-            "example": "EU"
-          },
-          "timezone": {
-            "type": "string",
-            "description": "The timezone of the airport in the TZ database format.",
-            "example": "America/New_York"
-          },
-          "runways": {
-            "items": {
-              "$ref": "#/components/schemas/Runway"
-            },
-            "type": "array"
-          },
-          "frequencies": {
-            "items": {
-              "$ref": "#/components/schemas/Frequency"
-            },
-            "type": "array"
-          },
-          "urls": {
-            "items": {
-              "$ref": "#/components/schemas/AirportUrl"
-            },
-            "type": "array",
-            "description": "Various URLs related to the airport."
-          },
-          "_internal": {
-            "$ref": "#/components/schemas/AirportInternal",
-            "description": "Internal properties"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "smallAirport",
-              "mediumAirport",
-              "largeAirport",
-              "heliport",
-              "seaplaneBase",
-              "baloonPort",
-              "closed"
-            ],
-            "description": "The type of airport."
-          }
-        },
-        "required": [
-          "airportId",
-          "name",
-          "type"
-        ],
-        "type": "object",
-        "additionalProperties": false,
-        "example": {
-          "name": "John F. Kennedy International Airport",
-          "icao": "KJFK",
-          "iata": "JFK",
-          "coordinates": {
-            "latitude": 40.6413,
-            "longitude": -73.7781
-          },
-          "elevation": 13,
-          "countryCode": "US",
-          "city": "New York",
-          "state": "New York",
-          "county": "Queens",
-          "timezone": "America/New_York",
-          "runways": [
-            {
-              "name": "Runway 1",
-              "length": 10000,
-              "surface": "CON"
-            },
-            {
-              "name": "Runway 2",
-              "length": 8000,
-              "surface": "ASP"
-            }
-          ],
-          "frequencies": [
-            {
-              "name": "Tower",
-              "frequency": 118.3
-            },
-            {
-              "name": "Ground",
-              "frequency": 121.9
-            }
-          ]
-        }
-      },
-      "Airline": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the airline."
-          },
-          "airlineId": {
-            "type": "string",
-            "description": "Unique identifier of the airline."
-          },
-          "icao": {
-            "type": "string",
-            "description": "The ICAO code of the airline."
-          },
-          "iata": {
-            "type": "string",
-            "description": "The IATA code of the airline."
-          },
-          "callSign": {
-            "type": "string",
-            "description": "The call sign of the airline."
-          },
-          "websiteUrl": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "isDefunct": {
-            "type": "boolean",
-            "description": "True if the airline is defunct and no longer operating."
-          }
-        },
-        "required": [
-          "name",
-          "airlineId",
-          "isDefunct"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "CityCode": {
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "location": {
-            "properties": {
-              "county": {
-                "type": "string"
-              },
-              "state": {
-                "type": "string"
-              },
-              "city": {
-                "type": "string"
-              },
-              "country": {
-                "type": "string"
-              },
-              "elevation": {
-                "type": "number",
-                "format": "double"
-              },
-              "longitude": {
-                "type": "number",
-                "format": "double"
-              },
-              "latitude": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "county",
-              "state",
-              "city",
-              "country",
-              "elevation",
-              "longitude",
-              "latitude"
-            ],
-            "type": "object"
-          },
-          "timezone": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "code",
-          "name",
-          "location",
-          "timezone"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "AircraftCategory": {
-        "type": "string",
-        "enum": [
-          "amphibian",
-          "gyrocopter",
-          "helicopter",
-          "landplane",
-          "seaplane",
-          "tiltrotor",
-          "other"
-        ],
-        "description": "The category of the aircraft type.\n\n- `amphibian`: An aircraft that can operate on land and water.\n\n- `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.\n\n- `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.\n\n- `landplane`: An aircraft that operates on land.\n\n- `seaplane`: An aircraft that can operate on water.\n\n- `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.\n\n- `other`: An aircraft that does not fit into any of the other categories."
-      },
-      "WakeTurbulenceCategory": {
-        "type": "string",
-        "enum": [
-          "L",
-          "M",
-          "H",
-          "J"
-        ],
-        "description": "Represent a wake turbulence category of an aircraft type.\n\n- `L`: Light\n\n- `M`: Medium\n\n- `H`: Heavy\n\n- `J`: Super"
-      },
-      "WakeTurbulenceGroup": {
-        "type": "string",
-        "enum": [
-          "A",
-          "B",
-          "C",
-          "D",
-          "E",
-          "F",
-          "G"
-        ],
-        "description": "The wake turbulence group of the aircraft type, based on weight and wingspan criteria.\n\n- `A`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 80 m but greater than 74.68 m (equivalent to SUPER wake turbulence category).\n- `B`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 74.68 m but greater than 53.34 m (equivalent to HEAVY wake turbulence category).\n- `C`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 53.34 m but greater than 38.1 m (equivalent to HEAVY wake turbulence category).\n- `D`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan greater than 32 m.\n- `E`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan less than or equal to 32 m but greater than 27.43 m.\n- `F`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan less than or equal to 27.43 m.\n- `G`: Aircraft types of 18,600 kg or less (without a wingspan criterion)."
-      },
-      "AircraftType": {
-        "description": "Represents an aircraft type.",
-        "properties": {
-          "aircraftTypeId": {
-            "type": "string",
-            "description": "The unique identifier of the aircraft type.\n\nNote: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator."
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the aircraft type."
-          },
-          "icaoCode": {
-            "type": "string",
-            "description": "The ICAO code of the aircraft type."
-          },
-          "aircraftDescription": {
-            "type": "string",
-            "description": "A 3-letter description code of the aircraft, as defined in ICAO Doc 8643.\n\nThe code provides basic details about the aircraft:\n\n- **First Symbol**: Describes the aircraft type:\n  - `L`: Landplane (e.g., A320).\n  - `S`: Seaplane (e.g., HARBIN SH-5).\n  - `A`: Amphibian (e.g., LA4).\n  - `G`: Gyrocopter (e.g., A002).\n  - `H`: Helicopter (e.g., A109).\n  - `T`: Tiltrotor (e.g., V22).\n\n- **Second Symbol**: Specifies the number of engines:\n  - `1`, `2`, `3`, `4`, `6`, `8`: The number of engines.\n  - `C`: Two engines coupled to drive a single propeller system (for fixed-wing aircraft, e.g., C08T).\n\n- **Third Symbol**: Specifies the engine type:\n  - `J`: Jet engine.\n  - `T`: Turboprop/turboshaft.\n  - `P`: Piston engine.\n  - `E`: Electric engine.\n  - `R`: Rocket engine.\n\n**Examples**:\n- `L2J`: A landplane with two jet engines.\n- `H2T`: A helicopter with two turboprop/turboshaft engines.\n- `S1P`: A seaplane with one piston engine.",
-            "example": "L2J"
-          },
-          "designator": {
-            "type": "string",
-            "description": "The ICAO designator code of the aircraft type."
-          },
-          "manufacturerCode": {
-            "type": "string",
-            "description": "The ICAO manufacturer code of the aircraft type."
-          },
-          "category": {
-            "$ref": "#/components/schemas/AircraftCategory"
-          },
-          "engineType": {
-            "type": "string"
-          },
-          "engineCount": {
-            "type": "number",
-            "format": "double",
-            "description": "The number of engines of the aircraft type."
-          },
-          "wakeTurbulenceCategories": {
-            "items": {
-              "$ref": "#/components/schemas/WakeTurbulenceCategory"
-            },
-            "type": "array"
-          },
-          "wakeTurbulenceGroup": {
-            "$ref": "#/components/schemas/WakeTurbulenceGroup"
-          }
-        },
-        "required": [
-          "aircraftTypeId",
-          "name",
-          "icaoCode",
-          "aircraftDescription",
-          "designator",
-          "manufacturerCode",
-          "category",
-          "wakeTurbulenceCategories"
-        ],
-        "type": "object",
-        "additionalProperties": false,
-        "example": {
-          "aircraftTypeId": "AIRBUS_A388",
-          "name": "Airbus A380",
-          "icaoCode": "A388",
-          "designator": "A380",
-          "manufacturerCode": "AIRBUS",
-          "category": "landplane",
-          "aircraftDescription": "L4J",
-          "engineType": "jet",
-          "engineCount": 4,
-          "wakeTurbulenceCategories": [
-            "H"
-          ],
-          "wakeTurbulenceGroup": "C"
-        }
-      },
-      "SearchResult": {
-        "properties": {
-          "aircraftTypes": {
-            "items": {
-              "$ref": "#/components/schemas/AircraftType"
-            },
-            "type": "array"
-          },
-          "cityCodes": {
-            "items": {
-              "$ref": "#/components/schemas/CityCode"
-            },
-            "type": "array"
-          },
-          "airlines": {
-            "items": {
-              "$ref": "#/components/schemas/Airline"
-            },
-            "type": "array"
-          },
-          "airports": {
-            "items": {
-              "$ref": "#/components/schemas/Airport"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "aircraftTypes",
-          "cityCodes",
-          "airlines",
-          "airports"
-        ],
-        "type": "object"
-      },
-      "Notam": {
-        "properties": {
-          "notamId": {
-            "type": "string",
-            "description": "Unique identifier for the NOTAM.\n\nIt is expected to be the same as the NOTAM number but with slashes replaced by dashes.\n\nExample: A0611/24 -> A0611-24"
-          },
-          "notamNumber": {
-            "type": "string",
-            "description": "The NOTAM number."
-          },
-          "message": {
-            "type": "string",
-            "description": "The message of the NOTAM."
-          },
-          "transactionId": {
-            "type": "number",
-            "format": "double",
-            "description": "The transaction ID of the NOTAM."
-          },
-          "icao": {
-            "type": "string",
-            "description": "The ICAO code of the location the NOTAM is related to."
-          },
-          "issueDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "source": {
-            "type": "string"
-          },
-          "sourceType": {
-            "type": "string"
-          },
-          "isSnowtam": {
-            "type": "boolean",
-            "description": "Indicates if the NOTAM is a SNOWTAM."
-          },
-          "isProcedure": {
-            "type": "boolean",
-            "description": "Indicates if the NOTAM is a procedure."
-          },
-          "mapPointer": {
-            "type": "string"
-          },
-          "geometry": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "notamId",
-          "notamNumber",
-          "message",
-          "transactionId"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "QueryParameters": {
-        "properties": {
-          "filter": {
-            "type": "string",
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
-          },
-          "sort": {
-            "type": "string",
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)"
-          },
-          "limit": {
-            "type": "number",
-            "format": "double",
-            "description": "Number of items to return",
-            "example": 50,
-            "default": 50,
-            "maximum": 300
-          },
-          "page": {
-            "type": "number",
-            "format": "double",
-            "description": "Page number",
-            "example": 1,
-            "default": 1
-          }
-        },
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Partial_Notam_": {
-        "properties": {
-          "notamId": {
-            "type": "string",
-            "description": "Unique identifier for the NOTAM.\n\nIt is expected to be the same as the NOTAM number but with slashes replaced by dashes.\n\nExample: A0611/24 -> A0611-24"
-          },
-          "notamNumber": {
-            "type": "string",
-            "description": "The NOTAM number."
-          },
-          "message": {
-            "type": "string",
-            "description": "The message of the NOTAM."
-          },
-          "transactionId": {
-            "type": "number",
-            "format": "double",
-            "description": "The transaction ID of the NOTAM."
-          },
-          "icao": {
-            "type": "string",
-            "description": "The ICAO code of the location the NOTAM is related to."
-          },
-          "issueDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "source": {
-            "type": "string"
-          },
-          "sourceType": {
-            "type": "string"
-          },
-          "isSnowtam": {
-            "type": "boolean",
-            "description": "Indicates if the NOTAM is a SNOWTAM."
-          },
-          "isProcedure": {
-            "type": "boolean",
-            "description": "Indicates if the NOTAM is a procedure."
-          },
-          "mapPointer": {
-            "type": "string"
-          },
-          "geometry": {
-            "type": "string"
-          }
-        },
-        "type": "object",
-        "description": "Make all properties in T optional"
-      },
-      "SubDivision": {
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "code"
-        ],
-        "type": "object"
-      },
-      "Country": {
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "alpha2": {
-            "type": "string"
-          },
-          "alpha3": {
-            "type": "string"
-          },
-          "isoId": {
-            "type": "number",
-            "format": "double"
-          },
-          "subdivisions": {
-            "items": {
-              "$ref": "#/components/schemas/SubDivision"
-            },
-            "type": "array"
-          },
-          "continent": {
-            "type": "string"
-          },
-          "timezone": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "alpha2",
-          "alpha3",
-          "isoId",
-          "subdivisions",
-          "continent",
-          "timezone"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Partial_Country_": {
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "alpha2": {
-            "type": "string"
-          },
-          "alpha3": {
-            "type": "string"
-          },
-          "isoId": {
-            "type": "number",
-            "format": "double"
-          },
-          "subdivisions": {
-            "items": {
-              "$ref": "#/components/schemas/SubDivision"
-            },
-            "type": "array"
-          },
-          "continent": {
-            "type": "string"
-          },
-          "timezone": {
-            "type": "string"
-          }
-        },
-        "type": "object",
-        "description": "Make all properties in T optional"
-      },
-      "Partial_CityCode_": {
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "location": {
-            "properties": {
-              "county": {
-                "type": "string"
-              },
-              "state": {
-                "type": "string"
-              },
-              "city": {
-                "type": "string"
-              },
-              "country": {
-                "type": "string"
-              },
-              "elevation": {
-                "type": "number",
-                "format": "double"
-              },
-              "longitude": {
-                "type": "number",
-                "format": "double"
-              },
-              "latitude": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "county",
-              "state",
-              "city",
-              "country",
-              "elevation",
-              "longitude",
-              "latitude"
-            ],
-            "type": "object"
-          },
-          "timezone": {
-            "type": "string"
-          }
-        },
-        "type": "object",
-        "description": "Make all properties in T optional"
-      },
-      "ChangeLog": {
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The date of the change."
-          },
-          "resourceType": {
-            "type": "string",
-            "description": "The type of the resource that was changed.",
-            "example": "airline"
-          },
-          "resourceId": {
-            "type": "string",
-            "description": "The unique identifier of the resource that was changed."
-          },
-          "changes": {
-            "type": "string",
-            "description": "The changes that were made. (JSON diff)"
-          }
-        },
-        "required": [
-          "date",
-          "resourceType",
-          "resourceId",
-          "changes"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Partial_ChangeLog_": {
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The date of the change."
-          },
-          "resourceType": {
-            "type": "string",
-            "description": "The type of the resource that was changed.",
-            "example": "airline"
-          },
-          "resourceId": {
-            "type": "string",
-            "description": "The unique identifier of the resource that was changed."
-          },
-          "changes": {
-            "type": "string",
-            "description": "The changes that were made. (JSON diff)"
-          }
-        },
-        "type": "object",
-        "description": "Make all properties in T optional"
-      },
-      "Pick_User.email-or-password-or-firstName-or-lastName_": {
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "password",
-          "firstName",
-          "lastName"
-        ],
-        "type": "object",
-        "description": "From T, pick a set of properties whose keys are in the union K"
-      },
-      "SignupParams": {
-        "$ref": "#/components/schemas/Pick_User.email-or-password-or-firstName-or-lastName_"
-      },
-      "Pick_User.email-or-password_": {
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ],
-        "type": "object",
-        "description": "From T, pick a set of properties whose keys are in the union K"
-      },
-      "LoginParams": {
-        "$ref": "#/components/schemas/Pick_User.email-or-password_"
-      },
-      "RefreshTokenResponse": {
-        "properties": {
-          "token": {
-            "type": "string"
-          },
-          "tokenExpires": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "token",
-          "tokenExpires"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "ApiKeyScope": {
-        "type": "string",
-        "enum": [
-          "public",
-          "admin"
-        ]
-      },
-      "ApiKey": {
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "expires": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "scopes": {
-            "items": {
-              "$ref": "#/components/schemas/ApiKeyScope"
-            },
-            "type": "array"
-          }
-        },
-        "required": [
-          "key",
-          "userId",
-          "expires",
-          "scopes"
-        ],
-        "type": "object",
-        "additionalProperties": false
-      },
-      "Pick_Airport.airportId-or-name_": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the airport."
-          },
-          "airportId": {
-            "type": "string",
-            "description": "Unique internal identifier of the airport."
-          }
-        },
-        "required": [
-          "name",
-          "airportId"
-        ],
-        "type": "object",
-        "description": "From T, pick a set of properties whose keys are in the union K"
-      },
-      "AirportOverview": {
-        "$ref": "#/components/schemas/Pick_Airport.airportId-or-name_"
-      },
-      "QueryParametersWithoutLimit": {
-        "properties": {
-          "filter": {
-            "type": "string",
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)"
-          },
-          "sort": {
-            "type": "string",
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)"
-          },
-          "limit": {
-            "type": "number",
-            "format": "double",
-            "description": "Number of items to return",
-            "example": 50,
-            "default": 50
-          },
-          "page": {
-            "type": "number",
-            "format": "double",
-            "description": "Page number",
-            "example": 1,
-            "default": 1
-          }
-        },
-        "type": "object",
-        "additionalProperties": false
-      },
-      "MetarResponse": {
-        "items": {
-          "type": "string"
-        },
-        "type": "array",
-        "description": "A list of METAR reports"
-      },
-      "Partial_Airport_": {
-        "properties": {
-          "airportId": {
-            "type": "string",
-            "description": "Unique internal identifier of the airport."
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the airport."
-          },
-          "localCode": {
-            "type": "string",
-            "description": "A code used to identify the airport locally."
-          },
-          "icaoCode": {
-            "type": "string",
-            "description": "The International Civil Aviation Organization (ICAO) code of the airport."
-          },
-          "gpsCode": {
-            "type": "string",
-            "description": "The Global Positioning System (GPS) code of the airport."
-          },
-          "iataCode": {
-            "type": "string",
-            "description": "The International Air Transport Association (IATA) code of the airport."
-          },
-          "coordinates": {
-            "properties": {
-              "longitude": {
-                "type": "number",
-                "format": "double"
-              },
-              "latitude": {
-                "type": "number",
-                "format": "double"
-              }
-            },
-            "required": [
-              "longitude",
-              "latitude"
-            ],
-            "type": "object",
-            "description": "The coordinates of the airport."
-          },
-          "elevation": {
-            "type": "number",
-            "format": "double",
-            "description": "The elevation of the airport in feets."
-          },
-          "countryCode": {
-            "type": "string",
-            "description": "The country where the airport is located.\n\nISO 3166-1 alpha-2 code.",
-            "example": "US"
-          },
-          "city": {
-            "type": "string",
-            "description": "The city where the airport is located."
-          },
-          "state": {
-            "type": "string",
-            "description": "The state where the airport is located."
-          },
-          "county": {
-            "type": "string",
-            "description": "The county where the airport is located."
-          },
-          "continent": {
-            "type": "string",
-            "description": "The continent where the airport is located (2 letters code).",
-            "example": "EU"
-          },
-          "timezone": {
-            "type": "string",
-            "description": "The timezone of the airport in the TZ database format.",
-            "example": "America/New_York"
-          },
-          "runways": {
-            "items": {
-              "$ref": "#/components/schemas/Runway"
-            },
-            "type": "array"
-          },
-          "frequencies": {
-            "items": {
-              "$ref": "#/components/schemas/Frequency"
-            },
-            "type": "array"
-          },
-          "urls": {
-            "items": {
-              "$ref": "#/components/schemas/AirportUrl"
-            },
-            "type": "array",
-            "description": "Various URLs related to the airport."
-          },
-          "_internal": {
-            "$ref": "#/components/schemas/AirportInternal",
-            "description": "Internal properties"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "smallAirport",
-              "mediumAirport",
-              "largeAirport",
-              "heliport",
-              "seaplaneBase",
-              "baloonPort",
-              "closed"
-            ],
-            "description": "The type of airport."
-          }
-        },
-        "type": "object",
-        "description": "Make all properties in T optional"
-      },
-      "Pick_Airline.airlineId-or-name_": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the airline."
-          },
-          "airlineId": {
-            "type": "string",
-            "description": "Unique identifier of the airline."
-          }
-        },
-        "required": [
-          "name",
-          "airlineId"
-        ],
-        "type": "object",
-        "description": "From T, pick a set of properties whose keys are in the union K"
-      },
-      "AirlineOverview": {
-        "$ref": "#/components/schemas/Pick_Airline.airlineId-or-name_"
-      },
-      "Partial_Airline_": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the airline."
-          },
-          "airlineId": {
-            "type": "string",
-            "description": "Unique identifier of the airline."
-          },
-          "icao": {
-            "type": "string",
-            "description": "The ICAO code of the airline."
-          },
-          "iata": {
-            "type": "string",
-            "description": "The IATA code of the airline."
-          },
-          "callSign": {
-            "type": "string",
-            "description": "The call sign of the airline."
-          },
-          "websiteUrl": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          },
-          "isDefunct": {
-            "type": "boolean",
-            "description": "True if the airline is defunct and no longer operating."
-          }
-        },
-        "type": "object",
-        "description": "Make all properties in T optional"
-      },
-      "Pick_AircraftType.aircraftTypeId-or-manufacturerCode-or-icaoCode-or-name_": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the aircraft type."
-          },
-          "icaoCode": {
-            "type": "string",
-            "description": "The ICAO code of the aircraft type."
-          },
-          "aircraftTypeId": {
-            "type": "string",
-            "description": "The unique identifier of the aircraft type.\n\nNote: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator."
-          },
-          "manufacturerCode": {
-            "type": "string",
-            "description": "The ICAO manufacturer code of the aircraft type."
-          }
-        },
-        "required": [
-          "name",
-          "icaoCode",
-          "aircraftTypeId",
-          "manufacturerCode"
-        ],
-        "type": "object",
-        "description": "From T, pick a set of properties whose keys are in the union K"
-      },
-      "AircraftTypeOverview": {
-        "$ref": "#/components/schemas/Pick_AircraftType.aircraftTypeId-or-manufacturerCode-or-icaoCode-or-name_"
-      },
-      "Partial_AircraftType_": {
-        "properties": {
-          "aircraftTypeId": {
-            "type": "string",
-            "description": "The unique identifier of the aircraft type.\n\nNote: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator."
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the aircraft type."
-          },
-          "icaoCode": {
-            "type": "string",
-            "description": "The ICAO code of the aircraft type."
-          },
-          "aircraftDescription": {
-            "type": "string",
-            "description": "A 3-letter description code of the aircraft, as defined in ICAO Doc 8643.\n\nThe code provides basic details about the aircraft:\n\n- **First Symbol**: Describes the aircraft type:\n  - `L`: Landplane (e.g., A320).\n  - `S`: Seaplane (e.g., HARBIN SH-5).\n  - `A`: Amphibian (e.g., LA4).\n  - `G`: Gyrocopter (e.g., A002).\n  - `H`: Helicopter (e.g., A109).\n  - `T`: Tiltrotor (e.g., V22).\n\n- **Second Symbol**: Specifies the number of engines:\n  - `1`, `2`, `3`, `4`, `6`, `8`: The number of engines.\n  - `C`: Two engines coupled to drive a single propeller system (for fixed-wing aircraft, e.g., C08T).\n\n- **Third Symbol**: Specifies the engine type:\n  - `J`: Jet engine.\n  - `T`: Turboprop/turboshaft.\n  - `P`: Piston engine.\n  - `E`: Electric engine.\n  - `R`: Rocket engine.\n\n**Examples**:\n- `L2J`: A landplane with two jet engines.\n- `H2T`: A helicopter with two turboprop/turboshaft engines.\n- `S1P`: A seaplane with one piston engine.",
-            "example": "L2J"
-          },
-          "designator": {
-            "type": "string",
-            "description": "The ICAO designator code of the aircraft type."
-          },
-          "manufacturerCode": {
-            "type": "string",
-            "description": "The ICAO manufacturer code of the aircraft type."
-          },
-          "category": {
-            "$ref": "#/components/schemas/AircraftCategory"
-          },
-          "engineType": {
-            "type": "string"
-          },
-          "engineCount": {
-            "type": "number",
-            "format": "double",
-            "description": "The number of engines of the aircraft type."
-          },
-          "wakeTurbulenceCategories": {
-            "items": {
-              "$ref": "#/components/schemas/WakeTurbulenceCategory"
-            },
-            "type": "array"
-          },
-          "wakeTurbulenceGroup": {
-            "$ref": "#/components/schemas/WakeTurbulenceGroup"
-          }
-        },
-        "type": "object",
-        "description": "Make all properties in T optional"
-      }
-    },
-    "securitySchemes": {
-      "apiKey": {
-        "type": "apiKey",
-        "name": "x-api-key",
-        "in": "header"
-      },
-      "bearerToken": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "scopes": {
-          "admin": "modify things",
-          "user": "read things"
-        }
-      }
-    }
-  },
   "info": {
-    "title": "aero-db",
-    "version": "1.0.0",
-    "description": "AeroDB API",
-    "license": {
-      "name": "ISC"
-    },
-    "contact": {}
+    "title": "AeroDB API",
+    "version": "1.0.0"
   },
+  "tags": [
+    {
+      "name": "Airport"
+    },
+    {
+      "name": "User"
+    },
+    {
+      "name": "Country"
+    },
+    {
+      "name": "Notam"
+    },
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Search"
+    }
+  ],
   "paths": {
-    "/users/{userId}": {
+    "/airports": {
       "get": {
-        "operationId": "GetUser",
+        "operationId": "Airports_list",
+        "summary": "List all airports",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ListParameters.limit"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.page"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.filter"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.sort"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "The request has succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Airport"
+                  }
                 }
               }
             }
           }
         },
-        "description": "Get a user by id",
         "tags": [
-          "Users"
+          "Airport"
+        ]
+      },
+      "post": {
+        "operationId": "Airports_create",
+        "summary": "Create a new airport",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Airport"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Airport"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/airports/{airportId}": {
+      "get": {
+        "operationId": "Airports_get",
+        "summary": "Get an airport by ID",
+        "parameters": [
+          {
+            "name": "airportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource."
+          }
+        },
+        "tags": [
+          "Airport"
+        ]
+      },
+      "patch": {
+        "operationId": "Airports_update",
+        "summary": "Update an existing airport",
+        "parameters": [
+          {
+            "name": "airportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Airport"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AirportUpdate"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Airports_delete",
+        "summary": "Delete an airport by ID",
+        "parameters": [
+          {
+            "name": "airportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful. "
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Airport"
         ],
         "security": [
           {
-            "bearerToken": [
-              "user",
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "ApiKeyAuth": []
           }
         ]
       }
     },
-    "/search": {
+    "/countries": {
       "get": {
-        "operationId": "Search",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SearchResult"
-                }
-              }
-            }
-          }
-        },
-        "description": "Search for resources in the database",
-        "tags": [
-          "Search"
-        ],
-        "security": [],
+        "operationId": "Countries_list",
+        "summary": "List all countries",
         "parameters": [
           {
-            "in": "query",
-            "name": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/notams/{notamId}": {
-      "get": {
-        "operationId": "GetNotam",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Notam"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get one notam by its ICAO code",
-        "tags": [
-          "Notams"
-        ],
-        "security": [],
-        "parameters": [
+            "$ref": "#/components/parameters/ListParameters.limit"
+          },
           {
-            "in": "path",
-            "name": "notamId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/ListParameters.page"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.filter"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.sort"
           }
-        ]
-      }
-    },
-    "/notams": {
-      "get": {
-        "operationId": "GetNotams",
+        ],
         "responses": {
           "200": {
-            "description": "list of all notams",
+            "description": "The request has succeeded.",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Notam"
-                  },
-                  "type": "array"
+                    "$ref": "#/components/schemas/Country"
+                  }
                 }
               }
             }
           }
         },
-        "description": "Get all notams",
         "tags": [
-          "Notams"
-        ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          }
+          "Country"
         ]
-      }
-    },
-    "/countries/{countryCode}": {
-      "get": {
-        "operationId": "GetCountry",
+      },
+      "post": {
+        "operationId": "Countries_create",
+        "summary": "Create a new country",
+        "parameters": [],
         "responses": {
-          "200": {
-            "description": "Ok",
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1582,400 +287,225 @@
                 }
               }
             }
-          }
-        },
-        "description": "Get one country by its ICAO code",
-        "tags": [
-          "Countries"
-        ],
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "countryCode",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/countries": {
-      "get": {
-        "operationId": "GetCountries",
-        "responses": {
-          "200": {
-            "description": "list of all countries",
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Country"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/ValidationError"
                 }
               }
             }
           }
         },
-        "description": "Get all countries",
         "tags": [
-          "Countries"
+          "Country"
         ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          }
-        ]
-      }
-    },
-    "/cityCodes/{code}": {
-      "get": {
-        "operationId": "GetCityCode",
-        "responses": {
-          "200": {
-            "description": "City code information",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CityCode"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get one City code information by its ICAO code",
-        "tags": [
-          "City Codes"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "public"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "code",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/cityCodes": {
-      "get": {
-        "operationId": "GetCityCodes",
-        "responses": {
-          "200": {
-            "description": "list of all city codes",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/CityCode"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get all city codes",
-        "tags": [
-          "City Codes"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "public"
-            ]
-          }
-        ],
-        "parameters": []
-      }
-    },
-    "/changeLogs/{changeLogId}": {
-      "get": {
-        "operationId": "GetChange",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChangeLog"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get one changeLog entry by its internal id",
-        "tags": [
-          "Change Logs"
-        ],
-        "security": [
-          {
-            "apiKey": [
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "changeLogId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/changeLogs": {
-      "get": {
-        "operationId": "GetChangeLogsList",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ChangeLog"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get all changeLog entries",
-        "tags": [
-          "Change Logs"
-        ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          }
-        ]
-      }
-    },
-    "/signup": {
-      "post": {
-        "operationId": "Signup",
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        },
-        "description": "Create a new account",
-        "tags": [
-          "Authentication"
-        ],
-        "security": [],
-        "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SignupParams"
+                "$ref": "#/components/schemas/Country"
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/countries/{countryId}": {
+      "get": {
+        "operationId": "Countries_get",
+        "summary": "Get a country by ID",
+        "parameters": [
+          {
+            "name": "countryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Country"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Country"
+        ]
+      },
+      "patch": {
+        "operationId": "Countries_update",
+        "summary": "Update an existing country",
+        "parameters": [
+          {
+            "name": "countryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Country"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Country"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryUpdate"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Countries_delete",
+        "summary": "Delete a country",
+        "parameters": [
+          {
+            "name": "countryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful. "
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Country"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
       }
     },
     "/login": {
       "post": {
-        "operationId": "Login",
+        "operationId": "Auth_login",
+        "summary": "Authenticate a user and return a JWT token.",
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "The request has succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "tokenRefreshExpires": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "tokenRefresh": {
-                      "type": "string"
-                    },
-                    "tokenExpires": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "token": {
-                      "type": "string"
-                    },
-                    "user": {
-                      "$ref": "#/components/schemas/User"
-                    }
-                  },
-                  "required": [
-                    "tokenRefreshExpires",
-                    "tokenRefresh",
-                    "tokenExpires",
-                    "token",
-                    "user"
-                  ],
-                  "type": "object"
+                  "$ref": "#/components/schemas/AuthCredentials"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
                 }
               }
             }
           }
         },
-        "description": "Authenticate using email and password",
         "tags": [
-          "Authentication"
+          "Auth"
         ],
-        "security": [],
-        "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginParams"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/refreshToken": {
-      "post": {
-        "operationId": "RefreshToken",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RefreshTokenResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "Refresh a token",
-        "tags": [
-          "Authentication"
-        ],
-        "security": [],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
+                "type": "object",
                 "properties": {
-                  "refreshToken": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
                     "type": "string"
                   }
                 },
                 "required": [
-                  "refreshToken"
-                ],
-                "type": "object"
+                  "email",
+                  "password"
+                ]
+              },
+              "example": {
+                "email": "john.doe@aerodb.net",
+                "password": "password123"
               }
             }
           }
@@ -1984,717 +514,1854 @@
     },
     "/me": {
       "get": {
-        "operationId": "Me",
+        "operationId": "Auth_getCurrentUser",
+        "summary": "Get the current user based on the JWT token.",
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "The request has succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "user": {
-                      "$ref": "#/components/schemas/User"
-                    }
-                  },
-                  "required": [
-                    "user"
-                  ],
-                  "type": "object"
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
                 }
               }
             }
           }
         },
-        "description": "Get informations about the current session",
         "tags": [
-          "Authentication"
+          "Auth"
         ],
         "security": [
           {
-            "jwt": []
-          }
-        ],
-        "parameters": []
-      }
-    },
-    "/apiKeys/{userId}": {
-      "get": {
-        "operationId": "GetForUser",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ApiKey"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get all api keys belonging to a user",
-        "tags": [
-          "API Keys"
-        ],
-        "security": [
-          {
-            "jwt": [
-              "user",
-              "admin"
-            ]
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "BearerAuth": []
           }
         ]
       }
     },
-    "/apiKeys/{userId}/regenerate": {
+    "/notams": {
+      "get": {
+        "operationId": "Notams_list",
+        "summary": "List all NOTAMs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ListParameters.limit"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.page"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.filter"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.sort"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notam"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Notam"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
       "post": {
-        "operationId": "RegenerateUserApiKey",
+        "operationId": "Notams_create",
+        "summary": "Create a new NOTAM",
+        "parameters": [],
         "responses": {
-          "200": {
-            "description": "Ok",
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiKey"
+                  "$ref": "#/components/schemas/Notam"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
                 }
               }
             }
           }
         },
-        "description": "Regenerate a user's api key",
         "tags": [
-          "API Keys"
+          "Notam"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notam"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/notams/{notamId}": {
+      "get": {
+        "operationId": "Notams_get",
+        "summary": "Get a NOTAM by ID",
+        "parameters": [
+          {
+            "name": "notamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notam"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Notam"
         ],
         "security": [
           {
-            "jwt": [
-              "user",
-              "admin"
-            ]
+            "ApiKeyAuth": []
           }
-        ],
+        ]
+      },
+      "patch": {
+        "operationId": "Notams_update",
+        "summary": "Update a NOTAM",
         "parameters": [
           {
+            "name": "notamId",
             "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notam"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Notam"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotamUpdate"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "Notams_delete",
+        "summary": "Delete a NOTAM by ID",
+        "parameters": [
+          {
+            "name": "notamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful. "
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Notam"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/refreshToken": {
+      "post": {
+        "operationId": "Auth_refreshToken",
+        "summary": "Refresh the JWT token using a refresh token.",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthCredentials"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "operationId": "Search_search",
+        "summary": "Search in the database",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "explode": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Search"
+        ]
+      }
+    },
+    "/signup": {
+      "post": {
+        "operationId": "Auth_signUp",
+        "summary": "Create a new user account.",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthSignup"
+              },
+              "example": {
+                "email": "john.doe@aerodb.net",
+                "password": "password123",
+                "username": "john_doe"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "operationId": "Users_list",
+        "summary": "List all users",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ListParameters.limit"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.page"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.filter"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.sort"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "Users_create",
+        "summary": "Create a new user",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The server could not understand the request due to invalid syntax.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "operationId": "Users_get",
+        "summary": "Get a user by ID",
+        "parameters": [
+          {
             "name": "userId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/airports/all": {
-      "get": {
-        "operationId": "GetAllAirportsList",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/AirportOverview"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get an overview list of all airports",
-        "tags": [
-          "Airports"
-        ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 50
-          }
-        ]
-      }
-    },
-    "/airports": {
-      "get": {
-        "operationId": "GetAirportsList",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Airport"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get all airports",
-        "tags": [
-          "Airports"
-        ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          }
-        ]
-      }
-    },
-    "/airports/{airportId}": {
-      "get": {
-        "operationId": "GetAirport",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airport"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get one airport",
-        "tags": [
-          "Airports"
-        ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Unique identifier of the airport",
             "in": "path",
-            "name": "airportId",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
-        ]
-      }
-    },
-    "/airports/{airportId}/metar": {
-      "get": {
-        "operationId": "GetAirportMetar",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MetarResponse"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get the METARs from the last 24 hours for one airport",
-        "tags": [
-          "Airports"
         ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Unique identifier of the airport",
-            "in": "path",
-            "name": "airportId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    },
-    "/airlines/all": {
-      "get": {
-        "operationId": "GetAllAirlinesList",
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "The request has succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/AirlineOverview"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
                 }
               }
             }
           }
         },
-        "description": "Get an overview list of all airports",
         "tags": [
-          "Airlines"
-        ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 50
-          }
-        ]
-      }
-    },
-    "/airlines/{airlineId}": {
-      "get": {
-        "operationId": "GetAirline",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airline"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get one airline by its internal id",
-        "tags": [
-          "Airlines"
+          "User"
         ],
         "security": [
           {
-            "apiKey": [
-              "public"
-            ]
+            "ApiKeyAuth": []
           }
-        ],
+        ]
+      },
+      "patch": {
+        "operationId": "Users_update",
+        "summary": "Update an existing user",
         "parameters": [
           {
+            "name": "userId",
             "in": "path",
-            "name": "airlineId",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
-        ]
-      }
-    },
-    "/airlines": {
-      "get": {
-        "operationId": "GetAirlinesList",
+        ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "The request has succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Airline"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
                 }
               }
             }
           }
         },
-        "description": "Get all airlines",
         "tags": [
-          "Airlines"
+          "User"
         ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          }
-        ]
-      }
-    },
-    "/aircraftTypes/all": {
-      "get": {
-        "operationId": "GetAllAircraftTypesList",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/AircraftTypeOverview"
-                  },
-                  "type": "array"
-                }
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
               }
             }
           }
         },
-        "description": "Get an overview list of all aircraftTypes",
-        "tags": [
-          "Aircraft Types"
-        ],
-        "security": [],
-        "parameters": [
+        "security": [
           {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 50
+            "ApiKeyAuth": []
           }
         ]
-      }
-    },
-    "/aircraftTypes": {
-      "get": {
-        "operationId": "GetAircraftTypesList",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/AircraftType"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get all aircraftTypes",
-        "tags": [
-          "Aircraft Types"
-        ],
-        "security": [],
+      },
+      "delete": {
+        "operationId": "Users_delete",
+        "summary": "Delete a user by ID",
         "parameters": [
           {
-            "description": "Base64 encoded filter to apply to the query\n\nExample: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({\"type\":\"largeAirport\"})\n\n [More details](https://www.mongodb.com/docs/compass/current/query/filter/)",
-            "in": "query",
-            "name": "filter",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Base64 encoded sort order of the results\n\nExample `{ \"createdAt\": -1 }`\n\n[More details](https://www.mongodb.com/docs/compass/current/query/sort/)",
-            "in": "query",
-            "name": "sort",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "description": "Number of items to return",
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 50,
-              "format": "double",
-              "type": "number",
-              "maximum": 300
-            },
-            "example": 50
-          },
-          {
-            "description": "Page number",
-            "in": "query",
-            "name": "page",
-            "required": false,
-            "schema": {
-              "default": 1,
-              "format": "double",
-              "type": "number"
-            },
-            "example": 1
-          }
-        ]
-      }
-    },
-    "/aircraftTypes/{aircraftTypeId}": {
-      "get": {
-        "operationId": "GetAircraftType",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AircraftType"
-                }
-              }
-            }
-          }
-        },
-        "description": "Get one aircraftType",
-        "tags": [
-          "Aircraft Types"
-        ],
-        "security": [],
-        "parameters": [
-          {
-            "description": "Unique identifier of the aircraftType",
+            "name": "userId",
             "in": "path",
-            "name": "aircraftTypeId",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "There is no content to send for this request, but the headers may be useful. "
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{userId}/refreshApiKey": {
+      "post": {
+        "operationId": "Users_refresh",
+        "summary": "Refresh API key for a user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The server cannot find the requested resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
           }
         ]
       }
     }
   },
-  "servers": [
-    {
-      "url": "/"
+  "components": {
+    "parameters": {
+      "ListParameters.filter": {
+        "name": "filter",
+        "in": "query",
+        "required": false,
+        "description": "Filter expression to apply to the list.",
+        "schema": {
+          "type": "string"
+        },
+        "explode": false
+      },
+      "ListParameters.limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "description": "Maximum number of items to return per page.",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "maximum": 500,
+          "default": 100
+        },
+        "explode": false
+      },
+      "ListParameters.page": {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "description": "Page number to retrieve.",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 1
+        },
+        "explode": false
+      },
+      "ListParameters.sort": {
+        "name": "sort",
+        "in": "query",
+        "required": false,
+        "description": "Sort order for the list.",
+        "schema": {
+          "type": "string"
+        },
+        "explode": false
+      }
+    },
+    "schemas": {
+      "Airport": {
+        "type": "object",
+        "required": [
+          "id",
+          "updatedAt",
+          "name",
+          "icaoCode",
+          "iataCode",
+          "localCode",
+          "latitude",
+          "longitude",
+          "elevation",
+          "countryCode",
+          "city",
+          "state",
+          "county",
+          "continentCode",
+          "timezone",
+          "facilityType",
+          "isPrivate",
+          "isClosed",
+          "frequencies",
+          "runways"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID of the airport",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200
+          },
+          "icaoCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{4}$"
+          },
+          "iataCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{3}$"
+          },
+          "localCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "number",
+            "nullable": true
+          },
+          "elevation": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{2}$",
+            "description": "ISO 3166-1 alpha-2 country code"
+          },
+          "city": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "state": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "county": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "continentCode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContinentCode"
+              }
+            ],
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "facilityType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FACILITY_TYPE"
+              }
+            ],
+            "nullable": true
+          },
+          "isPrivate": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isClosed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "frequencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Frequency"
+            }
+          },
+          "runways": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Runway"
+            }
+          }
+        },
+        "example": {
+          "id": "1",
+          "createdAt": "2020-01-01T00:00:00Z",
+          "updatedAt": "2020-01-01T00:00:00Z",
+          "icaoCode": "KATL",
+          "name": "Hartsfield–Jackson Atlanta International Airport",
+          "iataCode": "ATL",
+          "localCode": "ATL",
+          "latitude": 33.6407,
+          "longitude": -84.4277,
+          "elevation": 1026,
+          "countryCode": "US",
+          "city": "Atlanta",
+          "state": "Georgia",
+          "county": "Fulton",
+          "continentCode": "NA",
+          "timezone": "America/New_York",
+          "facilityType": "InternationalAirport",
+          "isPrivate": false,
+          "isClosed": false,
+          "frequencies": [
+            {
+              "name": "ATIS",
+              "type": "ATIS",
+              "description": "Automatic Terminal Information Service",
+              "frequency": 118.4
+            },
+            {
+              "name": "Ground Control",
+              "type": "Ground",
+              "description": "Ground Control Frequency",
+              "frequency": 121.9
+            },
+            {
+              "name": "Tower Control",
+              "type": "Tower",
+              "description": "Tower Control Frequency",
+              "frequency": 118.3
+            }
+          ],
+          "runways": [
+            {
+              "name": "Runway 8L",
+              "length": 12000,
+              "width": 150,
+              "isClosed": false,
+              "isLighted": true,
+              "lowEndIdent": "8L",
+              "lowEndElevation": 1026,
+              "lowEndHeading": 80,
+              "lowEndDisplacedThreshold": 0,
+              "lowEndLatitude": 33.6407,
+              "lowEndLongitude": -84.4277,
+              "highEndIdent": "26R",
+              "highEndElevation": 1026,
+              "highEndHeading": 260,
+              "highEndDisplacedThreshold": 0,
+              "highEndLatitude": 33.6407,
+              "highEndLongitude": -84.4277
+            }
+          ]
+        }
+      },
+      "AirportUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200
+          },
+          "icaoCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{4}$"
+          },
+          "iataCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{3}$"
+          },
+          "localCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "number",
+            "nullable": true
+          },
+          "elevation": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{2}$",
+            "description": "ISO 3166-1 alpha-2 country code"
+          },
+          "city": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "state": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "county": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "continentCode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContinentCode"
+              }
+            ],
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "facilityType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FACILITY_TYPE"
+              }
+            ],
+            "nullable": true
+          },
+          "isPrivate": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isClosed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "frequencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Frequency"
+            }
+          },
+          "runways": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Runway"
+            }
+          }
+        },
+        "example": {
+          "id": "1",
+          "createdAt": "2020-01-01T00:00:00Z",
+          "updatedAt": "2020-01-01T00:00:00Z",
+          "icaoCode": "KATL",
+          "name": "Hartsfield–Jackson Atlanta International Airport",
+          "iataCode": "ATL",
+          "localCode": "ATL",
+          "latitude": 33.6407,
+          "longitude": -84.4277,
+          "elevation": 1026,
+          "countryCode": "US",
+          "city": "Atlanta",
+          "state": "Georgia",
+          "county": "Fulton",
+          "continentCode": "NA",
+          "timezone": "America/New_York",
+          "facilityType": "InternationalAirport",
+          "isPrivate": false,
+          "isClosed": false,
+          "frequencies": [
+            {
+              "name": "ATIS",
+              "type": "ATIS",
+              "description": "Automatic Terminal Information Service",
+              "frequency": 118.4
+            },
+            {
+              "name": "Ground Control",
+              "type": "Ground",
+              "description": "Ground Control Frequency",
+              "frequency": 121.9
+            },
+            {
+              "name": "Tower Control",
+              "type": "Tower",
+              "description": "Tower Control Frequency",
+              "frequency": 118.3
+            }
+          ],
+          "runways": [
+            {
+              "name": "Runway 8L",
+              "length": 12000,
+              "width": 150,
+              "isClosed": false,
+              "isLighted": true,
+              "lowEndIdent": "8L",
+              "lowEndElevation": 1026,
+              "lowEndHeading": 80,
+              "lowEndDisplacedThreshold": 0,
+              "lowEndLatitude": 33.6407,
+              "lowEndLongitude": -84.4277,
+              "highEndIdent": "26R",
+              "highEndElevation": 1026,
+              "highEndHeading": 260,
+              "highEndDisplacedThreshold": 0,
+              "highEndLatitude": 33.6407,
+              "highEndLongitude": -84.4277
+            }
+          ]
+        }
+      },
+      "AuthCredentials": {
+        "type": "object",
+        "required": [
+          "token",
+          "refreshToken",
+          "user"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "JWT token"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh token"
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ],
+            "description": "User object"
+          }
+        }
+      },
+      "AuthSignup": {
+        "type": "object",
+        "required": [
+          "username",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50
+          },
+          "email": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 100
+          }
+        }
+      },
+      "ContinentCode": {
+        "type": "string",
+        "enum": [
+          "AF",
+          "AN",
+          "AS",
+          "EU",
+          "NA",
+          "OC",
+          "SA",
+          "UN"
+        ],
+        "description": "ISO 3166-1 continent code"
+      },
+      "Country": {
+        "type": "object",
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "continentCode",
+          "isoId",
+          "timezone",
+          "countryCode",
+          "alpha3",
+          "name",
+          "subdivisions"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "continentCode": {
+            "$ref": "#/components/schemas/ContinentCode"
+          },
+          "isoId": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$",
+            "description": "ISO 3166-1 alpha-2 country code"
+          },
+          "alpha3": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "ISO 3166-1 alpha-3 country code"
+          },
+          "name": {
+            "type": "string"
+          },
+          "subdivisions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountrySubdivision"
+            }
+          }
+        },
+        "example": {
+          "id": "1",
+          "createdAt": "2020-01-01T00:00:00Z",
+          "updatedAt": "2020-01-01T00:00:00Z",
+          "continentCode": "NA",
+          "isoId": "US",
+          "timezone": "America/New_York",
+          "countryCode": "US",
+          "alpha3": "USA",
+          "name": "United States",
+          "subdivisions": [
+            {
+              "code": "CA",
+              "name": "California"
+            },
+            {
+              "code": "NY",
+              "name": "New York"
+            }
+          ]
+        }
+      },
+      "CountrySubdivision": {
+        "type": "object",
+        "required": [
+          "code",
+          "name"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "code": "AD-07",
+          "name": "Andorra la Vella"
+        }
+      },
+      "CountryUpdate": {
+        "type": "object",
+        "properties": {
+          "continentCode": {
+            "$ref": "#/components/schemas/ContinentCode"
+          },
+          "isoId": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$",
+            "description": "ISO 3166-1 alpha-2 country code"
+          },
+          "alpha3": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "description": "ISO 3166-1 alpha-3 country code"
+          },
+          "name": {
+            "type": "string"
+          },
+          "subdivisions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountrySubdivision"
+            }
+          }
+        },
+        "example": {
+          "id": "1",
+          "createdAt": "2020-01-01T00:00:00Z",
+          "updatedAt": "2020-01-01T00:00:00Z",
+          "continentCode": "NA",
+          "isoId": "US",
+          "timezone": "America/New_York",
+          "countryCode": "US",
+          "alpha3": "USA",
+          "name": "United States",
+          "subdivisions": [
+            {
+              "code": "CA",
+              "name": "California"
+            },
+            {
+              "code": "NY",
+              "name": "New York"
+            }
+          ]
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "status",
+          "code",
+          "message"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "FACILITY_TYPE": {
+        "type": "string",
+        "enum": [
+          "Airport",
+          "GliderSite",
+          "AirfieldCivil",
+          "InternationalAirport",
+          "HeliportMilitary",
+          "MilitaryAerodrome",
+          "UltraLightFlyingSite",
+          "HeliportCivil",
+          "AerodromeClosed",
+          "AirportIFR",
+          "AirfieldWater",
+          "LandingStrip",
+          "AgriculturalLandingStrip",
+          "Altiport"
+        ],
+        "description": "A type of facility"
+      },
+      "Frequency": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "description",
+          "frequency"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "frequency": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "NotFoundError": {
+        "type": "object",
+        "required": [
+          "statusCode",
+          "name",
+          "message"
+        ],
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "enum": [
+              404
+            ]
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "Not Found"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Notam": {
+        "type": "object",
+        "required": [
+          "id",
+          "updatedAt",
+          "notamId",
+          "message",
+          "transactionId",
+          "icao",
+          "issueDate",
+          "startDate",
+          "endDate",
+          "source",
+          "sourceType",
+          "mapPointer",
+          "geometry",
+          "isSnowtam",
+          "isProcedure"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID of the notam",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "notamId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "The NOTAM message text."
+          },
+          "transactionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "icao": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{4}$"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceType": {
+            "type": "string",
+            "nullable": true
+          },
+          "mapPointer": {
+            "type": "string",
+            "nullable": true
+          },
+          "geometry": {
+            "type": "string",
+            "nullable": true
+          },
+          "isSnowtam": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Indicates if the NOTAM is a SNOWTAM.\nA SNOWTAM (Snow and/or Ice NOTAM) is a special type of NOTAM (Notice to Airmen) issued by an airport to provide pilots with critical information about hazardous conditions on the movement area (runways and taxiways) caused by snow, ice, slush, frost, or standing water"
+          },
+          "isProcedure": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Indicates if the NOTAM is related to a procedure."
+          }
+        },
+        "example": {
+          "id": "67155d167139c42577c75279",
+          "notamId": "A0611/24",
+          "message": "A0611/24 NOTAMN\n    Q) LSAS/QFATT/IV/BO/A/000/999/4614N00607E005\n    A) LSGG B) 2410310000 C) 2411132359\n    E) TRIGGER NOTAM - PERM AIRAC AMDT 010/2024:\n    MAG VAR REVISED. \n    RDO NAV AND LDG AIDS GLA, GVA AND SPR DELETED AND PAS, LOC 22, \n    DME 22 AND LOC 04 REVISED. \n    FLT PROC SPECIAL REGULATION FOR GENEVA TMA/CTR REVISED. \n    SEVERAL SID AND STAR REVISED. \n    ADC, AOC AND ARC REVISED.\n    IAC SRA RWY 04 AND IAC SRA RWY 22 WITHDRAWN. \n    SEVERAL IAC REVISED.",
+          "transactionId": "73707264",
+          "icao": "LSGG",
+          "issueDate": "2024-09-19T04:00:00.000+00:00",
+          "startDate": "2024-09-19T04:00:00.000+00:00",
+          "endDate": "2024-09-19T04:00:00.000+00:00",
+          "source": "USNS",
+          "sourceType": "I",
+          "mapPointer": "POINT(6.10895 46.23806389)",
+          "geometry": "POINT(5105901.28612306 4966695.40062213)",
+          "createdAt": "2024-09-19T04:00:00.000+00:00",
+          "updatedAt": "2024-09-19T04:00:00.000+00:00",
+          "isSnowtam": false,
+          "isProcedure": false
+        }
+      },
+      "NotamUpdate": {
+        "type": "object",
+        "properties": {
+          "notamId": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "The NOTAM message text."
+          },
+          "transactionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "icao": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{4}$"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceType": {
+            "type": "string",
+            "nullable": true
+          },
+          "mapPointer": {
+            "type": "string",
+            "nullable": true
+          },
+          "geometry": {
+            "type": "string",
+            "nullable": true
+          },
+          "isSnowtam": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Indicates if the NOTAM is a SNOWTAM.\nA SNOWTAM (Snow and/or Ice NOTAM) is a special type of NOTAM (Notice to Airmen) issued by an airport to provide pilots with critical information about hazardous conditions on the movement area (runways and taxiways) caused by snow, ice, slush, frost, or standing water"
+          },
+          "isProcedure": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Indicates if the NOTAM is related to a procedure."
+          }
+        },
+        "example": {
+          "id": "67155d167139c42577c75279",
+          "notamId": "A0611/24",
+          "message": "A0611/24 NOTAMN\n    Q) LSAS/QFATT/IV/BO/A/000/999/4614N00607E005\n    A) LSGG B) 2410310000 C) 2411132359\n    E) TRIGGER NOTAM - PERM AIRAC AMDT 010/2024:\n    MAG VAR REVISED. \n    RDO NAV AND LDG AIDS GLA, GVA AND SPR DELETED AND PAS, LOC 22, \n    DME 22 AND LOC 04 REVISED. \n    FLT PROC SPECIAL REGULATION FOR GENEVA TMA/CTR REVISED. \n    SEVERAL SID AND STAR REVISED. \n    ADC, AOC AND ARC REVISED.\n    IAC SRA RWY 04 AND IAC SRA RWY 22 WITHDRAWN. \n    SEVERAL IAC REVISED.",
+          "transactionId": "73707264",
+          "icao": "LSGG",
+          "issueDate": "2024-09-19T04:00:00.000+00:00",
+          "startDate": "2024-09-19T04:00:00.000+00:00",
+          "endDate": "2024-09-19T04:00:00.000+00:00",
+          "source": "USNS",
+          "sourceType": "I",
+          "mapPointer": "POINT(6.10895 46.23806389)",
+          "geometry": "POINT(5105901.28612306 4966695.40062213)",
+          "createdAt": "2024-09-19T04:00:00.000+00:00",
+          "updatedAt": "2024-09-19T04:00:00.000+00:00",
+          "isSnowtam": false,
+          "isProcedure": false
+        }
+      },
+      "Runway": {
+        "type": "object",
+        "required": [
+          "name",
+          "length",
+          "width",
+          "isClosed",
+          "isLighted",
+          "lowEndIdent",
+          "lowEndElevation",
+          "lowEndHeading",
+          "lowEndDisplacedThreshold",
+          "lowEndLatitude",
+          "lowEndLongitude",
+          "highEndIdent",
+          "highEndElevation",
+          "highEndHeading",
+          "highEndDisplacedThreshold",
+          "highEndLatitude",
+          "highEndLongitude"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "width": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isClosed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isLighted": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "lowEndIdent": {
+            "type": "string",
+            "nullable": true
+          },
+          "lowEndElevation": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lowEndHeading": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lowEndDisplacedThreshold": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lowEndLatitude": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "lowEndLongitude": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "highEndIdent": {
+            "type": "string",
+            "nullable": true
+          },
+          "highEndElevation": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "highEndHeading": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "highEndDisplacedThreshold": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "highEndLatitude": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "highEndLongitude": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          }
+        }
+      },
+      "SearchResult": {
+        "type": "object",
+        "required": [
+          "airports"
+        ],
+        "properties": {
+          "airports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Airport"
+            }
+          }
+        }
+      },
+      "UnauthorizedError": {
+        "type": "object",
+        "required": [
+          "statusCode",
+          "name",
+          "message"
+        ],
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "enum": [
+              401
+            ]
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "Unauthorized"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "username",
+          "email",
+          "isVerified"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50
+          },
+          "email": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "example": {
+          "id": "123",
+          "username": "john_doe",
+          "email": "john.doe@aerodb.net",
+          "createdAt": "2020-01-01T00:00:00Z",
+          "updatedAt": "2020-01-01T00:00:00Z",
+          "isVerified": true,
+          "verificationDate": "2020-01-01T00:00:00Z",
+          "lastSeen": "2020-01-01T00:00:00Z"
+        }
+      },
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50
+          },
+          "email": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+          }
+        },
+        "example": {
+          "id": "123",
+          "username": "john_doe",
+          "email": "john.doe@aerodb.net",
+          "createdAt": "2020-01-01T00:00:00Z",
+          "updatedAt": "2020-01-01T00:00:00Z",
+          "isVerified": true,
+          "verificationDate": "2020-01-01T00:00:00Z",
+          "lastSeen": "2020-01-01T00:00:00Z"
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "required": [
+          "statusCode",
+          "name",
+          "message",
+          "details"
+        ],
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "enum": [
+              400
+            ]
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "Bad Request"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "apiKey"
+      },
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "Bearer"
+      }
     }
-  ]
+  }
 }

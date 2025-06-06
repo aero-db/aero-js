@@ -4,49 +4,106 @@
  */
 
 export interface paths {
-    "/users/{userId}": {
+    "/airports": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Get a user by id */
-        get: operations["GetUser"];
+        /** List all airports */
+        get: operations["Airports_list"];
         put?: never;
-        post?: never;
+        /** Create a new airport */
+        post: operations["Airports_create"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/search": {
+    "/airports/{airportId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Search for resources in the database */
-        get: operations["Search"];
+        /** Get an airport by ID */
+        get: operations["Airports_get"];
         put?: never;
         post?: never;
+        /** Delete an airport by ID */
+        delete: operations["Airports_delete"];
+        options?: never;
+        head?: never;
+        /** Update an existing airport */
+        patch: operations["Airports_update"];
+        trace?: never;
+    };
+    "/countries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all countries */
+        get: operations["Countries_list"];
+        put?: never;
+        /** Create a new country */
+        post: operations["Countries_create"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/notams/{notamId}": {
+    "/countries/{countryId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Get one notam by its ICAO code */
-        get: operations["GetNotam"];
+        /** Get a country by ID */
+        get: operations["Countries_get"];
+        put?: never;
+        post?: never;
+        /** Delete a country */
+        delete: operations["Countries_delete"];
+        options?: never;
+        head?: never;
+        /** Update an existing country */
+        patch: operations["Countries_update"];
+        trace?: never;
+    };
+    "/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Authenticate a user and return a JWT token. */
+        post: operations["Auth_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the current user based on the JWT token. */
+        get: operations["Auth_getCurrentUser"];
         put?: never;
         post?: never;
         delete?: never;
@@ -62,110 +119,62 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all notams */
-        get: operations["GetNotams"];
+        /** List all NOTAMs */
+        get: operations["Notams_list"];
         put?: never;
-        post?: never;
+        /** Create a new NOTAM */
+        post: operations["Notams_create"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/countries/{countryCode}": {
+    "/notams/{notamId}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Get one country by its ICAO code */
-        get: operations["GetCountry"];
+        /** Get a NOTAM by ID */
+        get: operations["Notams_get"];
         put?: never;
         post?: never;
+        /** Delete a NOTAM by ID */
+        delete: operations["Notams_delete"];
+        options?: never;
+        head?: never;
+        /** Update a NOTAM */
+        patch: operations["Notams_update"];
+        trace?: never;
+    };
+    "/refreshToken": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Refresh the JWT token using a refresh token. */
+        post: operations["Auth_refreshToken"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/countries": {
+    "/search": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Get all countries */
-        get: operations["GetCountries"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/cityCodes/{code}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get one City code information by its ICAO code */
-        get: operations["GetCityCode"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/cityCodes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get all city codes */
-        get: operations["GetCityCodes"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/changeLogs/{changeLogId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get one changeLog entry by its internal id */
-        get: operations["GetChange"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/changeLogs": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get all changeLog entries */
-        get: operations["GetChangeLogsList"];
+        /** Search in the database */
+        get: operations["Search_search"];
         put?: never;
         post?: never;
         delete?: never;
@@ -183,15 +192,52 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Create a new account */
-        post: operations["Signup"];
+        /** Create a new user account. */
+        post: operations["Auth_signUp"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/login": {
+    "/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all users */
+        get: operations["Users_list"];
+        put?: never;
+        /** Create a new user */
+        post: operations["Users_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/users/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a user by ID */
+        get: operations["Users_get"];
+        put?: never;
+        post?: never;
+        /** Delete a user by ID */
+        delete: operations["Users_delete"];
+        options?: never;
+        head?: never;
+        /** Update an existing user */
+        patch: operations["Users_update"];
+        trace?: never;
+    };
+    "/users/{userId}/refreshApiKey": {
         parameters: {
             query?: never;
             header?: never;
@@ -200,246 +246,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Authenticate using email and password */
-        post: operations["Login"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/refreshToken": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Refresh a token */
-        post: operations["RefreshToken"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get informations about the current session */
-        get: operations["Me"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/apiKeys/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get all api keys belonging to a user */
-        get: operations["GetForUser"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/apiKeys/{userId}/regenerate": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Regenerate a user's api key */
-        post: operations["RegenerateUserApiKey"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/airports/all": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get an overview list of all airports */
-        get: operations["GetAllAirportsList"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/airports": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get all airports */
-        get: operations["GetAirportsList"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/airports/{airportId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get one airport */
-        get: operations["GetAirport"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/airports/{airportId}/metar": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get the METARs from the last 24 hours for one airport */
-        get: operations["GetAirportMetar"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/airlines/all": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get an overview list of all airports */
-        get: operations["GetAllAirlinesList"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/airlines/{airlineId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get one airline by its internal id */
-        get: operations["GetAirline"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/airlines": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get all airlines */
-        get: operations["GetAirlinesList"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/aircraftTypes/all": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get an overview list of all aircraftTypes */
-        get: operations["GetAllAircraftTypesList"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/aircraftTypes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get all aircraftTypes */
-        get: operations["GetAircraftTypesList"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/aircraftTypes/{aircraftTypeId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get one aircraftType */
-        get: operations["GetAircraftType"];
-        put?: never;
-        post?: never;
+        /** Refresh API key for a user */
+        post: operations["Users_refresh"];
         delete?: never;
         options?: never;
         head?: never;
@@ -450,835 +258,495 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        User: {
-            email: string;
-            password: string;
-            firstName: string;
-            lastName: string;
-            verified: boolean;
-            verificationToken?: string;
-            verificationTokenExpiry?: string;
-            verificationDate?: string;
-            disabled: boolean;
-            permissions: ("ADMIN" | "USER")[];
-        };
-        RunwayEnd: {
-            /** @description The name of the runway end. */
-            ident: string;
-            /**
-             * Format: double
-             * @description The elevation of the runway end in feets.
-             */
-            elevation?: number;
-            /**
-             * Format: double
-             * @description The heading of the runway end in degrees.
-             */
-            heading?: number;
-            /**
-             * Format: double
-             * @description The displaced threshold of the runway end in feets.
-             */
-            displacedThreshold?: number;
-            /** @description The coordinates of the runway end. */
-            coordinates?: {
-                /** Format: double */
-                longitude: number;
-                /** Format: double */
-                latitude: number;
-            };
-        };
-        Runway: {
-            /** @description The name of the runway. */
-            name: string;
-            /**
-             * Format: double
-             * @description The length of the runway in feets.
-             */
-            length?: number;
-            /**
-             * Format: double
-             * @description The width of the runway in feets.
-             */
-            width?: number;
-            lowEnd?: components["schemas"]["RunwayEnd"];
-            highEnd?: components["schemas"]["RunwayEnd"];
-            /** @description The surface of the runway. */
-            surface?: string;
-            /** @description True if the runway is closed. */
-            isClosed?: boolean;
-            /** @description True if the runway is lighted. */
-            isLighted?: boolean;
-        };
-        Frequency: {
-            /** @description The type of frequency. */
-            type: string;
-            /** @description The name of the frequency. */
-            name: string;
-            /**
-             * Format: double
-             * @description The frequency in MHz.
-             */
-            frequency: number;
-        };
-        AirportUrl: {
-            url: string;
-            /** @enum {string} */
-            type: "website" | "wikipedia";
-        };
-        /** @description Airport raw internal data provided by scrappers */
-        AirportInternal: {
-            fsx_runways: string;
-            fsx_airport: string;
-        };
-        /**
-         * @description Represents an airport.
-         * @example {
-         *       "name": "John F. Kennedy International Airport",
-         *       "icao": "KJFK",
-         *       "iata": "JFK",
-         *       "coordinates": {
-         *         "latitude": 40.6413,
-         *         "longitude": -73.7781
-         *       },
-         *       "elevation": 13,
+        /** @example {
+         *       "id": "1",
+         *       "createdAt": "2020-01-01T00:00:00Z",
+         *       "updatedAt": "2020-01-01T00:00:00Z",
+         *       "icaoCode": "KATL",
+         *       "name": "Hartsfield–Jackson Atlanta International Airport",
+         *       "iataCode": "ATL",
+         *       "localCode": "ATL",
+         *       "latitude": 33.6407,
+         *       "longitude": -84.4277,
+         *       "elevation": 1026,
          *       "countryCode": "US",
-         *       "city": "New York",
-         *       "state": "New York",
-         *       "county": "Queens",
+         *       "city": "Atlanta",
+         *       "state": "Georgia",
+         *       "county": "Fulton",
+         *       "continentCode": "NA",
          *       "timezone": "America/New_York",
-         *       "runways": [
-         *         {
-         *           "name": "Runway 1",
-         *           "length": 10000,
-         *           "surface": "CON"
-         *         },
-         *         {
-         *           "name": "Runway 2",
-         *           "length": 8000,
-         *           "surface": "ASP"
-         *         }
-         *       ],
+         *       "facilityType": "InternationalAirport",
+         *       "isPrivate": false,
+         *       "isClosed": false,
          *       "frequencies": [
          *         {
-         *           "name": "Tower",
-         *           "frequency": 118.3
+         *           "name": "ATIS",
+         *           "type": "ATIS",
+         *           "description": "Automatic Terminal Information Service",
+         *           "frequency": 118.4
          *         },
          *         {
-         *           "name": "Ground",
+         *           "name": "Ground Control",
+         *           "type": "Ground",
+         *           "description": "Ground Control Frequency",
          *           "frequency": 121.9
+         *         },
+         *         {
+         *           "name": "Tower Control",
+         *           "type": "Tower",
+         *           "description": "Tower Control Frequency",
+         *           "frequency": 118.3
+         *         }
+         *       ],
+         *       "runways": [
+         *         {
+         *           "name": "Runway 8L",
+         *           "length": 12000,
+         *           "width": 150,
+         *           "isClosed": false,
+         *           "isLighted": true,
+         *           "lowEndIdent": "8L",
+         *           "lowEndElevation": 1026,
+         *           "lowEndHeading": 80,
+         *           "lowEndDisplacedThreshold": 0,
+         *           "lowEndLatitude": 33.6407,
+         *           "lowEndLongitude": -84.4277,
+         *           "highEndIdent": "26R",
+         *           "highEndElevation": 1026,
+         *           "highEndHeading": 260,
+         *           "highEndDisplacedThreshold": 0,
+         *           "highEndLatitude": 33.6407,
+         *           "highEndLongitude": -84.4277
          *         }
          *       ]
-         *     }
-         */
+         *     } */
         Airport: {
-            /** @description Unique internal identifier of the airport. */
-            airportId: string;
-            /** @description The name of the airport. */
+            /** @description UUID of the airport */
+            readonly id: string;
+            /** Format: date-time */
+            readonly updatedAt: string;
             name: string;
-            /** @description A code used to identify the airport locally. */
-            localCode?: string;
-            /** @description The International Civil Aviation Organization (ICAO) code of the airport. */
-            icaoCode?: string;
-            /** @description The Global Positioning System (GPS) code of the airport. */
-            gpsCode?: string;
-            /** @description The International Air Transport Association (IATA) code of the airport. */
-            iataCode?: string;
-            /** @description The coordinates of the airport. */
-            coordinates?: {
-                /** Format: double */
-                longitude: number;
-                /** Format: double */
-                latitude: number;
-            };
-            /**
-             * Format: double
-             * @description The elevation of the airport in feets.
-             */
-            elevation?: number;
-            /**
-             * @description The country where the airport is located.
-             *
-             *     ISO 3166-1 alpha-2 code.
-             * @example US
-             */
-            countryCode?: string;
-            /** @description The city where the airport is located. */
-            city?: string;
-            /** @description The state where the airport is located. */
-            state?: string;
-            /** @description The county where the airport is located. */
-            county?: string;
-            /**
-             * @description The continent where the airport is located (2 letters code).
-             * @example EU
-             */
-            continent?: string;
-            /**
-             * @description The timezone of the airport in the TZ database format.
-             * @example America/New_York
-             */
-            timezone?: string;
-            runways?: components["schemas"]["Runway"][];
+            icaoCode: string | null;
+            iataCode: string | null;
+            localCode: string | null;
+            latitude: number | null;
+            longitude: number | null;
+            /** Format: int32 */
+            elevation: number | null;
+            /** @description ISO 3166-1 alpha-2 country code */
+            countryCode: string | null;
+            city: string | null;
+            state: string | null;
+            county: string | null;
+            continentCode: components["schemas"]["ContinentCode"] | null;
+            timezone: string | null;
+            facilityType: components["schemas"]["FACILITY_TYPE"] | null;
+            isPrivate: boolean | null;
+            isClosed: boolean | null;
+            frequencies: components["schemas"]["Frequency"][];
+            runways: components["schemas"]["Runway"][];
+        };
+        /** @example {
+         *       "id": "1",
+         *       "createdAt": "2020-01-01T00:00:00Z",
+         *       "updatedAt": "2020-01-01T00:00:00Z",
+         *       "icaoCode": "KATL",
+         *       "name": "Hartsfield–Jackson Atlanta International Airport",
+         *       "iataCode": "ATL",
+         *       "localCode": "ATL",
+         *       "latitude": 33.6407,
+         *       "longitude": -84.4277,
+         *       "elevation": 1026,
+         *       "countryCode": "US",
+         *       "city": "Atlanta",
+         *       "state": "Georgia",
+         *       "county": "Fulton",
+         *       "continentCode": "NA",
+         *       "timezone": "America/New_York",
+         *       "facilityType": "InternationalAirport",
+         *       "isPrivate": false,
+         *       "isClosed": false,
+         *       "frequencies": [
+         *         {
+         *           "name": "ATIS",
+         *           "type": "ATIS",
+         *           "description": "Automatic Terminal Information Service",
+         *           "frequency": 118.4
+         *         },
+         *         {
+         *           "name": "Ground Control",
+         *           "type": "Ground",
+         *           "description": "Ground Control Frequency",
+         *           "frequency": 121.9
+         *         },
+         *         {
+         *           "name": "Tower Control",
+         *           "type": "Tower",
+         *           "description": "Tower Control Frequency",
+         *           "frequency": 118.3
+         *         }
+         *       ],
+         *       "runways": [
+         *         {
+         *           "name": "Runway 8L",
+         *           "length": 12000,
+         *           "width": 150,
+         *           "isClosed": false,
+         *           "isLighted": true,
+         *           "lowEndIdent": "8L",
+         *           "lowEndElevation": 1026,
+         *           "lowEndHeading": 80,
+         *           "lowEndDisplacedThreshold": 0,
+         *           "lowEndLatitude": 33.6407,
+         *           "lowEndLongitude": -84.4277,
+         *           "highEndIdent": "26R",
+         *           "highEndElevation": 1026,
+         *           "highEndHeading": 260,
+         *           "highEndDisplacedThreshold": 0,
+         *           "highEndLatitude": 33.6407,
+         *           "highEndLongitude": -84.4277
+         *         }
+         *       ]
+         *     } */
+        AirportUpdate: {
+            name?: string;
+            icaoCode?: string | null;
+            iataCode?: string | null;
+            localCode?: string | null;
+            latitude?: number | null;
+            longitude?: number | null;
+            /** Format: int32 */
+            elevation?: number | null;
+            /** @description ISO 3166-1 alpha-2 country code */
+            countryCode?: string | null;
+            city?: string | null;
+            state?: string | null;
+            county?: string | null;
+            continentCode?: components["schemas"]["ContinentCode"] | null;
+            timezone?: string | null;
+            facilityType?: components["schemas"]["FACILITY_TYPE"] | null;
+            isPrivate?: boolean | null;
+            isClosed?: boolean | null;
             frequencies?: components["schemas"]["Frequency"][];
-            /** @description Various URLs related to the airport. */
-            urls?: components["schemas"]["AirportUrl"][];
-            /** @description Internal properties */
-            _internal?: components["schemas"]["AirportInternal"];
-            /**
-             * @description The type of airport.
-             * @enum {string}
-             */
-            type: "smallAirport" | "mediumAirport" | "largeAirport" | "heliport" | "seaplaneBase" | "baloonPort" | "closed";
+            runways?: components["schemas"]["Runway"][];
         };
-        Airline: {
-            /** @description The name of the airline. */
+        AuthCredentials: {
+            /** @description JWT token */
+            token: string;
+            /** @description Refresh token */
+            refreshToken: string;
+            /** @description User object */
+            user: components["schemas"]["User"];
+        };
+        AuthSignup: {
+            username: string;
+            email: string;
+            password: string;
+        };
+        /**
+         * @description ISO 3166-1 continent code
+         * @enum {string}
+         */
+        ContinentCode: "AF" | "AN" | "AS" | "EU" | "NA" | "OC" | "SA" | "UN";
+        /** @example {
+         *       "id": "1",
+         *       "createdAt": "2020-01-01T00:00:00Z",
+         *       "updatedAt": "2020-01-01T00:00:00Z",
+         *       "continentCode": "NA",
+         *       "isoId": "US",
+         *       "timezone": "America/New_York",
+         *       "countryCode": "US",
+         *       "alpha3": "USA",
+         *       "name": "United States",
+         *       "subdivisions": [
+         *         {
+         *           "code": "CA",
+         *           "name": "California"
+         *         },
+         *         {
+         *           "code": "NY",
+         *           "name": "New York"
+         *         }
+         *       ]
+         *     } */
+        Country: {
+            readonly id: string;
+            /** Format: date-time */
+            readonly createdAt: string;
+            /** Format: date-time */
+            readonly updatedAt: string;
+            continentCode: components["schemas"]["ContinentCode"];
+            isoId: string;
+            timezone: string;
+            /** @description ISO 3166-1 alpha-2 country code */
+            countryCode: string;
+            /** @description ISO 3166-1 alpha-3 country code */
+            alpha3: string;
             name: string;
-            /** @description Unique identifier of the airline. */
-            airlineId: string;
-            /** @description The ICAO code of the airline. */
-            icao?: string;
-            /** @description The IATA code of the airline. */
-            iata?: string;
-            /** @description The call sign of the airline. */
-            callSign?: string;
-            websiteUrl?: string;
-            location?: string;
-            /** @description True if the airline is defunct and no longer operating. */
-            isDefunct: boolean;
+            subdivisions: components["schemas"]["CountrySubdivision"][];
         };
-        CityCode: {
+        /** @example {
+         *       "code": "AD-07",
+         *       "name": "Andorra la Vella"
+         *     } */
+        CountrySubdivision: {
             code: string;
             name: string;
-            location: {
-                county: string;
-                state: string;
-                city: string;
-                country: string;
-                /** Format: double */
-                elevation: number;
-                /** Format: double */
-                longitude: number;
-                /** Format: double */
-                latitude: number;
-            };
-            timezone: string;
+        };
+        /** @example {
+         *       "id": "1",
+         *       "createdAt": "2020-01-01T00:00:00Z",
+         *       "updatedAt": "2020-01-01T00:00:00Z",
+         *       "continentCode": "NA",
+         *       "isoId": "US",
+         *       "timezone": "America/New_York",
+         *       "countryCode": "US",
+         *       "alpha3": "USA",
+         *       "name": "United States",
+         *       "subdivisions": [
+         *         {
+         *           "code": "CA",
+         *           "name": "California"
+         *         },
+         *         {
+         *           "code": "NY",
+         *           "name": "New York"
+         *         }
+         *       ]
+         *     } */
+        CountryUpdate: {
+            continentCode?: components["schemas"]["ContinentCode"];
+            isoId?: string;
+            timezone?: string;
+            /** @description ISO 3166-1 alpha-2 country code */
+            countryCode?: string;
+            /** @description ISO 3166-1 alpha-3 country code */
+            alpha3?: string;
+            name?: string;
+            subdivisions?: components["schemas"]["CountrySubdivision"][];
+        };
+        Error: {
+            /** Format: int32 */
+            status: number;
+            /** Format: int32 */
+            code: number;
+            message: string;
         };
         /**
-         * @description The category of the aircraft type.
-         *
-         *     - `amphibian`: An aircraft that can operate on land and water.
-         *
-         *     - `gyrocopter`: A type of rotorcraft that uses an unpowered rotor in autorotation to develop lift.
-         *
-         *     - `helicopter`: A type of rotorcraft in which lift and thrust are supplied by rotors.
-         *
-         *     - `landplane`: An aircraft that operates on land.
-         *
-         *     - `seaplane`: An aircraft that can operate on water.
-         *
-         *     - `tiltrotor`: An aircraft that uses a pair of rotors mounted on rotating engine pods at the ends of fixed wings.
-         *
-         *     - `other`: An aircraft that does not fit into any of the other categories.
+         * @description A type of facility
          * @enum {string}
          */
-        AircraftCategory: "amphibian" | "gyrocopter" | "helicopter" | "landplane" | "seaplane" | "tiltrotor" | "other";
-        /**
-         * @description Represent a wake turbulence category of an aircraft type.
-         *
-         *     - `L`: Light
-         *
-         *     - `M`: Medium
-         *
-         *     - `H`: Heavy
-         *
-         *     - `J`: Super
-         * @enum {string}
-         */
-        WakeTurbulenceCategory: "L" | "M" | "H" | "J";
-        /**
-         * @description The wake turbulence group of the aircraft type, based on weight and wingspan criteria.
-         *
-         *     - `A`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 80 m but greater than 74.68 m (equivalent to SUPER wake turbulence category).
-         *     - `B`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 74.68 m but greater than 53.34 m (equivalent to HEAVY wake turbulence category).
-         *     - `C`: Aircraft types of 136,000 kg or more, and a wingspan less than or equal to 53.34 m but greater than 38.1 m (equivalent to HEAVY wake turbulence category).
-         *     - `D`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan greater than 32 m.
-         *     - `E`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan less than or equal to 32 m but greater than 27.43 m.
-         *     - `F`: Aircraft types less than 136,000 kg but more than 18,600 kg, and a wingspan less than or equal to 27.43 m.
-         *     - `G`: Aircraft types of 18,600 kg or less (without a wingspan criterion).
-         * @enum {string}
-         */
-        WakeTurbulenceGroup: "A" | "B" | "C" | "D" | "E" | "F" | "G";
-        /**
-         * @description Represents an aircraft type.
-         * @example {
-         *       "aircraftTypeId": "AIRBUS_A388",
-         *       "name": "Airbus A380",
-         *       "icaoCode": "A388",
-         *       "designator": "A380",
-         *       "manufacturerCode": "AIRBUS",
-         *       "category": "landplane",
-         *       "aircraftDescription": "L4J",
-         *       "engineType": "jet",
-         *       "engineCount": 4,
-         *       "wakeTurbulenceCategories": [
-         *         "H"
-         *       ],
-         *       "wakeTurbulenceGroup": "C"
-         *     }
-         */
-        AircraftType: {
-            /** @description The unique identifier of the aircraft type.
-             *
-             *     Note: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator. */
-            aircraftTypeId: string;
-            /** @description The name of the aircraft type. */
+        FACILITY_TYPE: "Airport" | "GliderSite" | "AirfieldCivil" | "InternationalAirport" | "HeliportMilitary" | "MilitaryAerodrome" | "UltraLightFlyingSite" | "HeliportCivil" | "AerodromeClosed" | "AirportIFR" | "AirfieldWater" | "LandingStrip" | "AgriculturalLandingStrip" | "Altiport";
+        Frequency: {
             name: string;
-            /** @description The ICAO code of the aircraft type. */
-            icaoCode: string;
-            /**
-             * @description A 3-letter description code of the aircraft, as defined in ICAO Doc 8643.
-             *
-             *     The code provides basic details about the aircraft:
-             *
-             *     - **First Symbol**: Describes the aircraft type:
-             *       - `L`: Landplane (e.g., A320).
-             *       - `S`: Seaplane (e.g., HARBIN SH-5).
-             *       - `A`: Amphibian (e.g., LA4).
-             *       - `G`: Gyrocopter (e.g., A002).
-             *       - `H`: Helicopter (e.g., A109).
-             *       - `T`: Tiltrotor (e.g., V22).
-             *
-             *     - **Second Symbol**: Specifies the number of engines:
-             *       - `1`, `2`, `3`, `4`, `6`, `8`: The number of engines.
-             *       - `C`: Two engines coupled to drive a single propeller system (for fixed-wing aircraft, e.g., C08T).
-             *
-             *     - **Third Symbol**: Specifies the engine type:
-             *       - `J`: Jet engine.
-             *       - `T`: Turboprop/turboshaft.
-             *       - `P`: Piston engine.
-             *       - `E`: Electric engine.
-             *       - `R`: Rocket engine.
-             *
-             *     **Examples**:
-             *     - `L2J`: A landplane with two jet engines.
-             *     - `H2T`: A helicopter with two turboprop/turboshaft engines.
-             *     - `S1P`: A seaplane with one piston engine.
-             * @example L2J
-             */
-            aircraftDescription: string;
-            /** @description The ICAO designator code of the aircraft type. */
-            designator: string;
-            /** @description The ICAO manufacturer code of the aircraft type. */
-            manufacturerCode: string;
-            category: components["schemas"]["AircraftCategory"];
-            engineType?: string;
-            /**
-             * Format: double
-             * @description The number of engines of the aircraft type.
-             */
-            engineCount?: number;
-            wakeTurbulenceCategories: components["schemas"]["WakeTurbulenceCategory"][];
-            wakeTurbulenceGroup?: components["schemas"]["WakeTurbulenceGroup"];
+            type: string | null;
+            description: string | null;
+            /** Format: float */
+            frequency: number;
+        };
+        NotFoundError: {
+            /** @enum {number} */
+            statusCode: 404;
+            /** @enum {string} */
+            name: "Not Found";
+            message: string;
+        };
+        /** @example {
+         *       "id": "67155d167139c42577c75279",
+         *       "notamId": "A0611/24",
+         *       "message": "A0611/24 NOTAMN\n    Q) LSAS/QFATT/IV/BO/A/000/999/4614N00607E005\n    A) LSGG B) 2410310000 C) 2411132359\n    E) TRIGGER NOTAM - PERM AIRAC AMDT 010/2024:\n    MAG VAR REVISED. \n    RDO NAV AND LDG AIDS GLA, GVA AND SPR DELETED AND PAS, LOC 22, \n    DME 22 AND LOC 04 REVISED. \n    FLT PROC SPECIAL REGULATION FOR GENEVA TMA/CTR REVISED. \n    SEVERAL SID AND STAR REVISED. \n    ADC, AOC AND ARC REVISED.\n    IAC SRA RWY 04 AND IAC SRA RWY 22 WITHDRAWN. \n    SEVERAL IAC REVISED.",
+         *       "transactionId": "73707264",
+         *       "icao": "LSGG",
+         *       "issueDate": "2024-09-19T04:00:00.000+00:00",
+         *       "startDate": "2024-09-19T04:00:00.000+00:00",
+         *       "endDate": "2024-09-19T04:00:00.000+00:00",
+         *       "source": "USNS",
+         *       "sourceType": "I",
+         *       "mapPointer": "POINT(6.10895 46.23806389)",
+         *       "geometry": "POINT(5105901.28612306 4966695.40062213)",
+         *       "createdAt": "2024-09-19T04:00:00.000+00:00",
+         *       "updatedAt": "2024-09-19T04:00:00.000+00:00",
+         *       "isSnowtam": false,
+         *       "isProcedure": false
+         *     } */
+        Notam: {
+            /** @description UUID of the notam */
+            readonly id: string;
+            /** Format: date-time */
+            readonly updatedAt: string;
+            notamId: string | null;
+            /** @description The NOTAM message text. */
+            message: string;
+            transactionId: string | null;
+            icao: string | null;
+            /** Format: date-time */
+            issueDate: string | null;
+            /** Format: date-time */
+            startDate: string | null;
+            /** Format: date-time */
+            endDate: string | null;
+            source: string | null;
+            sourceType: string | null;
+            mapPointer: string | null;
+            geometry: string | null;
+            /** @description Indicates if the NOTAM is a SNOWTAM.
+             *     A SNOWTAM (Snow and/or Ice NOTAM) is a special type of NOTAM (Notice to Airmen) issued by an airport to provide pilots with critical information about hazardous conditions on the movement area (runways and taxiways) caused by snow, ice, slush, frost, or standing water */
+            isSnowtam: boolean | null;
+            /** @description Indicates if the NOTAM is related to a procedure. */
+            isProcedure: boolean | null;
+        };
+        /** @example {
+         *       "id": "67155d167139c42577c75279",
+         *       "notamId": "A0611/24",
+         *       "message": "A0611/24 NOTAMN\n    Q) LSAS/QFATT/IV/BO/A/000/999/4614N00607E005\n    A) LSGG B) 2410310000 C) 2411132359\n    E) TRIGGER NOTAM - PERM AIRAC AMDT 010/2024:\n    MAG VAR REVISED. \n    RDO NAV AND LDG AIDS GLA, GVA AND SPR DELETED AND PAS, LOC 22, \n    DME 22 AND LOC 04 REVISED. \n    FLT PROC SPECIAL REGULATION FOR GENEVA TMA/CTR REVISED. \n    SEVERAL SID AND STAR REVISED. \n    ADC, AOC AND ARC REVISED.\n    IAC SRA RWY 04 AND IAC SRA RWY 22 WITHDRAWN. \n    SEVERAL IAC REVISED.",
+         *       "transactionId": "73707264",
+         *       "icao": "LSGG",
+         *       "issueDate": "2024-09-19T04:00:00.000+00:00",
+         *       "startDate": "2024-09-19T04:00:00.000+00:00",
+         *       "endDate": "2024-09-19T04:00:00.000+00:00",
+         *       "source": "USNS",
+         *       "sourceType": "I",
+         *       "mapPointer": "POINT(6.10895 46.23806389)",
+         *       "geometry": "POINT(5105901.28612306 4966695.40062213)",
+         *       "createdAt": "2024-09-19T04:00:00.000+00:00",
+         *       "updatedAt": "2024-09-19T04:00:00.000+00:00",
+         *       "isSnowtam": false,
+         *       "isProcedure": false
+         *     } */
+        NotamUpdate: {
+            notamId?: string | null;
+            /** @description The NOTAM message text. */
+            message?: string;
+            transactionId?: string | null;
+            icao?: string | null;
+            /** Format: date-time */
+            issueDate?: string | null;
+            /** Format: date-time */
+            startDate?: string | null;
+            /** Format: date-time */
+            endDate?: string | null;
+            source?: string | null;
+            sourceType?: string | null;
+            mapPointer?: string | null;
+            geometry?: string | null;
+            /** @description Indicates if the NOTAM is a SNOWTAM.
+             *     A SNOWTAM (Snow and/or Ice NOTAM) is a special type of NOTAM (Notice to Airmen) issued by an airport to provide pilots with critical information about hazardous conditions on the movement area (runways and taxiways) caused by snow, ice, slush, frost, or standing water */
+            isSnowtam?: boolean | null;
+            /** @description Indicates if the NOTAM is related to a procedure. */
+            isProcedure?: boolean | null;
+        };
+        Runway: {
+            name: string;
+            /** Format: int32 */
+            length: number | null;
+            /** Format: int32 */
+            width: number | null;
+            isClosed: boolean | null;
+            isLighted: boolean | null;
+            lowEndIdent: string | null;
+            /** Format: int32 */
+            lowEndElevation: number | null;
+            /** Format: int32 */
+            lowEndHeading: number | null;
+            /** Format: int32 */
+            lowEndDisplacedThreshold: number | null;
+            /** Format: float */
+            lowEndLatitude: number | null;
+            /** Format: float */
+            lowEndLongitude: number | null;
+            highEndIdent: string | null;
+            /** Format: int32 */
+            highEndElevation: number | null;
+            /** Format: int32 */
+            highEndHeading: number | null;
+            /** Format: int32 */
+            highEndDisplacedThreshold: number | null;
+            /** Format: float */
+            highEndLatitude: number | null;
+            /** Format: float */
+            highEndLongitude: number | null;
         };
         SearchResult: {
-            aircraftTypes: components["schemas"]["AircraftType"][];
-            cityCodes: components["schemas"]["CityCode"][];
-            airlines: components["schemas"]["Airline"][];
             airports: components["schemas"]["Airport"][];
         };
-        Notam: {
-            /** @description Unique identifier for the NOTAM.
-             *
-             *     It is expected to be the same as the NOTAM number but with slashes replaced by dashes.
-             *
-             *     Example: A0611/24 -> A0611-24 */
-            notamId: string;
-            /** @description The NOTAM number. */
-            notamNumber: string;
-            /** @description The message of the NOTAM. */
+        UnauthorizedError: {
+            /** @enum {number} */
+            statusCode: 401;
+            /** @enum {string} */
+            name: "Unauthorized";
             message: string;
-            /**
-             * Format: double
-             * @description The transaction ID of the NOTAM.
-             */
-            transactionId: number;
-            /** @description The ICAO code of the location the NOTAM is related to. */
-            icao?: string;
+        };
+        /** @example {
+         *       "id": "123",
+         *       "username": "john_doe",
+         *       "email": "john.doe@aerodb.net",
+         *       "createdAt": "2020-01-01T00:00:00Z",
+         *       "updatedAt": "2020-01-01T00:00:00Z",
+         *       "isVerified": true,
+         *       "verificationDate": "2020-01-01T00:00:00Z",
+         *       "lastSeen": "2020-01-01T00:00:00Z"
+         *     } */
+        User: {
+            readonly id: string;
             /** Format: date-time */
-            issueDate?: string;
+            readonly createdAt: string;
             /** Format: date-time */
-            startDate?: string;
-            /** Format: date-time */
-            endDate?: string;
-            source?: string;
-            sourceType?: string;
-            /** @description Indicates if the NOTAM is a SNOWTAM. */
-            isSnowtam?: boolean;
-            /** @description Indicates if the NOTAM is a procedure. */
-            isProcedure?: boolean;
-            mapPointer?: string;
-            geometry?: string;
-        };
-        QueryParameters: {
-            /** @description Base64 encoded filter to apply to the query
-             *
-             *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-             *
-             *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-            filter?: string;
-            /** @description Base64 encoded sort order of the results
-             *
-             *     Example `{ "createdAt": -1 }`
-             *
-             *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-            sort?: string;
-            /**
-             * Format: double
-             * @description Number of items to return
-             * @default 50
-             * @example 50
-             */
-            limit: number;
-            /**
-             * Format: double
-             * @description Page number
-             * @default 1
-             * @example 1
-             */
-            page: number;
-        };
-        /** @description Make all properties in T optional */
-        Partial_Notam_: {
-            /** @description Unique identifier for the NOTAM.
-             *
-             *     It is expected to be the same as the NOTAM number but with slashes replaced by dashes.
-             *
-             *     Example: A0611/24 -> A0611-24 */
-            notamId?: string;
-            /** @description The NOTAM number. */
-            notamNumber?: string;
-            /** @description The message of the NOTAM. */
-            message?: string;
-            /**
-             * Format: double
-             * @description The transaction ID of the NOTAM.
-             */
-            transactionId?: number;
-            /** @description The ICAO code of the location the NOTAM is related to. */
-            icao?: string;
-            /** Format: date-time */
-            issueDate?: string;
-            /** Format: date-time */
-            startDate?: string;
-            /** Format: date-time */
-            endDate?: string;
-            source?: string;
-            sourceType?: string;
-            /** @description Indicates if the NOTAM is a SNOWTAM. */
-            isSnowtam?: boolean;
-            /** @description Indicates if the NOTAM is a procedure. */
-            isProcedure?: boolean;
-            mapPointer?: string;
-            geometry?: string;
-        };
-        SubDivision: {
-            name: string;
-            code: string;
-        };
-        Country: {
-            name: string;
-            alpha2: string;
-            alpha3: string;
-            /** Format: double */
-            isoId: number;
-            subdivisions: components["schemas"]["SubDivision"][];
-            continent: string;
-            timezone: string;
-        };
-        /** @description Make all properties in T optional */
-        Partial_Country_: {
-            name?: string;
-            alpha2?: string;
-            alpha3?: string;
-            /** Format: double */
-            isoId?: number;
-            subdivisions?: components["schemas"]["SubDivision"][];
-            continent?: string;
-            timezone?: string;
-        };
-        /** @description Make all properties in T optional */
-        Partial_CityCode_: {
-            code?: string;
-            name?: string;
-            location?: {
-                county: string;
-                state: string;
-                city: string;
-                country: string;
-                /** Format: double */
-                elevation: number;
-                /** Format: double */
-                longitude: number;
-                /** Format: double */
-                latitude: number;
-            };
-            timezone?: string;
-        };
-        ChangeLog: {
-            /**
-             * Format: date-time
-             * @description The date of the change.
-             */
-            date: string;
-            /**
-             * @description The type of the resource that was changed.
-             * @example airline
-             */
-            resourceType: string;
-            /** @description The unique identifier of the resource that was changed. */
-            resourceId: string;
-            /** @description The changes that were made. (JSON diff) */
-            changes: string;
-        };
-        /** @description Make all properties in T optional */
-        Partial_ChangeLog_: {
-            /**
-             * Format: date-time
-             * @description The date of the change.
-             */
-            date?: string;
-            /**
-             * @description The type of the resource that was changed.
-             * @example airline
-             */
-            resourceType?: string;
-            /** @description The unique identifier of the resource that was changed. */
-            resourceId?: string;
-            /** @description The changes that were made. (JSON diff) */
-            changes?: string;
-        };
-        /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_User.email-or-password-or-firstName-or-lastName_": {
+            readonly updatedAt: string;
+            username: string;
             email: string;
-            password: string;
-            firstName: string;
-            lastName: string;
+            readonly isVerified: boolean;
         };
-        SignupParams: components["schemas"]["Pick_User.email-or-password-or-firstName-or-lastName_"];
-        /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_User.email-or-password_": {
-            email: string;
-            password: string;
+        /** @example {
+         *       "id": "123",
+         *       "username": "john_doe",
+         *       "email": "john.doe@aerodb.net",
+         *       "createdAt": "2020-01-01T00:00:00Z",
+         *       "updatedAt": "2020-01-01T00:00:00Z",
+         *       "isVerified": true,
+         *       "verificationDate": "2020-01-01T00:00:00Z",
+         *       "lastSeen": "2020-01-01T00:00:00Z"
+         *     } */
+        UserUpdate: {
+            username?: string;
+            email?: string;
         };
-        LoginParams: components["schemas"]["Pick_User.email-or-password_"];
-        RefreshTokenResponse: {
-            token: string;
-            /** Format: date-time */
-            tokenExpires: string;
-        };
-        /** @enum {string} */
-        ApiKeyScope: "public" | "admin";
-        ApiKey: {
-            key: string;
-            userId: string;
-            /** Format: date-time */
-            expires: string;
-            scopes: components["schemas"]["ApiKeyScope"][];
-        };
-        /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_Airport.airportId-or-name_": {
-            /** @description The name of the airport. */
-            name: string;
-            /** @description Unique internal identifier of the airport. */
-            airportId: string;
-        };
-        AirportOverview: components["schemas"]["Pick_Airport.airportId-or-name_"];
-        QueryParametersWithoutLimit: {
-            /** @description Base64 encoded filter to apply to the query
-             *
-             *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-             *
-             *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-            filter?: string;
-            /** @description Base64 encoded sort order of the results
-             *
-             *     Example `{ "createdAt": -1 }`
-             *
-             *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-            sort?: string;
-            /**
-             * Format: double
-             * @description Number of items to return
-             * @default 50
-             * @example 50
-             */
-            limit: number;
-            /**
-             * Format: double
-             * @description Page number
-             * @default 1
-             * @example 1
-             */
-            page: number;
-        };
-        /** @description A list of METAR reports */
-        MetarResponse: string[];
-        /** @description Make all properties in T optional */
-        Partial_Airport_: {
-            /** @description Unique internal identifier of the airport. */
-            airportId?: string;
-            /** @description The name of the airport. */
-            name?: string;
-            /** @description A code used to identify the airport locally. */
-            localCode?: string;
-            /** @description The International Civil Aviation Organization (ICAO) code of the airport. */
-            icaoCode?: string;
-            /** @description The Global Positioning System (GPS) code of the airport. */
-            gpsCode?: string;
-            /** @description The International Air Transport Association (IATA) code of the airport. */
-            iataCode?: string;
-            /** @description The coordinates of the airport. */
-            coordinates?: {
-                /** Format: double */
-                longitude: number;
-                /** Format: double */
-                latitude: number;
-            };
-            /**
-             * Format: double
-             * @description The elevation of the airport in feets.
-             */
-            elevation?: number;
-            /**
-             * @description The country where the airport is located.
-             *
-             *     ISO 3166-1 alpha-2 code.
-             * @example US
-             */
-            countryCode?: string;
-            /** @description The city where the airport is located. */
-            city?: string;
-            /** @description The state where the airport is located. */
-            state?: string;
-            /** @description The county where the airport is located. */
-            county?: string;
-            /**
-             * @description The continent where the airport is located (2 letters code).
-             * @example EU
-             */
-            continent?: string;
-            /**
-             * @description The timezone of the airport in the TZ database format.
-             * @example America/New_York
-             */
-            timezone?: string;
-            runways?: components["schemas"]["Runway"][];
-            frequencies?: components["schemas"]["Frequency"][];
-            /** @description Various URLs related to the airport. */
-            urls?: components["schemas"]["AirportUrl"][];
-            /** @description Internal properties */
-            _internal?: components["schemas"]["AirportInternal"];
-            /**
-             * @description The type of airport.
-             * @enum {string}
-             */
-            type?: "smallAirport" | "mediumAirport" | "largeAirport" | "heliport" | "seaplaneBase" | "baloonPort" | "closed";
-        };
-        /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_Airline.airlineId-or-name_": {
-            /** @description The name of the airline. */
-            name: string;
-            /** @description Unique identifier of the airline. */
-            airlineId: string;
-        };
-        AirlineOverview: components["schemas"]["Pick_Airline.airlineId-or-name_"];
-        /** @description Make all properties in T optional */
-        Partial_Airline_: {
-            /** @description The name of the airline. */
-            name?: string;
-            /** @description Unique identifier of the airline. */
-            airlineId?: string;
-            /** @description The ICAO code of the airline. */
-            icao?: string;
-            /** @description The IATA code of the airline. */
-            iata?: string;
-            /** @description The call sign of the airline. */
-            callSign?: string;
-            websiteUrl?: string;
-            location?: string;
-            /** @description True if the airline is defunct and no longer operating. */
-            isDefunct?: boolean;
-        };
-        /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_AircraftType.aircraftTypeId-or-manufacturerCode-or-icaoCode-or-name_": {
-            /** @description The name of the aircraft type. */
-            name: string;
-            /** @description The ICAO code of the aircraft type. */
-            icaoCode: string;
-            /** @description The unique identifier of the aircraft type.
-             *
-             *     Note: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator. */
-            aircraftTypeId: string;
-            /** @description The ICAO manufacturer code of the aircraft type. */
-            manufacturerCode: string;
-        };
-        AircraftTypeOverview: components["schemas"]["Pick_AircraftType.aircraftTypeId-or-manufacturerCode-or-icaoCode-or-name_"];
-        /** @description Make all properties in T optional */
-        Partial_AircraftType_: {
-            /** @description The unique identifier of the aircraft type.
-             *
-             *     Note: This field is a combinaison of the `manufacturerCode` and `icaoCode` fields with a _ separator. */
-            aircraftTypeId?: string;
-            /** @description The name of the aircraft type. */
-            name?: string;
-            /** @description The ICAO code of the aircraft type. */
-            icaoCode?: string;
-            /**
-             * @description A 3-letter description code of the aircraft, as defined in ICAO Doc 8643.
-             *
-             *     The code provides basic details about the aircraft:
-             *
-             *     - **First Symbol**: Describes the aircraft type:
-             *       - `L`: Landplane (e.g., A320).
-             *       - `S`: Seaplane (e.g., HARBIN SH-5).
-             *       - `A`: Amphibian (e.g., LA4).
-             *       - `G`: Gyrocopter (e.g., A002).
-             *       - `H`: Helicopter (e.g., A109).
-             *       - `T`: Tiltrotor (e.g., V22).
-             *
-             *     - **Second Symbol**: Specifies the number of engines:
-             *       - `1`, `2`, `3`, `4`, `6`, `8`: The number of engines.
-             *       - `C`: Two engines coupled to drive a single propeller system (for fixed-wing aircraft, e.g., C08T).
-             *
-             *     - **Third Symbol**: Specifies the engine type:
-             *       - `J`: Jet engine.
-             *       - `T`: Turboprop/turboshaft.
-             *       - `P`: Piston engine.
-             *       - `E`: Electric engine.
-             *       - `R`: Rocket engine.
-             *
-             *     **Examples**:
-             *     - `L2J`: A landplane with two jet engines.
-             *     - `H2T`: A helicopter with two turboprop/turboshaft engines.
-             *     - `S1P`: A seaplane with one piston engine.
-             * @example L2J
-             */
-            aircraftDescription?: string;
-            /** @description The ICAO designator code of the aircraft type. */
-            designator?: string;
-            /** @description The ICAO manufacturer code of the aircraft type. */
-            manufacturerCode?: string;
-            category?: components["schemas"]["AircraftCategory"];
-            engineType?: string;
-            /**
-             * Format: double
-             * @description The number of engines of the aircraft type.
-             */
-            engineCount?: number;
-            wakeTurbulenceCategories?: components["schemas"]["WakeTurbulenceCategory"][];
-            wakeTurbulenceGroup?: components["schemas"]["WakeTurbulenceGroup"];
+        ValidationError: {
+            /** @enum {number} */
+            statusCode: 400;
+            /** @enum {string} */
+            name: "Bad Request";
+            message: string;
+            details: string[];
         };
     };
     responses: never;
-    parameters: never;
+    parameters: {
+        /** @description Filter expression to apply to the list. */
+        "ListParameters.filter": string;
+        /** @description Maximum number of items to return per page. */
+        "ListParameters.limit": number;
+        /** @description Page number to retrieve. */
+        "ListParameters.page": number;
+        /** @description Sort order for the list. */
+        "ListParameters.sort": string;
+    };
     requestBodies: never;
     headers: never;
     pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    GetUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["User"];
-                };
-            };
-        };
-    };
-    Search: {
-        parameters: {
-            query: {
-                query: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SearchResult"];
-                };
-            };
-        };
-    };
-    GetNotam: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                notamId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Notam"];
-                };
-            };
-        };
-    };
-    GetNotams: {
+    Airports_list: {
         parameters: {
             query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
+                /** @description Maximum number of items to return per page. */
+                limit?: components["parameters"]["ListParameters.limit"];
+                /** @description Page number to retrieve. */
+                page?: components["parameters"]["ListParameters.page"];
+                /** @description Filter expression to apply to the list. */
+                filter?: components["parameters"]["ListParameters.filter"];
+                /** @description Sort order for the list. */
+                sort?: components["parameters"]["ListParameters.sort"];
             };
             header?: never;
             path?: never;
@@ -1286,413 +754,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description list of all notams */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Notam"][];
-                };
-            };
-        };
-    };
-    GetCountry: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                countryCode: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Country"];
-                };
-            };
-        };
-    };
-    GetCountries: {
-        parameters: {
-            query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description list of all countries */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Country"][];
-                };
-            };
-        };
-    };
-    GetCityCode: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                code: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description City code information */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CityCode"];
-                };
-            };
-        };
-    };
-    GetCityCodes: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description list of all city codes */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CityCode"][];
-                };
-            };
-        };
-    };
-    GetChange: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                changeLogId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ChangeLog"];
-                };
-            };
-        };
-    };
-    GetChangeLogsList: {
-        parameters: {
-            query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ChangeLog"][];
-                };
-            };
-        };
-    };
-    Signup: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SignupParams"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["User"];
-                };
-            };
-        };
-    };
-    Login: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginParams"];
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** Format: date-time */
-                        tokenRefreshExpires: string;
-                        tokenRefresh: string;
-                        /** Format: date-time */
-                        tokenExpires: string;
-                        token: string;
-                        user: components["schemas"]["User"];
-                    };
-                };
-            };
-        };
-    };
-    RefreshToken: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    refreshToken: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RefreshTokenResponse"];
-                };
-            };
-        };
-    };
-    Me: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        user: components["schemas"]["User"];
-                    };
-                };
-            };
-        };
-    };
-    GetForUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiKey"][];
-                };
-            };
-        };
-    };
-    RegenerateUserApiKey: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApiKey"];
-                };
-            };
-        };
-    };
-    GetAllAirportsList: {
-        parameters: {
-            query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AirportOverview"][];
-                };
-            };
-        };
-    };
-    GetAirportsList: {
-        parameters: {
-            query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
+            /** @description The request has succeeded. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1703,19 +765,51 @@ export interface operations {
             };
         };
     };
-    GetAirport: {
+    Airports_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Airport"];
+            };
+        };
+        responses: {
+            /** @description The request has succeeded and a new resource has been created as a result. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Airport"];
+                };
+            };
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+        };
+    };
+    Airports_get: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Unique identifier of the airport */
-                airportId: string;
+                airportId: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description The request has succeeded. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1724,121 +818,90 @@ export interface operations {
                     "application/json": components["schemas"]["Airport"];
                 };
             };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
-    GetAirportMetar: {
+    Airports_delete: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Unique identifier of the airport */
-                airportId: string;
+                airportId: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
-            200: {
+            /** @description There is no content to send for this request, but the headers may be useful.  */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["MetarResponse"];
+                    "application/json": components["schemas"]["NotFoundError"];
                 };
             };
         };
     };
-    GetAllAirlinesList: {
-        parameters: {
-            query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AirlineOverview"][];
-                };
-            };
-        };
-    };
-    GetAirline: {
+    Airports_update: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                airlineId: string;
+                airportId: number;
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AirportUpdate"];
+            };
+        };
         responses: {
-            /** @description Ok */
+            /** @description The request has succeeded. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Airline"];
+                    "application/json": components["schemas"]["Airport"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
                 };
             };
         };
     };
-    GetAirlinesList: {
+    Countries_list: {
         parameters: {
             query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
+                /** @description Maximum number of items to return per page. */
+                limit?: components["parameters"]["ListParameters.limit"];
+                /** @description Page number to retrieve. */
+                page?: components["parameters"]["ListParameters.page"];
+                /** @description Filter expression to apply to the list. */
+                filter?: components["parameters"]["ListParameters.filter"];
+                /** @description Sort order for the list. */
+                sort?: components["parameters"]["ListParameters.sort"];
             };
             header?: never;
             path?: never;
@@ -1846,122 +909,657 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description The request has succeeded. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Airline"][];
+                    "application/json": components["schemas"]["Country"][];
                 };
             };
         };
     };
-    GetAllAircraftTypesList: {
+    Countries_create: {
         parameters: {
-            query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Country"];
+            };
+        };
         responses: {
-            /** @description Ok */
-            200: {
+            /** @description The request has succeeded and a new resource has been created as a result. */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AircraftTypeOverview"][];
+                    "application/json": components["schemas"]["Country"];
                 };
             };
-        };
-    };
-    GetAircraftTypesList: {
-        parameters: {
-            query?: {
-                /** @description Base64 encoded filter to apply to the query
-                 *
-                 *     Example: `eyJ0eXBlIjoibGFyZ2VBaXJwb3J0In0=` ({"type":"largeAirport"})
-                 *
-                 *      [More details](https://www.mongodb.com/docs/compass/current/query/filter/) */
-                filter?: string;
-                /** @description Base64 encoded sort order of the results
-                 *
-                 *     Example `{ "createdAt": -1 }`
-                 *
-                 *     [More details](https://www.mongodb.com/docs/compass/current/query/sort/) */
-                sort?: string;
-                /**
-                 * @description Number of items to return
-                 * @example 50
-                 */
-                limit?: number;
-                /**
-                 * @description Page number
-                 * @example 1
-                 */
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AircraftType"][];
+                    "application/json": components["schemas"]["ValidationError"];
                 };
             };
         };
     };
-    GetAircraftType: {
+    Countries_get: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Unique identifier of the aircraftType */
-                aircraftTypeId: string;
+                countryId: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description The request has succeeded. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AircraftType"];
+                    "application/json": components["schemas"]["Country"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Countries_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                countryId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description There is no content to send for this request, but the headers may be useful.  */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Countries_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                countryId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CountryUpdate"];
+            };
+        };
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Country"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Auth_login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /** @example {
+                 *       "email": "john.doe@aerodb.net",
+                 *       "password": "password123"
+                 *     } */
+                "application/json": {
+                    email: string;
+                    password: string;
+                };
+            };
+        };
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthCredentials"];
+                };
+            };
+            /** @description Access is unauthorized. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedError"];
+                };
+            };
+        };
+    };
+    Auth_getCurrentUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+        };
+    };
+    Notams_list: {
+        parameters: {
+            query?: {
+                /** @description Maximum number of items to return per page. */
+                limit?: components["parameters"]["ListParameters.limit"];
+                /** @description Page number to retrieve. */
+                page?: components["parameters"]["ListParameters.page"];
+                /** @description Filter expression to apply to the list. */
+                filter?: components["parameters"]["ListParameters.filter"];
+                /** @description Sort order for the list. */
+                sort?: components["parameters"]["ListParameters.sort"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"][];
+                };
+            };
+        };
+    };
+    Notams_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Notam"];
+            };
+        };
+        responses: {
+            /** @description The request has succeeded and a new resource has been created as a result. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"];
+                };
+            };
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+        };
+    };
+    Notams_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                notamId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Notams_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                notamId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description There is no content to send for this request, but the headers may be useful.  */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Notams_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                notamId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NotamUpdate"];
+            };
+        };
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Notam"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Auth_refreshToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "text/plain": string;
+            };
+        };
+        responses: {
+            /** @description The request has succeeded and a new resource has been created as a result. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthCredentials"];
+                };
+            };
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+        };
+    };
+    Search_search: {
+        parameters: {
+            query: {
+                query: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchResult"];
+                };
+            };
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+        };
+    };
+    Auth_signUp: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /** @example {
+                 *       "email": "john.doe@aerodb.net",
+                 *       "password": "password123",
+                 *       "username": "john_doe"
+                 *     } */
+                "application/json": components["schemas"]["AuthSignup"];
+            };
+        };
+        responses: {
+            /** @description The request has succeeded and a new resource has been created as a result. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+        };
+    };
+    Users_list: {
+        parameters: {
+            query?: {
+                /** @description Maximum number of items to return per page. */
+                limit?: components["parameters"]["ListParameters.limit"];
+                /** @description Page number to retrieve. */
+                page?: components["parameters"]["ListParameters.page"];
+                /** @description Filter expression to apply to the list. */
+                filter?: components["parameters"]["ListParameters.filter"];
+                /** @description Sort order for the list. */
+                sort?: components["parameters"]["ListParameters.sort"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"][];
+                };
+            };
+        };
+    };
+    Users_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["User"];
+            };
+        };
+        responses: {
+            /** @description The request has succeeded and a new resource has been created as a result. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+        };
+    };
+    Users_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Users_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description There is no content to send for this request, but the headers may be useful.  */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Users_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserUpdate"];
+            };
+        };
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
+                };
+            };
+        };
+    };
+    Users_refresh: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundError"];
                 };
             };
         };
