@@ -11,11 +11,33 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all airports */
+        /** Return a list of airports */
         get: operations["Airports_list"];
         put?: never;
         /** Create a new airport */
         post: operations["Airports_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/airports/all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a simplified list of all airports
+         * @description List all airports with minimal details.
+         *
+         *     *Limit on this operation is increased*
+         */
+        get: operations["Airports_listAll"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -48,7 +70,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all countries */
+        /** Return a list of countries */
         get: operations["Countries_list"];
         put?: never;
         /** Create a new country */
@@ -119,7 +141,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all NOTAMs */
+        /**
+         * Return a list of NOTAMs
+         * @description Return a list of NOTAMs
+         *
+         *     If unauthenticated, the result is limited to 5 items.
+         */
         get: operations["Notams_list"];
         put?: never;
         /** Create a new NOTAM */
@@ -207,7 +234,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List all users */
+        /** Return a list of users */
         get: operations["Users_list"];
         put?: never;
         /** Create a new user */
@@ -566,6 +593,7 @@ export interface components {
          *       "geometry": "POINT(5105901.28612306 4966695.40062213)",
          *       "createdAt": "2024-09-19T04:00:00.000+00:00",
          *       "updatedAt": "2024-09-19T04:00:00.000+00:00",
+         *       "canceledDate": null,
          *       "isSnowtam": false,
          *       "isProcedure": false
          *     } */
@@ -585,6 +613,8 @@ export interface components {
             startDate: string | null;
             /** Format: date-time */
             endDate: string | null;
+            /** Format: date-time */
+            canceledDate: string | null;
             source: string | null;
             sourceType: string | null;
             mapPointer: string | null;
@@ -610,6 +640,7 @@ export interface components {
          *       "geometry": "POINT(5105901.28612306 4966695.40062213)",
          *       "createdAt": "2024-09-19T04:00:00.000+00:00",
          *       "updatedAt": "2024-09-19T04:00:00.000+00:00",
+         *       "canceledDate": null,
          *       "isSnowtam": false,
          *       "isProcedure": false
          *     } */
@@ -625,6 +656,8 @@ export interface components {
             startDate?: string | null;
             /** Format: date-time */
             endDate?: string | null;
+            /** Format: date-time */
+            canceledDate?: string | null;
             source?: string | null;
             sourceType?: string | null;
             mapPointer?: string | null;
@@ -667,7 +700,30 @@ export interface components {
             highEndLongitude: number | null;
         };
         SearchResult: {
-            airports: components["schemas"]["Airport"][];
+            /** @description Represents a paginated list of items. */
+            airports: {
+                /**
+                 * Format: int32
+                 * @description Number of items returned
+                 */
+                count: number;
+                /**
+                 * Format: int32
+                 * @description Total number of items available
+                 */
+                totalCount: number;
+                items: components["schemas"]["Airport"][];
+            };
+        };
+        /** @example {
+         *       "id": "1",
+         *       "icaoCode": "KATL",
+         *       "name": "Hartsfield–Jackson Atlanta International Airport"
+         *     } */
+        SimplifiedAirport: {
+            id: string;
+            icaoCode: string | null;
+            name: string;
         };
         UnauthorizedError: {
             /** @enum {number} */
@@ -729,6 +785,8 @@ export interface components {
         "ListParameters.page": number;
         /** @description Sort order for the list. */
         "ListParameters.sort": string;
+        /** @description Maximum number of items to return per page. */
+        UnlimitedListParameters: number;
     };
     requestBodies: never;
     headers: never;
@@ -760,7 +818,19 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Airport"][];
+                    "application/json": {
+                        /**
+                         * Format: int32
+                         * @description Number of items returned
+                         */
+                        count: number;
+                        /**
+                         * Format: int32
+                         * @description Total number of items available
+                         */
+                        totalCount: number;
+                        items: components["schemas"]["Airport"][];
+                    };
                 };
             };
         };
@@ -794,6 +864,35 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+        };
+    };
+    Airports_listAll: {
+        parameters: {
+            query?: {
+                /** @description Maximum number of items to return per page. */
+                limit?: components["parameters"]["UnlimitedListParameters"];
+                /** @description Page number to retrieve. */
+                page?: components["parameters"]["ListParameters.page"];
+                /** @description Filter expression to apply to the list. */
+                filter?: components["parameters"]["ListParameters.filter"];
+                /** @description Sort order for the list. */
+                sort?: components["parameters"]["ListParameters.sort"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimplifiedAirport"][];
                 };
             };
         };
@@ -915,7 +1014,19 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Country"][];
+                    "application/json": {
+                        /**
+                         * Format: int32
+                         * @description Number of items returned
+                         */
+                        count: number;
+                        /**
+                         * Format: int32
+                         * @description Total number of items available
+                         */
+                        totalCount: number;
+                        items: components["schemas"]["Country"][];
+                    };
                 };
             };
         };
@@ -1141,7 +1252,19 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Notam"][];
+                    "application/json": {
+                        /**
+                         * Format: int32
+                         * @description Number of items returned
+                         */
+                        count: number;
+                        /**
+                         * Format: int32
+                         * @description Total number of items available
+                         */
+                        totalCount: number;
+                        items: components["schemas"]["Notam"][];
+                    };
                 };
             };
         };
@@ -1400,7 +1523,19 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["User"][];
+                    "application/json": {
+                        /**
+                         * Format: int32
+                         * @description Number of items returned
+                         */
+                        count: number;
+                        /**
+                         * Format: int32
+                         * @description Total number of items available
+                         */
+                        totalCount: number;
+                        items: components["schemas"]["User"][];
+                    };
                 };
             };
         };

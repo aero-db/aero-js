@@ -2,7 +2,9 @@
   "openapi": "3.0.0",
   "info": {
     "title": "AeroDB API",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "summary": "AeroDB API provides access to airport, user, country, and NOTAM data.",
+    "description": "This is the AeroDB API, providing a large scale of various aeronautical data.\n\nSome endpoints require authentication via API key.\n\nAll properties are always returned but can be null if not applicable.\n\nSome operations allow you to filter, sort, and paginate results.\n\n```json\n/airports?filters={\"name\":\"Geneva\",\"countryCode\":\"CH\"}&limit=10&page=2\n```\n\nResults are limited to 100 items by default, this limit can be increased to 300 items per page.\n\nThis API use an IP address rate limit of around 10 queries /sec.\n\nReaching this rate limit will result in a 429 Too Many Requests response.\n\nYou can use the `X-Ratelimit-Limit` `X-Ratelimit-Reset-Ms` and `X-Ratelimit-Remaining` headers to check your current rate limit status."
   },
   "tags": [
     {
@@ -28,7 +30,7 @@
     "/airports": {
       "get": {
         "operationId": "Airports_list",
-        "summary": "List all airports",
+        "summary": "Return a list of airports",
         "parameters": [
           {
             "$ref": "#/components/parameters/ListParameters.limit"
@@ -49,10 +51,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Airport"
-                  }
+                  "type": "object",
+                  "required": [
+                    "count",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "count": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Number of items returned"
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Total number of items available"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Airport"
+                      }
+                    }
+                  },
+                  "description": "Represents a paginated list of items."
                 }
               }
             }
@@ -105,6 +128,45 @@
           {
             "ApiKeyAuth": []
           }
+        ]
+      }
+    },
+    "/airports/all": {
+      "get": {
+        "operationId": "Airports_listAll",
+        "summary": "Get a simplified list of all airports",
+        "description": "List all airports with minimal details.\n\n*Limit on this operation is increased*",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UnlimitedListParameters"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.page"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.filter"
+          },
+          {
+            "$ref": "#/components/parameters/ListParameters.sort"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SimplifiedAirport"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Airport"
         ]
       }
     },
@@ -239,7 +301,7 @@
     "/countries": {
       "get": {
         "operationId": "Countries_list",
-        "summary": "List all countries",
+        "summary": "Return a list of countries",
         "parameters": [
           {
             "$ref": "#/components/parameters/ListParameters.limit"
@@ -260,10 +322,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Country"
-                  }
+                  "type": "object",
+                  "required": [
+                    "count",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "count": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Number of items returned"
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Total number of items available"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Country"
+                      }
+                    }
+                  },
+                  "description": "Represents a paginated list of items."
                 }
               }
             }
@@ -552,7 +635,8 @@
     "/notams": {
       "get": {
         "operationId": "Notams_list",
-        "summary": "List all NOTAMs",
+        "summary": "Return a list of NOTAMs",
+        "description": "Return a list of NOTAMs\n\nIf unauthenticated, the result is limited to 5 items.",
         "parameters": [
           {
             "$ref": "#/components/parameters/ListParameters.limit"
@@ -573,10 +657,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Notam"
-                  }
+                  "type": "object",
+                  "required": [
+                    "count",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "count": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Number of items returned"
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Total number of items available"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Notam"
+                      }
+                    }
+                  },
+                  "description": "Represents a paginated list of items."
                 }
               }
             }
@@ -911,7 +1016,7 @@
     "/users": {
       "get": {
         "operationId": "Users_list",
-        "summary": "List all users",
+        "summary": "Return a list of users",
         "parameters": [
           {
             "$ref": "#/components/parameters/ListParameters.limit"
@@ -932,10 +1037,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
+                  "type": "object",
+                  "required": [
+                    "count",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "count": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Number of items returned"
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "format": "int32",
+                      "description": "Total number of items available"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
+                  },
+                  "description": "Represents a paginated list of items."
                 }
               }
             }
@@ -1204,7 +1330,7 @@
         "schema": {
           "type": "integer",
           "format": "int32",
-          "maximum": 500,
+          "maximum": 300,
           "default": 100
         },
         "explode": false
@@ -1228,6 +1354,17 @@
         "description": "Sort order for the list.",
         "schema": {
           "type": "string"
+        },
+        "explode": false
+      },
+      "UnlimitedListParameters": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "description": "Maximum number of items to return per page.",
+        "schema": {
+          "type": "integer",
+          "format": "int32"
         },
         "explode": false
       }
@@ -1918,6 +2055,7 @@
           "issueDate",
           "startDate",
           "endDate",
+          "canceledDate",
           "source",
           "sourceType",
           "mapPointer",
@@ -1943,7 +2081,7 @@
           "message": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 1000,
+            "maxLength": 3000,
             "description": "The NOTAM message text."
           },
           "transactionId": {
@@ -1966,6 +2104,11 @@
             "nullable": true
           },
           "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "canceledDate": {
             "type": "string",
             "format": "date-time",
             "nullable": true
@@ -2012,6 +2155,7 @@
           "geometry": "POINT(5105901.28612306 4966695.40062213)",
           "createdAt": "2024-09-19T04:00:00.000+00:00",
           "updatedAt": "2024-09-19T04:00:00.000+00:00",
+          "canceledDate": null,
           "isSnowtam": false,
           "isProcedure": false
         }
@@ -2026,7 +2170,7 @@
           "message": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 1000,
+            "maxLength": 3000,
             "description": "The NOTAM message text."
           },
           "transactionId": {
@@ -2049,6 +2193,11 @@
             "nullable": true
           },
           "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "canceledDate": {
             "type": "string",
             "format": "date-time",
             "nullable": true
@@ -2095,6 +2244,7 @@
           "geometry": "POINT(5105901.28612306 4966695.40062213)",
           "createdAt": "2024-09-19T04:00:00.000+00:00",
           "updatedAt": "2024-09-19T04:00:00.000+00:00",
+          "canceledDate": null,
           "isSnowtam": false,
           "isProcedure": false
         }
@@ -2209,11 +2359,57 @@
         ],
         "properties": {
           "airports": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Airport"
-            }
+            "type": "object",
+            "required": [
+              "count",
+              "totalCount",
+              "items"
+            ],
+            "properties": {
+              "count": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Number of items returned"
+              },
+              "totalCount": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Total number of items available"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            },
+            "description": "Represents a paginated list of items."
           }
+        }
+      },
+      "SimplifiedAirport": {
+        "type": "object",
+        "required": [
+          "id",
+          "icaoCode",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "icaoCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": "1",
+          "icaoCode": "KATL",
+          "name": "Hartsfield–Jackson Atlanta International Airport"
         }
       },
       "UnauthorizedError": {
