@@ -3,7 +3,7 @@ import store from 'store2';
 import { TOKEN_KEY } from './constants';
 import { eventsManager } from './modules/Event.module';
 import { paths } from './types/api';
-import { Airport, APIQueryParameters, Country, Notam } from '.';
+import { Airport, api, APIQueryParameters, Country, Notam } from '.';
 import { handleApiRequest } from './controllers/api.controller';
 
 type ClientOptions = {
@@ -56,7 +56,7 @@ export default class AeroClient {
     /**
      * List all airports
      */
-    list: async (parameters?: APIQueryParameters<Airport>): Promise<Airport[]> => {
+    list: async (parameters?: APIQueryParameters<Airport>): Promise<paths['/airports']['get']['responses']['200']['content']['application/json']> => {
       return await handleApiRequest<Airport>('GET', 'airports', parameters, this.apiInstance);
     },
     /**
@@ -112,7 +112,7 @@ export default class AeroClient {
      * @param parameters  Query parameters
      * @returns List of NOTAMs
      */
-    list: async (parameters?: APIQueryParameters<Notam>): Promise<Notam[]> => {
+    list: async (parameters?: APIQueryParameters<Notam>): Promise<paths['/notams']['get']['responses']['200']['content']['application/json']> => {
       return await handleApiRequest<Notam>('GET', 'notams', parameters, this.apiInstance);
     },
     get: async (notamId: string): Promise<Notam> => {
@@ -126,7 +126,7 @@ export default class AeroClient {
      * List all countries
      * @returns List of countries
      */
-    list: async (parameters?: APIQueryParameters<Country>): Promise<Country[]> => {
+    list: async (parameters?: APIQueryParameters<Country>): Promise<paths['/countries']['get']['responses']['200']['content']['application/json']> => {
       return await handleApiRequest<Country>('GET', 'countries', parameters, this.apiInstance);
     },
     /**
@@ -134,7 +134,7 @@ export default class AeroClient {
      * @param countryCode Country code (ISO 3166-1 alpha-2)
      * @returns Country data
      */
-    get: async (countryCode: string): Promise<Country> => {
+    get: async (countryCode: string): Promise<paths['/countries/{countryId}']['get']['responses']['200']['content']['application/json']> => {
       return (
         await this.apiInstance.get<paths['/countries/{countryId}']['get']['responses']['200']['content']['application/json']>(
           `countries/${countryCode}`
