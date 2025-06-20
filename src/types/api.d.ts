@@ -51,7 +51,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get an airport by ID */
+        /**
+         * Get an airport by ID
+         * @description Get an airport by ID
+         *
+         *     This operation rertreive additional information about an airport, including its runways and frequencies.
+         */
         get: operations["Airports_get"];
         put?: never;
         post?: never;
@@ -70,7 +75,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Return a list of countries */
+        /**
+         * Return a list of countries
+         * @description *Limit on this operation is increased to 500*
+         */
         get: operations["Countries_list"];
         put?: never;
         /** Create a new country */
@@ -185,7 +193,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Refresh the JWT token using a refresh token. */
+        /** Retreive a new JWT using a refresh token. */
         post: operations["Auth_refreshToken"];
         delete?: never;
         options?: never;
@@ -285,190 +293,120 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** @example {
-         *       "id": "1",
-         *       "createdAt": "2020-01-01T00:00:00Z",
-         *       "updatedAt": "2020-01-01T00:00:00Z",
-         *       "icaoCode": "KATL",
-         *       "name": "Hartsfield–Jackson Atlanta International Airport",
-         *       "iataCode": "ATL",
-         *       "localCode": "ATL",
-         *       "latitude": 33.6407,
-         *       "longitude": -84.4277,
-         *       "elevation": 1026,
-         *       "countryCode": "US",
-         *       "city": "Atlanta",
-         *       "state": "Georgia",
-         *       "county": "Fulton",
-         *       "continentCode": "NA",
-         *       "timezone": "America/New_York",
-         *       "facilityType": "InternationalAirport",
-         *       "isPrivate": false,
-         *       "isClosed": false,
-         *       "frequencies": [
-         *         {
-         *           "name": "ATIS",
-         *           "type": "ATIS",
-         *           "description": "Automatic Terminal Information Service",
-         *           "frequency": 118.4
-         *         },
-         *         {
-         *           "name": "Ground Control",
-         *           "type": "Ground",
-         *           "description": "Ground Control Frequency",
-         *           "frequency": 121.9
-         *         },
-         *         {
-         *           "name": "Tower Control",
-         *           "type": "Tower",
-         *           "description": "Tower Control Frequency",
-         *           "frequency": 118.3
-         *         }
-         *       ],
-         *       "runways": [
-         *         {
-         *           "name": "Runway 8L",
-         *           "length": 12000,
-         *           "width": 150,
-         *           "isClosed": false,
-         *           "isLighted": true,
-         *           "lowEndIdent": "8L",
-         *           "lowEndElevation": 1026,
-         *           "lowEndHeading": 80,
-         *           "lowEndDisplacedThreshold": 0,
-         *           "lowEndLatitude": 33.6407,
-         *           "lowEndLongitude": -84.4277,
-         *           "highEndIdent": "26R",
-         *           "highEndElevation": 1026,
-         *           "highEndHeading": 260,
-         *           "highEndDisplacedThreshold": 0,
-         *           "highEndLatitude": 33.6407,
-         *           "highEndLongitude": -84.4277
-         *         }
-         *       ]
-         *     } */
         Airport: {
-            /** @description UUID of the airport */
+            /**
+             * @description UUID of the airport
+             * @example 0000-ffff-0000-ffff
+             */
             readonly id: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @example 2020-01-01T00:00:00Z
+             */
             readonly updatedAt: string;
+            /** @example Hartsfield–Jackson Atlanta International Airport */
             name: string;
+            /**
+             * @description ICAO airport code, a four-letter alphanumeric code
+             * @example KATL
+             */
             icaoCode: string | null;
+            /**
+             * @description IATA airport code, a three-letter alphanumeric code
+             * @example ATL
+             */
             iataCode: string | null;
+            /** @example ATL */
             localCode: string | null;
+            /** @example 33.6407 */
             latitude: number | null;
+            /** @example -84.4277 */
             longitude: number | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 1026
+             */
             elevation: number | null;
-            /** @description ISO 3166-1 alpha-2 country code */
+            /**
+             * @description ISO 3166-1 alpha-2 country code
+             * @example US
+             */
             countryCode: string | null;
+            /** @example Atlanta */
             city: string | null;
+            /** @example Georgia */
             state: string | null;
+            /** @example Fulton */
             county: string | null;
             continentCode: components["schemas"]["ContinentCode"] | null;
+            /** @example America/New_York */
             timezone: string | null;
+            /** @example airport */
             facilityType: components["schemas"]["FACILITY_TYPE"] | null;
+            /** @example false */
             isPrivate: boolean | null;
+            /** @example false */
             isClosed: boolean | null;
-            frequencies: components["schemas"]["Frequency"][];
             runways: components["schemas"]["Runway"][];
+            frequencies: components["schemas"]["Frequency"][];
         };
-        /** @example {
-         *       "id": "1",
-         *       "createdAt": "2020-01-01T00:00:00Z",
-         *       "updatedAt": "2020-01-01T00:00:00Z",
-         *       "icaoCode": "KATL",
-         *       "name": "Hartsfield–Jackson Atlanta International Airport",
-         *       "iataCode": "ATL",
-         *       "localCode": "ATL",
-         *       "latitude": 33.6407,
-         *       "longitude": -84.4277,
-         *       "elevation": 1026,
-         *       "countryCode": "US",
-         *       "city": "Atlanta",
-         *       "state": "Georgia",
-         *       "county": "Fulton",
-         *       "continentCode": "NA",
-         *       "timezone": "America/New_York",
-         *       "facilityType": "InternationalAirport",
-         *       "isPrivate": false,
-         *       "isClosed": false,
-         *       "frequencies": [
-         *         {
-         *           "name": "ATIS",
-         *           "type": "ATIS",
-         *           "description": "Automatic Terminal Information Service",
-         *           "frequency": 118.4
-         *         },
-         *         {
-         *           "name": "Ground Control",
-         *           "type": "Ground",
-         *           "description": "Ground Control Frequency",
-         *           "frequency": 121.9
-         *         },
-         *         {
-         *           "name": "Tower Control",
-         *           "type": "Tower",
-         *           "description": "Tower Control Frequency",
-         *           "frequency": 118.3
-         *         }
-         *       ],
-         *       "runways": [
-         *         {
-         *           "name": "Runway 8L",
-         *           "length": 12000,
-         *           "width": 150,
-         *           "isClosed": false,
-         *           "isLighted": true,
-         *           "lowEndIdent": "8L",
-         *           "lowEndElevation": 1026,
-         *           "lowEndHeading": 80,
-         *           "lowEndDisplacedThreshold": 0,
-         *           "lowEndLatitude": 33.6407,
-         *           "lowEndLongitude": -84.4277,
-         *           "highEndIdent": "26R",
-         *           "highEndElevation": 1026,
-         *           "highEndHeading": 260,
-         *           "highEndDisplacedThreshold": 0,
-         *           "highEndLatitude": 33.6407,
-         *           "highEndLongitude": -84.4277
-         *         }
-         *       ]
-         *     } */
         AirportUpdate: {
-            name?: string;
+            /**
+             * @description ICAO airport code, a four-letter alphanumeric code
+             * @example KATL
+             */
             icaoCode?: string | null;
+            /**
+             * @description IATA airport code, a three-letter alphanumeric code
+             * @example ATL
+             */
             iataCode?: string | null;
+            /** @example ATL */
             localCode?: string | null;
+            /** @example 33.6407 */
             latitude?: number | null;
+            /** @example -84.4277 */
             longitude?: number | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 1026
+             */
             elevation?: number | null;
-            /** @description ISO 3166-1 alpha-2 country code */
+            /**
+             * @description ISO 3166-1 alpha-2 country code
+             * @example US
+             */
             countryCode?: string | null;
+            /** @example Atlanta */
             city?: string | null;
+            /** @example Georgia */
             state?: string | null;
+            /** @example Fulton */
             county?: string | null;
             continentCode?: components["schemas"]["ContinentCode"] | null;
+            /** @example America/New_York */
             timezone?: string | null;
+            /** @example airport */
             facilityType?: components["schemas"]["FACILITY_TYPE"] | null;
+            /** @example false */
             isPrivate?: boolean | null;
+            /** @example false */
             isClosed?: boolean | null;
-            frequencies?: components["schemas"]["Frequency"][];
             runways?: components["schemas"]["Runway"][];
+            frequencies?: components["schemas"]["Frequency"][];
         };
-        AuthCredentials: {
+        AuthSignup: {
+            username: string;
+            email: string;
+            password: string;
+        };
+        AuthenticationResult: {
             /** @description JWT token */
             token: string;
             /** @description Refresh token */
             refreshToken: string;
             /** @description User object */
             user: components["schemas"]["User"];
-        };
-        AuthSignup: {
-            username: string;
-            email: string;
-            password: string;
         };
         /**
          * @description ISO 3166-1 continent code
@@ -563,13 +501,85 @@ export interface components {
          * @description A type of facility
          * @enum {string}
          */
-        FACILITY_TYPE: "Airport" | "GliderSite" | "AirfieldCivil" | "InternationalAirport" | "HeliportMilitary" | "MilitaryAerodrome" | "UltraLightFlyingSite" | "HeliportCivil" | "AerodromeClosed" | "AirportIFR" | "AirfieldWater" | "LandingStrip" | "AgriculturalLandingStrip" | "Altiport";
+        FACILITY_TYPE: "airport" | "heliport" | "seaplaneBase" | "balloonport" | "ultralight" | "gliderport" | "stolport" | "other";
         Frequency: {
+            /**
+             * @description UUID of the Frequency
+             * @example 0000-ffff-0000-ffff
+             */
+            readonly id: string;
+            /**
+             * Format: date-time
+             * @example 2020-01-01T00:00:00Z
+             */
+            readonly updatedAt: string;
+            /** @example Tower Control */
             name: string;
+            /** @example Tower */
             type: string | null;
+            /** @example Tower Control Frequency */
             description: string | null;
-            /** Format: float */
+            /**
+             * Format: float
+             * @example 118.83
+             */
             frequency: number;
+        };
+        /** @description The template for omitting properties. */
+        ListAirport: {
+            /**
+             * @description UUID of the airport
+             * @example 0000-ffff-0000-ffff
+             */
+            readonly id: string;
+            /**
+             * Format: date-time
+             * @example 2020-01-01T00:00:00Z
+             */
+            readonly updatedAt: string;
+            /** @example Hartsfield–Jackson Atlanta International Airport */
+            name: string;
+            /**
+             * @description ICAO airport code, a four-letter alphanumeric code
+             * @example KATL
+             */
+            icaoCode: string | null;
+            /**
+             * @description IATA airport code, a three-letter alphanumeric code
+             * @example ATL
+             */
+            iataCode: string | null;
+            /** @example ATL */
+            localCode: string | null;
+            /** @example 33.6407 */
+            latitude: number | null;
+            /** @example -84.4277 */
+            longitude: number | null;
+            /**
+             * Format: int32
+             * @example 1026
+             */
+            elevation: number | null;
+            /**
+             * @description ISO 3166-1 alpha-2 country code
+             * @example US
+             */
+            countryCode: string | null;
+            /** @example Atlanta */
+            city: string | null;
+            /** @example Georgia */
+            state: string | null;
+            /** @example Fulton */
+            county: string | null;
+            continentCode: components["schemas"]["ContinentCode"] | null;
+            /** @example America/New_York */
+            timezone: string | null;
+            /** @example airport */
+            facilityType: components["schemas"]["FACILITY_TYPE"] | null;
+            /** @example false */
+            isPrivate: boolean | null;
+            /** @example false */
+            isClosed: boolean | null;
         };
         NotFoundError: {
             /** @enum {number} */
@@ -669,60 +679,100 @@ export interface components {
             isProcedure?: boolean | null;
         };
         Runway: {
+            /**
+             * @description UUID of the Runway
+             * @example 0000-ffff-0000-ffff
+             */
+            readonly id: string;
+            /**
+             * Format: date-time
+             * @example 2020-01-01T00:00:00Z
+             */
+            readonly updatedAt: string;
+            /** @example Runway 4/22 */
             name: string;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 3500
+             */
             length: number | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 75
+             */
             width: number | null;
+            /** @example true */
             isClosed: boolean | null;
+            /** @example false */
             isLighted: boolean | null;
+            /** @example 4 */
             lowEndIdent: string | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 50
+             */
             lowEndElevation: number | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 40
+             */
             lowEndHeading: number | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 50
+             */
             lowEndDisplacedThreshold: number | null;
-            /** Format: float */
+            /**
+             * Format: float
+             * @example 40.7128
+             */
             lowEndLatitude: number | null;
-            /** Format: float */
+            /**
+             * Format: float
+             * @example -74.006
+             */
             lowEndLongitude: number | null;
+            /** @example 22 */
             highEndIdent: string | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 50
+             */
             highEndElevation: number | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 220
+             */
             highEndHeading: number | null;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @example 25
+             */
             highEndDisplacedThreshold: number | null;
-            /** Format: float */
+            /**
+             * Format: float
+             * @example 40.7128
+             */
             highEndLatitude: number | null;
-            /** Format: float */
+            /**
+             * Format: float
+             * @example -74.006
+             */
             highEndLongitude: number | null;
         };
         SearchResult: {
-            /** @description Represents a paginated list of items. */
-            airports: {
-                /**
-                 * Format: int32
-                 * @description Number of items returned
-                 */
-                count: number;
-                /**
-                 * Format: int32
-                 * @description Total number of items available
-                 */
-                totalCount: number;
-                items: components["schemas"]["Airport"][];
-            };
+            airports: components["schemas"]["Airport"][];
         };
         /** @example {
-         *       "id": "1",
+         *       "id": "0000-ffff-0000-ffff",
          *       "icaoCode": "KATL",
+         *       "iataCode": "ATL",
          *       "name": "Hartsfield–Jackson Atlanta International Airport"
          *     } */
         SimplifiedAirport: {
             id: string;
             icaoCode: string | null;
+            iataCode: string | null;
             name: string;
         };
         UnauthorizedError: {
@@ -777,7 +827,7 @@ export interface components {
     };
     responses: never;
     parameters: {
-        /** @description Filter expression to apply to the list. */
+        /** @description Stringified filter expression to apply to the list. */
         "ListParameters.filter": string;
         /** @description Maximum number of items to return per page. */
         "ListParameters.limit": number;
@@ -801,7 +851,7 @@ export interface operations {
                 limit?: components["parameters"]["ListParameters.limit"];
                 /** @description Page number to retrieve. */
                 page?: components["parameters"]["ListParameters.page"];
-                /** @description Filter expression to apply to the list. */
+                /** @description Stringified filter expression to apply to the list. */
                 filter?: components["parameters"]["ListParameters.filter"];
                 /** @description Sort order for the list. */
                 sort?: components["parameters"]["ListParameters.sort"];
@@ -822,14 +872,16 @@ export interface operations {
                         /**
                          * Format: int32
                          * @description Number of items returned
+                         * @example 10
                          */
                         count: number;
                         /**
                          * Format: int32
                          * @description Total number of items available
+                         * @example 100
                          */
                         totalCount: number;
-                        items: components["schemas"]["Airport"][];
+                        items: components["schemas"]["ListAirport"][];
                     };
                 };
             };
@@ -875,7 +927,7 @@ export interface operations {
                 limit?: components["parameters"]["UnlimitedListParameters"];
                 /** @description Page number to retrieve. */
                 page?: components["parameters"]["ListParameters.page"];
-                /** @description Filter expression to apply to the list. */
+                /** @description Stringified filter expression to apply to the list. */
                 filter?: components["parameters"]["ListParameters.filter"];
                 /** @description Sort order for the list. */
                 sort?: components["parameters"]["ListParameters.sort"];
@@ -902,7 +954,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                airportId: number;
+                airportId: string;
             };
             cookie?: never;
         };
@@ -931,7 +983,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                airportId: number;
+                airportId: string;
             };
             cookie?: never;
         };
@@ -960,7 +1012,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                airportId: number;
+                airportId: string;
             };
             cookie?: never;
         };
@@ -994,10 +1046,10 @@ export interface operations {
         parameters: {
             query?: {
                 /** @description Maximum number of items to return per page. */
-                limit?: components["parameters"]["ListParameters.limit"];
+                limit?: components["parameters"]["UnlimitedListParameters"];
                 /** @description Page number to retrieve. */
                 page?: components["parameters"]["ListParameters.page"];
-                /** @description Filter expression to apply to the list. */
+                /** @description Stringified filter expression to apply to the list. */
                 filter?: components["parameters"]["ListParameters.filter"];
                 /** @description Sort order for the list. */
                 sort?: components["parameters"]["ListParameters.sort"];
@@ -1018,11 +1070,13 @@ export interface operations {
                         /**
                          * Format: int32
                          * @description Number of items returned
+                         * @example 10
                          */
                         count: number;
                         /**
                          * Format: int32
                          * @description Total number of items available
+                         * @example 100
                          */
                         totalCount: number;
                         items: components["schemas"]["Country"][];
@@ -1069,7 +1123,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                countryId: number;
+                countryId: string;
             };
             cookie?: never;
         };
@@ -1100,7 +1154,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                countryId: number;
+                countryId: string;
             };
             cookie?: never;
         };
@@ -1129,7 +1183,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                countryId: number;
+                countryId: string;
             };
             cookie?: never;
         };
@@ -1185,7 +1239,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AuthCredentials"];
+                    "application/json": components["schemas"]["AuthenticationResult"];
                 };
             };
             /** @description Access is unauthorized. */
@@ -1226,6 +1280,15 @@ export interface operations {
                     "application/json": components["schemas"]["ValidationError"];
                 };
             };
+            /** @description Access is unauthorized. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedError"];
+                };
+            };
         };
     };
     Notams_list: {
@@ -1235,7 +1298,7 @@ export interface operations {
                 limit?: components["parameters"]["ListParameters.limit"];
                 /** @description Page number to retrieve. */
                 page?: components["parameters"]["ListParameters.page"];
-                /** @description Filter expression to apply to the list. */
+                /** @description Stringified filter expression to apply to the list. */
                 filter?: components["parameters"]["ListParameters.filter"];
                 /** @description Sort order for the list. */
                 sort?: components["parameters"]["ListParameters.sort"];
@@ -1256,11 +1319,13 @@ export interface operations {
                         /**
                          * Format: int32
                          * @description Number of items returned
+                         * @example 10
                          */
                         count: number;
                         /**
                          * Format: int32
                          * @description Total number of items available
+                         * @example 100
                          */
                         totalCount: number;
                         items: components["schemas"]["Notam"][];
@@ -1307,7 +1372,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                notamId: number;
+                notamId: string;
             };
             cookie?: never;
         };
@@ -1338,7 +1403,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                notamId: number;
+                notamId: string;
             };
             cookie?: never;
         };
@@ -1367,7 +1432,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                notamId: number;
+                notamId: string;
             };
             cookie?: never;
         };
@@ -1406,7 +1471,9 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "text/plain": string;
+                "application/json": {
+                    refreshToken: string;
+                };
             };
         };
         responses: {
@@ -1416,7 +1483,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AuthCredentials"];
+                    "application/json": {
+                        token: string;
+                    };
                 };
             };
             /** @description The server could not understand the request due to invalid syntax. */
@@ -1426,6 +1495,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ValidationError"];
+                };
+            };
+            /** @description Access is unauthorized. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnauthorizedError"];
                 };
             };
         };
@@ -1485,7 +1563,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["User"];
+                    "application/json": components["schemas"]["AuthenticationResult"];
                 };
             };
             /** @description The server could not understand the request due to invalid syntax. */
@@ -1506,7 +1584,7 @@ export interface operations {
                 limit?: components["parameters"]["ListParameters.limit"];
                 /** @description Page number to retrieve. */
                 page?: components["parameters"]["ListParameters.page"];
-                /** @description Filter expression to apply to the list. */
+                /** @description Stringified filter expression to apply to the list. */
                 filter?: components["parameters"]["ListParameters.filter"];
                 /** @description Sort order for the list. */
                 sort?: components["parameters"]["ListParameters.sort"];
@@ -1527,11 +1605,13 @@ export interface operations {
                         /**
                          * Format: int32
                          * @description Number of items returned
+                         * @example 10
                          */
                         count: number;
                         /**
                          * Format: int32
                          * @description Total number of items available
+                         * @example 100
                          */
                         totalCount: number;
                         items: components["schemas"]["User"][];
@@ -1578,7 +1658,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                userId: number;
+                userId: string;
             };
             cookie?: never;
         };
@@ -1609,7 +1689,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                userId: number;
+                userId: string;
             };
             cookie?: never;
         };
@@ -1638,7 +1718,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                userId: number;
+                userId: string;
             };
             cookie?: never;
         };
@@ -1673,7 +1753,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                userId: number;
+                userId: string;
             };
             cookie?: never;
         };

@@ -4,7 +4,7 @@
     "title": "AeroDB API",
     "version": "1.0.0",
     "summary": "AeroDB API provides access to airport, user, country, and NOTAM data.",
-    "description": "This is the AeroDB API, providing a large scale of various aeronautical data.\n\nSome endpoints require authentication via API key.\n\nAll properties are always returned but can be null if not applicable.\n\nSome operations allow you to filter, sort, and paginate results.\n\n```json\n/airports?filters={\"name\":\"Geneva\",\"countryCode\":\"CH\"}&limit=10&page=2\n```\n\nResults are limited to 100 items by default, this limit can be increased to 300 items per page.\n\nThis API use an IP address rate limit of around 10 queries /sec.\n\nReaching this rate limit will result in a 429 Too Many Requests response.\n\nYou can use the `X-Ratelimit-Limit` `X-Ratelimit-Reset-Ms` and `X-Ratelimit-Remaining` headers to check your current rate limit status."
+    "description": "This is the AeroDB API, providing a large scale of various aeronautical data.\n\nSome endpoints require authentication via API key.\n\nAll properties are always returned and must be provided but can be null if not applicable.\n\nSome operations allow you to filter, sort, and paginate results.\n\n```json\n/airports?filter={\"name\":\"Geneva\",\"countryCode\":\"CH\"}&limit=10&page=2\n```\n\nResults are limited to 100 items by default, this limit can be increased to 300 items per page.\n\nThis API use an IP address rate limit of around 10 queries /sec.\n\nReaching this rate limit will result in a 429 Too Many Requests response.\n\nYou can use the `X-Ratelimit-Limit` `X-Ratelimit-Reset-Ms` and `X-Ratelimit-Remaining` headers to check your current rate limit status."
   },
   "tags": [
     {
@@ -61,17 +61,19 @@
                     "count": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "Number of items returned"
+                      "description": "Number of items returned",
+                      "example": 10
                     },
                     "totalCount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "Total number of items available"
+                      "description": "Total number of items available",
+                      "example": 100
                     },
                     "items": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Airport"
+                        "$ref": "#/components/schemas/ListAirport"
                       }
                     }
                   },
@@ -174,14 +176,14 @@
       "get": {
         "operationId": "Airports_get",
         "summary": "Get an airport by ID",
+        "description": "Get an airport by ID\n\nThis operation rertreive additional information about an airport, including its runways and frequencies.",
         "parameters": [
           {
             "name": "airportId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -213,8 +215,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -268,8 +269,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -302,9 +302,10 @@
       "get": {
         "operationId": "Countries_list",
         "summary": "Return a list of countries",
+        "description": "*Limit on this operation is increased to 500*",
         "parameters": [
           {
-            "$ref": "#/components/parameters/ListParameters.limit"
+            "$ref": "#/components/parameters/UnlimitedListParameters"
           },
           {
             "$ref": "#/components/parameters/ListParameters.page"
@@ -332,12 +333,14 @@
                     "count": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "Number of items returned"
+                      "description": "Number of items returned",
+                      "example": 10
                     },
                     "totalCount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "Total number of items available"
+                      "description": "Total number of items available",
+                      "example": 100
                     },
                     "items": {
                       "type": "array",
@@ -412,8 +415,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -452,8 +454,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -507,8 +508,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -548,7 +548,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthCredentials"
+                  "$ref": "#/components/schemas/AuthenticationResult"
                 }
               }
             }
@@ -620,6 +620,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -667,12 +677,14 @@
                     "count": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "Number of items returned"
+                      "description": "Number of items returned",
+                      "example": 10
                     },
                     "totalCount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "Total number of items available"
+                      "description": "Total number of items available",
+                      "example": 100
                     },
                     "items": {
                       "type": "array",
@@ -752,8 +764,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -797,8 +808,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -852,8 +862,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -885,7 +894,7 @@
     "/refreshToken": {
       "post": {
         "operationId": "Auth_refreshToken",
-        "summary": "Refresh the JWT token using a refresh token.",
+        "summary": "Retreive a new JWT using a refresh token.",
         "parameters": [],
         "responses": {
           "201": {
@@ -893,7 +902,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthCredentials"
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ]
                 }
               }
             }
@@ -907,6 +924,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Access is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -915,9 +942,17 @@
         "requestBody": {
           "required": true,
           "content": {
-            "text/plain": {
+            "application/json": {
               "schema": {
-                "type": "string"
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "refreshToken"
+                ]
               }
             }
           }
@@ -977,7 +1012,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/AuthenticationResult"
                 }
               }
             }
@@ -1047,12 +1082,14 @@
                     "count": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "Number of items returned"
+                      "description": "Number of items returned",
+                      "example": 10
                     },
                     "totalCount": {
                       "type": "integer",
                       "format": "int32",
-                      "description": "Total number of items available"
+                      "description": "Total number of items available",
+                      "example": 100
                     },
                     "items": {
                       "type": "array",
@@ -1132,8 +1169,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -1177,8 +1213,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -1232,8 +1267,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -1272,8 +1306,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -1316,7 +1349,7 @@
         "name": "filter",
         "in": "query",
         "required": false,
-        "description": "Filter expression to apply to the list.",
+        "description": "Stringified filter expression to apply to the list.",
         "schema": {
           "type": "string"
         },
@@ -1391,75 +1424,90 @@
           "facilityType",
           "isPrivate",
           "isClosed",
-          "frequencies",
-          "runways"
+          "runways",
+          "frequencies"
         ],
         "properties": {
           "id": {
             "type": "string",
             "description": "UUID of the airport",
+            "example": "0000-ffff-0000-ffff",
             "readOnly": true
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
+            "example": "2020-01-01T00:00:00Z",
             "readOnly": true
           },
           "name": {
             "type": "string",
-            "minLength": 3,
-            "maxLength": 200
+            "minLength": 2,
+            "maxLength": 200,
+            "example": "Hartsfield–Jackson Atlanta International Airport"
           },
           "icaoCode": {
             "type": "string",
             "nullable": true,
-            "pattern": "^[A-Z]{4}$"
+            "pattern": "^[A-Z]{4}$",
+            "description": "ICAO airport code, a four-letter alphanumeric code",
+            "example": "KATL"
           },
           "iataCode": {
             "type": "string",
             "nullable": true,
-            "pattern": "^[A-Z]{3}$"
+            "pattern": "^[A-Z]{3}$",
+            "description": "IATA airport code, a three-letter alphanumeric code",
+            "example": "ATL"
           },
           "localCode": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "ATL"
           },
           "latitude": {
             "type": "number",
-            "nullable": true
+            "nullable": true,
+            "example": 33.6407
           },
           "longitude": {
             "type": "number",
-            "nullable": true
+            "nullable": true,
+            "example": -84.4277
           },
           "elevation": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 1026
           },
           "countryCode": {
             "type": "string",
             "nullable": true,
             "pattern": "^[A-Z]{2}$",
-            "description": "ISO 3166-1 alpha-2 country code"
+            "description": "ISO 3166-1 alpha-2 country code",
+            "example": "US"
           },
           "city": {
             "type": "string",
             "nullable": true,
             "minLength": 2,
-            "maxLength": 50
+            "maxLength": 50,
+            "example": "Atlanta"
           },
           "state": {
             "type": "string",
             "nullable": true,
             "minLength": 2,
-            "maxLength": 50
+            "maxLength": 50,
+            "example": "Georgia"
           },
           "county": {
             "type": "string",
             "nullable": true,
             "minLength": 2,
-            "maxLength": 50
+            "maxLength": 50,
+            "example": "Fulton"
           },
           "continentCode": {
             "allOf": [
@@ -1473,7 +1521,8 @@
             "type": "string",
             "nullable": true,
             "minLength": 2,
-            "maxLength": 100
+            "maxLength": 100,
+            "example": "America/New_York"
           },
           "facilityType": {
             "allOf": [
@@ -1481,150 +1530,98 @@
                 "$ref": "#/components/schemas/FACILITY_TYPE"
               }
             ],
-            "nullable": true
+            "nullable": true,
+            "example": "airport"
           },
           "isPrivate": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "example": false
           },
           "isClosed": {
             "type": "boolean",
-            "nullable": true
-          },
-          "frequencies": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Frequency"
-            }
+            "nullable": true,
+            "example": false
           },
           "runways": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Runway"
             }
+          },
+          "frequencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Frequency"
+            }
           }
-        },
-        "example": {
-          "id": "1",
-          "createdAt": "2020-01-01T00:00:00Z",
-          "updatedAt": "2020-01-01T00:00:00Z",
-          "icaoCode": "KATL",
-          "name": "Hartsfield–Jackson Atlanta International Airport",
-          "iataCode": "ATL",
-          "localCode": "ATL",
-          "latitude": 33.6407,
-          "longitude": -84.4277,
-          "elevation": 1026,
-          "countryCode": "US",
-          "city": "Atlanta",
-          "state": "Georgia",
-          "county": "Fulton",
-          "continentCode": "NA",
-          "timezone": "America/New_York",
-          "facilityType": "InternationalAirport",
-          "isPrivate": false,
-          "isClosed": false,
-          "frequencies": [
-            {
-              "name": "ATIS",
-              "type": "ATIS",
-              "description": "Automatic Terminal Information Service",
-              "frequency": 118.4
-            },
-            {
-              "name": "Ground Control",
-              "type": "Ground",
-              "description": "Ground Control Frequency",
-              "frequency": 121.9
-            },
-            {
-              "name": "Tower Control",
-              "type": "Tower",
-              "description": "Tower Control Frequency",
-              "frequency": 118.3
-            }
-          ],
-          "runways": [
-            {
-              "name": "Runway 8L",
-              "length": 12000,
-              "width": 150,
-              "isClosed": false,
-              "isLighted": true,
-              "lowEndIdent": "8L",
-              "lowEndElevation": 1026,
-              "lowEndHeading": 80,
-              "lowEndDisplacedThreshold": 0,
-              "lowEndLatitude": 33.6407,
-              "lowEndLongitude": -84.4277,
-              "highEndIdent": "26R",
-              "highEndElevation": 1026,
-              "highEndHeading": 260,
-              "highEndDisplacedThreshold": 0,
-              "highEndLatitude": 33.6407,
-              "highEndLongitude": -84.4277
-            }
-          ]
         }
       },
       "AirportUpdate": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 200
-          },
           "icaoCode": {
             "type": "string",
             "nullable": true,
-            "pattern": "^[A-Z]{4}$"
+            "pattern": "^[A-Z]{4}$",
+            "description": "ICAO airport code, a four-letter alphanumeric code",
+            "example": "KATL"
           },
           "iataCode": {
             "type": "string",
             "nullable": true,
-            "pattern": "^[A-Z]{3}$"
+            "pattern": "^[A-Z]{3}$",
+            "description": "IATA airport code, a three-letter alphanumeric code",
+            "example": "ATL"
           },
           "localCode": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "ATL"
           },
           "latitude": {
             "type": "number",
-            "nullable": true
+            "nullable": true,
+            "example": 33.6407
           },
           "longitude": {
             "type": "number",
-            "nullable": true
+            "nullable": true,
+            "example": -84.4277
           },
           "elevation": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 1026
           },
           "countryCode": {
             "type": "string",
             "nullable": true,
             "pattern": "^[A-Z]{2}$",
-            "description": "ISO 3166-1 alpha-2 country code"
+            "description": "ISO 3166-1 alpha-2 country code",
+            "example": "US"
           },
           "city": {
             "type": "string",
             "nullable": true,
             "minLength": 2,
-            "maxLength": 50
+            "maxLength": 50,
+            "example": "Atlanta"
           },
           "state": {
             "type": "string",
             "nullable": true,
             "minLength": 2,
-            "maxLength": 50
+            "maxLength": 50,
+            "example": "Georgia"
           },
           "county": {
             "type": "string",
             "nullable": true,
             "minLength": 2,
-            "maxLength": 50
+            "maxLength": 50,
+            "example": "Fulton"
           },
           "continentCode": {
             "allOf": [
@@ -1638,7 +1635,8 @@
             "type": "string",
             "nullable": true,
             "minLength": 2,
-            "maxLength": 100
+            "maxLength": 100,
+            "example": "America/New_York"
           },
           "facilityType": {
             "allOf": [
@@ -1646,115 +1644,30 @@
                 "$ref": "#/components/schemas/FACILITY_TYPE"
               }
             ],
-            "nullable": true
+            "nullable": true,
+            "example": "airport"
           },
           "isPrivate": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "example": false
           },
           "isClosed": {
             "type": "boolean",
-            "nullable": true
-          },
-          "frequencies": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Frequency"
-            }
+            "nullable": true,
+            "example": false
           },
           "runways": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Runway"
             }
-          }
-        },
-        "example": {
-          "id": "1",
-          "createdAt": "2020-01-01T00:00:00Z",
-          "updatedAt": "2020-01-01T00:00:00Z",
-          "icaoCode": "KATL",
-          "name": "Hartsfield–Jackson Atlanta International Airport",
-          "iataCode": "ATL",
-          "localCode": "ATL",
-          "latitude": 33.6407,
-          "longitude": -84.4277,
-          "elevation": 1026,
-          "countryCode": "US",
-          "city": "Atlanta",
-          "state": "Georgia",
-          "county": "Fulton",
-          "continentCode": "NA",
-          "timezone": "America/New_York",
-          "facilityType": "InternationalAirport",
-          "isPrivate": false,
-          "isClosed": false,
-          "frequencies": [
-            {
-              "name": "ATIS",
-              "type": "ATIS",
-              "description": "Automatic Terminal Information Service",
-              "frequency": 118.4
-            },
-            {
-              "name": "Ground Control",
-              "type": "Ground",
-              "description": "Ground Control Frequency",
-              "frequency": 121.9
-            },
-            {
-              "name": "Tower Control",
-              "type": "Tower",
-              "description": "Tower Control Frequency",
-              "frequency": 118.3
-            }
-          ],
-          "runways": [
-            {
-              "name": "Runway 8L",
-              "length": 12000,
-              "width": 150,
-              "isClosed": false,
-              "isLighted": true,
-              "lowEndIdent": "8L",
-              "lowEndElevation": 1026,
-              "lowEndHeading": 80,
-              "lowEndDisplacedThreshold": 0,
-              "lowEndLatitude": 33.6407,
-              "lowEndLongitude": -84.4277,
-              "highEndIdent": "26R",
-              "highEndElevation": 1026,
-              "highEndHeading": 260,
-              "highEndDisplacedThreshold": 0,
-              "highEndLatitude": 33.6407,
-              "highEndLongitude": -84.4277
-            }
-          ]
-        }
-      },
-      "AuthCredentials": {
-        "type": "object",
-        "required": [
-          "token",
-          "refreshToken",
-          "user"
-        ],
-        "properties": {
-          "token": {
-            "type": "string",
-            "description": "JWT token"
           },
-          "refreshToken": {
-            "type": "string",
-            "description": "Refresh token"
-          },
-          "user": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/User"
-              }
-            ],
-            "description": "User object"
+          "frequencies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Frequency"
+            }
           }
         }
       },
@@ -1781,6 +1694,32 @@
             "type": "string",
             "minLength": 8,
             "maxLength": 100
+          }
+        }
+      },
+      "AuthenticationResult": {
+        "type": "object",
+        "required": [
+          "token",
+          "refreshToken",
+          "user"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "JWT token"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh token"
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ],
+            "description": "User object"
           }
         }
       },
@@ -1975,48 +1914,201 @@
       "FACILITY_TYPE": {
         "type": "string",
         "enum": [
-          "Airport",
-          "GliderSite",
-          "AirfieldCivil",
-          "InternationalAirport",
-          "HeliportMilitary",
-          "MilitaryAerodrome",
-          "UltraLightFlyingSite",
-          "HeliportCivil",
-          "AerodromeClosed",
-          "AirportIFR",
-          "AirfieldWater",
-          "LandingStrip",
-          "AgriculturalLandingStrip",
-          "Altiport"
+          "airport",
+          "heliport",
+          "seaplaneBase",
+          "balloonport",
+          "ultralight",
+          "gliderport",
+          "stolport",
+          "other"
         ],
         "description": "A type of facility"
       },
       "Frequency": {
         "type": "object",
         "required": [
+          "id",
+          "updatedAt",
           "name",
           "type",
           "description",
           "frequency"
         ],
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID of the Frequency",
+            "example": "0000-ffff-0000-ffff",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-01-01T00:00:00Z",
+            "readOnly": true
+          },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Tower Control"
           },
           "type": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "Tower"
           },
           "description": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "Tower Control Frequency"
           },
           "frequency": {
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "example": 118.83
           }
         }
+      },
+      "ListAirport": {
+        "type": "object",
+        "required": [
+          "id",
+          "updatedAt",
+          "name",
+          "icaoCode",
+          "iataCode",
+          "localCode",
+          "latitude",
+          "longitude",
+          "elevation",
+          "countryCode",
+          "city",
+          "state",
+          "county",
+          "continentCode",
+          "timezone",
+          "facilityType",
+          "isPrivate",
+          "isClosed"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID of the airport",
+            "example": "0000-ffff-0000-ffff",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-01-01T00:00:00Z",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200,
+            "example": "Hartsfield–Jackson Atlanta International Airport"
+          },
+          "icaoCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{4}$",
+            "description": "ICAO airport code, a four-letter alphanumeric code",
+            "example": "KATL"
+          },
+          "iataCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{3}$",
+            "description": "IATA airport code, a three-letter alphanumeric code",
+            "example": "ATL"
+          },
+          "localCode": {
+            "type": "string",
+            "nullable": true,
+            "example": "ATL"
+          },
+          "latitude": {
+            "type": "number",
+            "nullable": true,
+            "example": 33.6407
+          },
+          "longitude": {
+            "type": "number",
+            "nullable": true,
+            "example": -84.4277
+          },
+          "elevation": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "example": 1026
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[A-Z]{2}$",
+            "description": "ISO 3166-1 alpha-2 country code",
+            "example": "US"
+          },
+          "city": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50,
+            "example": "Atlanta"
+          },
+          "state": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50,
+            "example": "Georgia"
+          },
+          "county": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 50,
+            "example": "Fulton"
+          },
+          "continentCode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContinentCode"
+              }
+            ],
+            "nullable": true
+          },
+          "timezone": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "America/New_York"
+          },
+          "facilityType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FACILITY_TYPE"
+              }
+            ],
+            "nullable": true,
+            "example": "airport"
+          },
+          "isPrivate": {
+            "type": "boolean",
+            "nullable": true,
+            "example": false
+          },
+          "isClosed": {
+            "type": "boolean",
+            "nullable": true,
+            "example": false
+          }
+        },
+        "description": "The template for omitting properties."
       },
       "NotFoundError": {
         "type": "object",
@@ -2252,6 +2344,8 @@
       "Runway": {
         "type": "object",
         "required": [
+          "id",
+          "updatedAt",
           "name",
           "length",
           "width",
@@ -2271,84 +2365,113 @@
           "highEndLongitude"
         ],
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID of the Runway",
+            "example": "0000-ffff-0000-ffff",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-01-01T00:00:00Z",
+            "readOnly": true
+          },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Runway 4/22"
           },
           "length": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 3500
           },
           "width": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 75
           },
           "isClosed": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "example": true
           },
           "isLighted": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "example": false
           },
           "lowEndIdent": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "4"
           },
           "lowEndElevation": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 50
           },
           "lowEndHeading": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 40
           },
           "lowEndDisplacedThreshold": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 50
           },
           "lowEndLatitude": {
             "type": "number",
             "format": "float",
-            "nullable": true
+            "nullable": true,
+            "example": 40.7128
           },
           "lowEndLongitude": {
             "type": "number",
             "format": "float",
-            "nullable": true
+            "nullable": true,
+            "example": -74.006
           },
           "highEndIdent": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "example": "22"
           },
           "highEndElevation": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 50
           },
           "highEndHeading": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 220
           },
           "highEndDisplacedThreshold": {
             "type": "integer",
             "format": "int32",
-            "nullable": true
+            "nullable": true,
+            "example": 25
           },
           "highEndLatitude": {
             "type": "number",
             "format": "float",
-            "nullable": true
+            "nullable": true,
+            "example": 40.7128
           },
           "highEndLongitude": {
             "type": "number",
             "format": "float",
-            "nullable": true
+            "nullable": true,
+            "example": -74.006
           }
         }
       },
@@ -2359,31 +2482,10 @@
         ],
         "properties": {
           "airports": {
-            "type": "object",
-            "required": [
-              "count",
-              "totalCount",
-              "items"
-            ],
-            "properties": {
-              "count": {
-                "type": "integer",
-                "format": "int32",
-                "description": "Number of items returned"
-              },
-              "totalCount": {
-                "type": "integer",
-                "format": "int32",
-                "description": "Total number of items available"
-              },
-              "items": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Airport"
-                }
-              }
-            },
-            "description": "Represents a paginated list of items."
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Airport"
+            }
           }
         }
       },
@@ -2392,6 +2494,7 @@
         "required": [
           "id",
           "icaoCode",
+          "iataCode",
           "name"
         ],
         "properties": {
@@ -2402,13 +2505,18 @@
             "type": "string",
             "nullable": true
           },
+          "iataCode": {
+            "type": "string",
+            "nullable": true
+          },
           "name": {
             "type": "string"
           }
         },
         "example": {
-          "id": "1",
+          "id": "0000-ffff-0000-ffff",
           "icaoCode": "KATL",
+          "iataCode": "ATL",
           "name": "Hartsfield–Jackson Atlanta International Airport"
         }
       },
